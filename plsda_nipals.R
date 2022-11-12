@@ -4,11 +4,19 @@ plsda.nipals <- function(formula, data, ncomp){
   Y = model.response(model.frame(formula, data = data))
 
   #One hot encoding de y
-  #CHANGER PAR NOTRE CODE
-  fX <- as.factor(as.vector(Y))
-  lx <- levels(fX)
-  Y<-sapply(lx,function(x){ifelse(fX==x,1,0)})
-
+  ## Vérification que la variables cible soit bien un "factor" ou un "character"
+  if (is.factor(Y)==FALSE & is.character(Y)==FALSE){
+    stop("La variable n'est pas de type factor ou character") 
+    # Si la variable n'est pas de type factor, on la transforme
+  }else if (is.factor(Y)==FALSE){
+    Y=as.factor(Y)
+  }
+  # Récupération des différentes modalités 
+  levy=levels(Y)
+  ## Matrice binarisée
+  Y<-sapply(levy,function(x){ifelse(Y==x,1,0)})
+  print(Y)
+  
   #centrer réduire X
   #AJOUTER MSG ERRUR ?
   X=scale(X)
