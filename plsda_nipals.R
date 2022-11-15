@@ -2,7 +2,7 @@ plsda.nipals <- function(formula, data, ncomp){
   
   X = model.matrix(formula,data=data)[,-1]
   Y = model.response(model.frame(formula, data = data))
-
+  
   #One hot encoding de y
   ## Vérification que la variables cible soit bien un "factor" ou un "character"
   if (is.factor(Y)==FALSE & is.character(Y)==FALSE){
@@ -14,9 +14,7 @@ plsda.nipals <- function(formula, data, ncomp){
   # Récupération des différentes modalités 
   levy=levels(Y)
   ## Matrice binarisée
-  Y<-sapply(levy,function(x){ifelse(Y==x,1,0)})
-  print(Y)
-  
+  Ycod<-sapply(levy,function(x){ifelse(Y==x,1,0)})
   #centrer réduire X
   #AJOUTER MSG ERRUR ?
   X=scale(X)
@@ -24,7 +22,7 @@ plsda.nipals <- function(formula, data, ncomp){
   #nombre de lignes
   nrx=nrow(X)
   ncx=ncol(X)
-  ncy=ncol(Y)
+  ncy=ncol(Ycod)
   
   #initialisation des sorties
   Tx = matrix(nrow = nrx, ncol=ncomp) #x-scores
@@ -35,8 +33,8 @@ plsda.nipals <- function(formula, data, ncomp){
   
   #Algorithme NIPALS
   for(n in 1:ncomp){
-    u=X[,1]
-    
+    u=Ycod[,1]
+
     w=t(X)%*%u/(t(u)%*%u)[1,1] #weight
     w=w/sqrt((t(w)%*%w)[1,1]) #normalisation
     
@@ -45,9 +43,9 @@ plsda.nipals <- function(formula, data, ncomp){
       w_new=w
       t=X%*%w_new #scores x
       
-      q=t(Y)%*%t/(t(t)%*%t)[1,1] #loadings de y
+      q=t(Ycod)%*%t/(t(t)%*%t)[1,1] #loadings de y
       q=q/sqrt((t(q)%*%q)[1,1]) #normalisation
-      u=Y%*%q #score y
+      u=Ycod%*%q #score y
 
       w=t(X)%*%u/(t(u)%*%u)[1,1] #weight
       w=w/sqrt((t(w)%*%w)[1,1]) #normalisation
@@ -55,11 +53,11 @@ plsda.nipals <- function(formula, data, ncomp){
       if(abs(mean(w)-mean(w_new))<1e-8){break} #test de la convergence
     }
     
-    p=t(X)%*%t/(t(t)%*%t)[1,1]
-    c=t(t)%*%u/(t(t)%*%t)[1,1] #coef regression
+    p=t(X)%*%t/(t(t)%*%t)[1,1] #loadings de X
+    c=t(t)%*%u/(t(t)%*%t)[1,1] #coef regression #NN EN FAIT JSP CE QUE CEST
     #nouvelles valeurs matrices
     X=X-t%*%t(p)
-    Y=Y-c[1,1]*t%*%t(q)
+    Ycod=Ycod-c[1,1]*t%*%t(q)
     
     #stockage des valeurs
     Tx[,n] = t
@@ -67,13 +65,45 @@ plsda.nipals <- function(formula, data, ncomp){
     W[,n] = w
     Px[,n] = p
     Qy[,n] = q
-
   }
   #voir ce que je retourne
 
+  instance <- list()
+  instance$X <- X
+  instance$Y <- Y
+  instance$weights <- W
+  instance$X_loadings <- Px
+  instance$Y_loadings <- Qy
+  instance$X_scores <- Tx
+  instance$Y_scores <- Uy
+  class(instance) <- "PLS"
+  return(instance)
+
 }
 
-plsda.nipals(seed~.,data$train,3)
 
-tbis=c[1,1]*t
-t
+res=plsda.nipals(seed~.,data$train,3)
+res$weights
+
+
+T1 <- Sys.time()
+#plsda.nipals(seed~.,data$train,3)
+#plsda.nipals(class~.,test_big_data,3)
+datanew=plsda.nipals(pid~.,accelerometer,3)
+#plsda.nipals(time~.,aps_failure,3)
+T2 <- Sys.time()
+Tdiff=T2-T1
+Tdiff
+
+lo<-nnet::multinom(Y~.,pls$TrainPlsData,trace=F)
+
+
+# Coefficients de la rÃ©gression logistique (fonctions logit)
+cl<-coef(lo)
+lo_coef <- c(1,rep_len(0,ncol(cl)-1))
+lo_coef<-rbind(lo_coef,cl)
+rownames(lo_coef)<-l
+
+# Coefficients finaux (fonction logit)
+plsda_coef <- lo_coef[,-1] %*% t(pls$Xloadings)
+plsda_coef<- t(cbind(plsda_coef,"Intercept"=as.vector(lo_coef[,1])))
