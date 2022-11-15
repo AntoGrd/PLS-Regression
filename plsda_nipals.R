@@ -1,8 +1,5 @@
-plsda.nipals <- function(formula, data, ncomp){
-  
-  X = model.matrix(formula,data=data)[,-1]
-  Y = model.response(model.frame(formula, data = data))
-  
+plsda.nipals <- function(X,Y, data, ncomp){
+
   #One hot encoding de y
   ## Vérification que la variables cible soit bien un "factor" ou un "character"
   if (is.factor(Y)==FALSE & is.character(Y)==FALSE){
@@ -17,11 +14,11 @@ plsda.nipals <- function(formula, data, ncomp){
   Ycod<-sapply(levy,function(x){ifelse(Y==x,1,0)})
   #centrer réduire X
   #AJOUTER MSG ERRUR ?
-  X=scale(X)
+  Xs=scale(X)
   
   #nombre de lignes
-  nrx=nrow(X)
-  ncx=ncol(X)
+  nrx=nrow(Xs)
+  ncx=ncol(Xs)
   ncy=ncol(Ycod)
   
   #initialisation des sorties
@@ -56,7 +53,7 @@ plsda.nipals <- function(formula, data, ncomp){
     p=t(X)%*%t/(t(t)%*%t)[1,1] #loadings de X
     c=t(t)%*%u/(t(t)%*%t)[1,1] #coef regression #NN EN FAIT JSP CE QUE CEST
     #nouvelles valeurs matrices
-    X=X-t%*%t(p)
+    Xs=Xs-t%*%t(p)
     Ycod=Ycod-c[1,1]*t%*%t(q)
     
     #stockage des valeurs
@@ -76,7 +73,7 @@ plsda.nipals <- function(formula, data, ncomp){
   instance$Y_loadings <- Qy
   instance$X_scores <- Tx
   instance$Y_scores <- Uy
-  class(instance) <- "PLS"
+  class(instance) <- "PLSDA"
   return(instance)
 
 }
