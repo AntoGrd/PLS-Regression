@@ -27,35 +27,38 @@ plsda.nipals <- function(X,Y, data, ncomp){
   W = matrix(nrow = ncx, ncol=ncomp)  #weights
   Px = matrix(nrow = ncx, ncol=ncomp) #x-loadings
   Qy = matrix(nrow = ncy, ncol=ncomp) #y-loading
-  
+  Ycod=scale(Ycod)
   #Algorithme NIPALS
   for(n in 1:ncomp){
-    u=Ycod[,1]
+    u=matrix(Ycod[,1])
 
-    w=t(X)%*%u/(t(u)%*%u)[1,1] #weight
+    w=t(Xs)%*%u/(t(u)%*%u)[1,1] #weight
     w=w/sqrt((t(w)%*%w)[1,1]) #normalisation
     
     repeat
     {
       w_new=w
-      t=X%*%w_new #scores x
+      t=Xs%*%w_new #scores x
       
       q=t(Ycod)%*%t/(t(t)%*%t)[1,1] #loadings de y
-      q=q/sqrt((t(q)%*%q)[1,1]) #normalisation
+      q=q/(t(q)%*%q)[1,1] #normalisation
       u=Ycod%*%q #score y
 
-      w=t(X)%*%u/(t(u)%*%u)[1,1] #weight
+      w=t(Xs)%*%u/(t(u)%*%u)[1,1] #weight
       w=w/sqrt((t(w)%*%w)[1,1]) #normalisation
 
-      if(abs(mean(w)-mean(w_new))<1e-8){break} #test de la convergence
+      if(abs(mean(w)-mean(w_new))<1e-6){break} #test de la convergence
     }
     
-    p=t(X)%*%t/(t(t)%*%t)[1,1] #loadings de X
-    c=t(t)%*%u/(t(t)%*%t)[1,1] #coef regression #NN EN FAIT JSP CE QUE CEST
+    p=t(Xs)%*%t/(t(t)%*%t)[1,1] #loadings de X
+    c=t(t)%*%u/(t(t)%*%t)[1,1] 
+    
     #nouvelles valeurs matrices
     Xs=Xs-t%*%t(p)
-    Ycod=Ycod-c[1,1]*t%*%t(q)
     
+    q=t(t(t)%*%Ycod/(t(t)%*%t)[1,1]) #loadings de Y
+    Ycod=Ycod-c[1,1]*t%*%t(q)
+      
     #stockage des valeurs
     Tx[,n] = t
     Uy[,n] = u
@@ -77,7 +80,8 @@ plsda.nipals <- function(X,Y, data, ncomp){
   return(instance)
 
 }
-
+plsda.fit(Species~.,iris,2)  
+plsda.nipals(seed~.,data$train,3)
 
 res=plsda.nipals(seed~.,data$train,3)
 res$weights
