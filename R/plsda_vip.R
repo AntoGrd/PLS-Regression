@@ -1,9 +1,9 @@
 plsda.vip<-function(PLS,threshold=0.8){
 
   #Récupération des variables prédictives du modèle
-  x = as.matrix(PLS$X)
+  x = as.matrix(instance$X)
   #Récupération des poids des variables prédictives du modèle
-  W = as.matrix(objectPLS$Xloading.weights)
+  W = as.matrix(instance$Xloading.weights)
   #Récupération du coefficient de détermination de la PLS-DA
   r2 = objectPLS$R2
 
@@ -27,7 +27,7 @@ plsda.vip<-function(PLS,threshold=0.8){
   newX = X[,colnames(x) %in% var_imp]
 
 
-  object <- list("newX" = newX,
+  instance <- list("newX" = newX,
                  "Variable" = var_imp,
                  "VIP" = VIP,
                  "r2" = r2,
@@ -42,10 +42,10 @@ plot.vip<-function(VIP){
   if (class(VIP) != "VIP") {
     stop("object must be a VIP !")
   }
-  titre=paste("Variable Importance in Projection ( *:VIP>",object$threshold,")")
-  plot_VIP=barplot(as.matrix(t(object$VIP)),main=titre,col="blue",ylim=c(0.0,max(object$VIP)+0.3),xlab="Variable",ylab="VIP")
+  titre=paste("Variable Importance in Projection ( *:VIP>",instance$threshold,")")
+  plot_VIP=barplot(as.matrix(t(instance$VIP)),main=titre,col="blue",ylim=c(0.0,max(instance$VIP)+0.3),xlab="Variable",ylab="VIP")
   seuil=NULL
-  seuil[object$VIP[,1]>object$threshold]='*'
-  text(plot_VIP,t(object$VIP)+0.15,seuil,cex=2)
-  abline(object$threshold,0,col = "red")
+  seuil[instance$VIP[,1]>instance$threshold]='*'
+  text(plot_VIP,t(instance$VIP)+0.15,seuil,cex=2)
+  abline(instance$threshold,0,col = "red")
 }
