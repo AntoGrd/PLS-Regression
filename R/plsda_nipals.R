@@ -49,6 +49,7 @@ plsda.nipals <- function(X,Y, data, ncomp){
   levy=levels(Y)
   ## Matrice binarisée
   Ycod<-sapply(levy,function(x){ifelse(Y==x,1,0)})
+  Ycod2=Ycod
   #centrer réduire X
   #AJOUTER MSG ERRUR ?
   Xs=scale(X)
@@ -103,8 +104,12 @@ plsda.nipals <- function(X,Y, data, ncomp){
     Px[,n] = p
     Qy[,n] = q
   }
-  #voir ce que je retourne
-
+  
+  X_rot = W %*% solve(t(Px)%*%W)
+  coef = X_rot %*% t(Qy)
+  coef = coef * sapply(data.frame(Ycod2),sd)
+  intercept = sapply(data.frame(Ycod2),mean) #intercept c tjs les moy
+    
   instance <- list()
   instance$X <- X
   instance$Y <- Y
@@ -113,6 +118,8 @@ plsda.nipals <- function(X,Y, data, ncomp){
   instance$Y_loadings <- Qy
   instance$X_scores <- Tx
   instance$Y_scores <- Uy
+  instance$coef <- coef
+  instance$intercept <-
   class(instance) <- "PLSDA"
   return(instance)
 
