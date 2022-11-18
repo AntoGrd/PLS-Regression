@@ -20,7 +20,3 @@ res$coef
 res$X_scores
 res$weights
 plsda.fit(Species~.,iris,2)  
-
-
-
-
