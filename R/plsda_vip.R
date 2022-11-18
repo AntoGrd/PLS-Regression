@@ -5,7 +5,7 @@ plsda.vip<-function(PLS,threshold=0.8){
   #Récupération des poids des variables prédictives du modèle
   W = as.matrix(instance$Xloading.weights)
   #Récupération du coefficient de détermination de la PLS-DA
-  r2 = objectPLS$R2
+  r2 = cor(instance.Ycod,instance$instance$X_scores)^2
 
   #somme des corrélations au carré par colonne
   Somme_corr_col = colSums(r2)
@@ -23,7 +23,7 @@ plsda.vip<-function(PLS,threshold=0.8){
   var_imp = noms(VIP)[VIP>threshold]
 
   #Data frame contenant uniquement les variables importantes
-  X = as.data.frame(PLS$X)
+  X = as.data.frame(instance$X)
   newX = X[,colnames(x) %in% var_imp]
 
 
@@ -34,8 +34,8 @@ plsda.vip<-function(PLS,threshold=0.8){
                  "threshold" = threshold
   )
 
-  class(object) <- "VIP"
-  return(object)
+  class(instance) <- "VIP"
+  return(instance)
 }
 
 plot.vip<-function(VIP){
