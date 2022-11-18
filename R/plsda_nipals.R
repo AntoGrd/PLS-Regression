@@ -63,7 +63,7 @@ plsda.nipals <- function(X,Y, data, ncomp){
   Tx = matrix(nrow = nrx, ncol=ncomp) #x-scores
   Uy = matrix(nrow = nrx, ncol=ncomp) #y-scores
   W = matrix(nrow = ncx, ncol=ncomp)  #weights
-  Px = matrix(nrow = ncx, ncol=ncomp) #x-loadings
+  Px = matrix(nrow = ncx, ncol=ncomp) #x-loadings (composantes)
   Qy = matrix(nrow = ncy, ncol=ncomp) #y-loading
   Ycodsc=scale(Ycod)
   #Algorithme NIPALS
@@ -110,7 +110,6 @@ plsda.nipals <- function(X,Y, data, ncomp){
   coef = coef * sapply(data.frame(Ycod),sd)
   intercept = sapply(data.frame(Ycod),mean) #intercept c tjs les moy
   
-  
   #RENOMMER LES ROWNAMES
   instance <- list()
   instance$X <- X
@@ -123,8 +122,6 @@ plsda.nipals <- function(X,Y, data, ncomp){
   instance$Y_scores <- Uy
   instance$coef <- coef
   instance$intercept <- intercept
-  instance$meanX <- colmeans(X)
   class(instance) <- "PLSDA"
   return(instance)
-
 }

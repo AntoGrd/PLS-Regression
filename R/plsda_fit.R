@@ -20,3 +20,13 @@ res
 res$X_scores
 res$weights
 plsda.fit(Species~.,iris,2)  
+
+test=pls.train_test_split(iris)
+
+res=plsda.fit(Species~.,iris,2) 
+res$intercept
+ypred=plsda.predict(res,iris[,1:4])
+ypred
+
+sapply(ypred, max)
+plsda.predict(res,iris[,1:4])
