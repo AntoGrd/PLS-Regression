@@ -36,7 +36,7 @@
 
 
 plsda.nipals <- function(X,Y, data, ncomp){
-
+  
   #One hot encoding de y
   ## Vérification que la variables cible soit bien un "factor" ou un "character"
   if (is.factor(Y)==FALSE & is.character(Y)==FALSE){
@@ -49,11 +49,11 @@ plsda.nipals <- function(X,Y, data, ncomp){
   levy=levels(Y)
   ## Matrice binarisée
   Ycod<-sapply(levy,function(x){ifelse(Y==x,1,0)})
-  Ycod2=Ycod
+  
   #centrer réduire X
   #AJOUTER MSG ERRUR ?
   Xs=scale(X)
-  
+  Ycodsc=scale(Ycod)
   #nombre de lignes
   nrx=nrow(Xs)
   ncx=ncol(Xs)
@@ -65,10 +65,10 @@ plsda.nipals <- function(X,Y, data, ncomp){
   W = matrix(nrow = ncx, ncol=ncomp)  #weights
   Px = matrix(nrow = ncx, ncol=ncomp) #x-loadings
   Qy = matrix(nrow = ncy, ncol=ncomp) #y-loading
-  Ycod=scale(Ycod)
+  Ycodsc=scale(Ycod)
   #Algorithme NIPALS
   for(n in 1:ncomp){
-    u=matrix(Ycod[,1])
+    u=matrix(Ycodsc[,1])
 
     w=t(Xs)%*%u/(t(u)%*%u)[1,1] #weight
     w=w/sqrt((t(w)%*%w)[1,1]) #normalisation
@@ -78,9 +78,9 @@ plsda.nipals <- function(X,Y, data, ncomp){
       w_new=w
       t=Xs%*%w_new #scores x
       
-      q=t(Ycod)%*%t/(t(t)%*%t)[1,1] #loadings de y
+      q=t(Ycodsc)%*%t/(t(t)%*%t)[1,1] #loadings de y
       q=q/(t(q)%*%q)[1,1] #normalisation
-      u=Ycod%*%q #score y
+      u=Ycodsc%*%q #score y
 
       w=t(Xs)%*%u/(t(u)%*%u)[1,1] #weight
       w=w/sqrt((t(w)%*%w)[1,1]) #normalisation
@@ -94,8 +94,8 @@ plsda.nipals <- function(X,Y, data, ncomp){
     #nouvelles valeurs matrices
     Xs=Xs-t%*%t(p)
     
-    q=t(t(t)%*%Ycod/(t(t)%*%t)[1,1]) #loadings de Y
-    Ycod=Ycod-c[1,1]*t%*%t(q)
+    q=t(t(t)%*%Ycodsc/(t(t)%*%t)[1,1]) #loadings de Y
+    Ycodsc=Ycodsc-c[1,1]*t%*%t(q)
       
     #stockage des valeurs
     Tx[,n] = t
@@ -107,19 +107,23 @@ plsda.nipals <- function(X,Y, data, ncomp){
   
   X_rot = W %*% solve(t(Px)%*%W)
   coef = X_rot %*% t(Qy)
-  coef = coef * sapply(data.frame(Ycod2),sd)
-  intercept = sapply(data.frame(Ycod2),mean) #intercept c tjs les moy
-    
+  coef = coef * sapply(data.frame(Ycod),sd)
+  intercept = sapply(data.frame(Ycod),mean) #intercept c tjs les moy
+  
+  
+  #RENOMMER LES ROWNAMES
   instance <- list()
   instance$X <- X
   instance$Y <- Y
+  instance$Y_dummies <- Ycod
   instance$weights <- W
   instance$X_loadings <- Px
   instance$Y_loadings <- Qy
   instance$X_scores <- Tx
   instance$Y_scores <- Uy
   instance$coef <- coef
-  instance$intercept <-
+  instance$intercept <- intercept
+  instance$meanX <- colmeans(X)
   class(instance) <- "PLSDA"
   return(instance)
 
