@@ -35,31 +35,51 @@
 #'pls.t1<-plsda.pls(Species~.,data = iris, ncomp = 2, center = TRUE)
 
 
-plsda.nipals <- function(X,Y, data, ncomp){
+
+plsda.fit <- function(formula, data, ncomp){
   
-  #One hot encoding de y
+  if (!inherits(formula,"formula")){ #check if formula is given
+    stop("You didn't enter a formula")
+  }
+  
+  if (!is.data.frame(data)){ #check if data is a dataframe
+    stop("data is not a dataframe")
+  }
+  
+  if (!is.numeric(ncomp)){ #check if ncomp is an integer
+    stop("ncomp is not an integer")
+  }else if (ncomp != round(ncomp)){
+    stop("ncomp is not an integer")
+  }
+  
+  X = model.matrix(formula,data=data)[,-1]
+  Y = model.response(model.frame(formula, data = data))
+  print(Y)
+  
+  #One hot encoding y
   ## Vérification que la variables cible soit bien un "factor" ou un "character"
   if (is.factor(Y)==FALSE & is.character(Y)==FALSE){
-    stop("La variable n'est pas de type factor ou character") 
-    # Si la variable n'est pas de type factor, on la transforme
+    stop("y is neither a factor or character") 
+    #
   }else if (is.factor(Y)==FALSE){
     Y=as.factor(Y)
   }
-  # Récupération des différentes modalités 
+  
+  # recovery of modalities
   levy=levels(Y)
   ## Matrice binarisée
   Ycod<-sapply(levy,function(x){ifelse(Y==x,1,0)})
   
-  #centrer réduire X
+  #standardise x
   #AJOUTER MSG ERRUR ?
   Xs=scale(X)
   Ycodsc=scale(Ycod)
-  #nombre de lignes
+  #number of lines/columns
   nrx=nrow(Xs)
   ncx=ncol(Xs)
   ncy=ncol(Ycod)
   
-  #initialisation des sorties
+  #initialize outputs
   Tx = matrix(nrow = nrx, ncol=ncomp) #x-scores
   Uy = matrix(nrow = nrx, ncol=ncomp) #y-scores
   W = matrix(nrow = ncx, ncol=ncomp)  #weights
@@ -73,7 +93,7 @@ plsda.nipals <- function(X,Y, data, ncomp){
     w=t(Xs)%*%u/(t(u)%*%u)[1,1] #weight
     w=w/sqrt((t(w)%*%w)[1,1]) #normalisation
     
-    repeat
+    repeat #while w didnt converge
     {
       w_new=w
       t=Xs%*%w_new #scores x
@@ -84,17 +104,17 @@ plsda.nipals <- function(X,Y, data, ncomp){
 
       w=t(Xs)%*%u/(t(u)%*%u)[1,1] #weight
       w=w/sqrt((t(w)%*%w)[1,1]) #normalisation
-
-      if(abs(mean(w)-mean(w_new))<1e-6){break} #test de la convergence
+      
+      if(abs(mean(w)-mean(w_new))<1e-6){break} #test of convergence
     }
     
-    p=t(Xs)%*%t/(t(t)%*%t)[1,1] #loadings de X
+    p=t(Xs)%*%t/(t(t)%*%t)[1,1] #x loadings
     c=t(t)%*%u/(t(t)%*%t)[1,1] 
     
     #nouvelles valeurs matrices
     Xs=Xs-t%*%t(p)
     
-    q=t(t(t)%*%Ycodsc/(t(t)%*%t)[1,1]) #loadings de Y
+    q=t(t(t)%*%Ycodsc/(t(t)%*%t)[1,1]) #y loadings
     Ycodsc=Ycodsc-c[1,1]*t%*%t(q)
       
     #stockage des valeurs
@@ -105,12 +125,12 @@ plsda.nipals <- function(X,Y, data, ncomp){
     Qy[,n] = q
   }
   
-  X_rot = W %*% solve(t(Px)%*%W)
+  X_rot = W %*% solve(t(Px)%*%W) #matrix rotation
   coef = X_rot %*% t(Qy)
-  coef = coef * sapply(data.frame(Ycod),sd)
-  intercept = sapply(data.frame(Ycod),mean) #intercept c tjs les moy
+  coef = coef * sapply(data.frame(Ycod),sd) #coef for prediction
+  intercept = sapply(data.frame(Ycod),mean) #means calculation for intercept
   
-  #RENOMMER LES ROWNAMES
+  #RENOMMER LES ROWNAMES ?
   instance <- list()
   instance$X <- X
   instance$Y <- Y
@@ -125,3 +145,6 @@ plsda.nipals <- function(X,Y, data, ncomp){
   class(instance) <- "PLSDA"
   return(instance)
 }
+
+
+

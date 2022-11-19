@@ -4,29 +4,32 @@ plsda.fit <-function(formula, data, ncomp){
   X = model.matrix(formula,data=data)[,-1]
   Y = model.response(model.frame(formula, data = data))
   
-  plsda = plsda.nipals(X,Y,data,ncomp)
+  plsda = plsda.nipals(formula,data,ncomp)
   return(plsda)
 }
 
-rm(plsda.fit)
-rm(plsda.nipals)
 
-iris=iris
+iris
 res=plsda.fit(seed~.,data$train,3)
 res
-res$Y
-res=plsda.fit(Species~.,iris,2)  
-res
-res$X_scores
-res$weights
-plsda.fit(Species~.,iris,2)  
-
-test=pls.train_test_split(iris)
-
 res=plsda.fit(Species~.,iris,2) 
+res
 res$intercept
-ypred=plsda.predict(res,iris[,1:4])
+ypred=plsda.predict(res,iris[1:4],type="posterior")
 ypred
+y=res$Y_dummies
+colMeans(y)
+res$X
 
-sapply(ypred, max)
-plsda.predict(res,iris[,1:4])
+iris2=iris[1:4]
+colnames(iris2)=c("a","b","c","d")
+
+df[, sapply(df, is.numeric)]
+
+iris[,sapply(iris,is.numeric)]
+ncol(iris[,sapply(iris,is.numeric)])
+ncol(iris)
+
+df=data.frame(iris,rep(c("a","b"),150))
+df
+ncol(df[,sapply(df,is.numeric)])
