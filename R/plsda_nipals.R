@@ -54,7 +54,6 @@ plsda.fit <- function(formula, data, ncomp){
   
   X = model.matrix(formula,data=data)[,-1]
   Y = model.response(model.frame(formula, data = data))
-  print(Y)
   
   #One hot encoding y
   ## Vérification que la variables cible soit bien un "factor" ou un "character"
@@ -129,7 +128,10 @@ plsda.fit <- function(formula, data, ncomp){
   coef = X_rot %*% t(Qy)
   coef = coef * sapply(data.frame(Ycod),sd) #coef for prediction
   intercept = sapply(data.frame(Ycod),mean) #means calculation for intercept
-  
+  #return(Ycodsc)
+  #r2Y <- 1 - (sum(apply(Ycodsc,2,var))/ncol(Ycodsc))
+  #print(r2Y)
+
   #RENOMMER LES ROWNAMES ?
   instance <- list()
   instance$X <- X
