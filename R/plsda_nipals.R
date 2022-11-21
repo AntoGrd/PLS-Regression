@@ -63,11 +63,14 @@ plsda.fit <- function(formula, data, ncomp){
   }else if (is.factor(Y)==FALSE){
     Y=as.factor(Y)
   }
-  
   # recovery of modalities
   levy=levels(Y)
   ## Matrice binarisée
   Ycod<-sapply(levy,function(x){ifelse(Y==x,1,0)})
+  
+  #X and Y colnames
+  xnames=colnames(X)
+  ynames=colnames(Ycod)
   
   #standardise x
   #AJOUTER MSG ERRUR ?
@@ -128,10 +131,13 @@ plsda.fit <- function(formula, data, ncomp){
   coef = X_rot %*% t(Qy)
   coef = coef * sapply(data.frame(Ycod),sd) #coef for prediction
   intercept = sapply(data.frame(Ycod),mean) #means calculation for intercept
-  #return(Ycodsc)
-  #r2Y <- 1 - (sum(apply(Ycodsc,2,var))/ncol(Ycodsc))
-  #print(r2Y)
 
+  rownames(Px)=xnames
+  rownames(Qy)=ynames
+  rownames(W)=xnames
+  rownames(coef)=xnames
+  colnames(coef)=ynames
+  
   #RENOMMER LES ROWNAMES ?
   instance <- list()
   instance$X <- X
