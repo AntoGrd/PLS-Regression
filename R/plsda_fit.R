@@ -1,3 +1,15 @@
+#' Title
+#'
+#' @param formula 
+#' @param data 
+#' @param ncomp 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+
+
 plsda.fit <-function(formula, data, ncomp){
   
   #AJOUTER LES MESSAGES D'ERREURS
@@ -14,6 +26,8 @@ res=plsda.fit(seed~.,data$train,3)
 res
 res=plsda.fit(Species~.,iris,2) 
 res
+resvip=plsda.vip(res)
+resvip
 res$intercept
 ypred=plsda.predict(res,iris[1:4],type="posterior")
 ypred
@@ -49,6 +63,7 @@ Wnorm2 <- colSums(W^2)
 sqrt(nrow(W) * sum(SS * W[1,]^2 / Wnorm2) / sum(SS))
 
 ###
+#le potentiellement bon
 s=diag(t(t)%*%t%*%t(q)%*%q)
 tot_s=sum(s)
 
