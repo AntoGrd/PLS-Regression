@@ -1,104 +1,161 @@
-#' Title
+#' NIPALS Algorithm for Partial Least Square Discriminant Analysis
 #'
-#' @param formula 
-#' @param data 
-#' @param ncomp 
+#' This function performs NIPALS algorithm for PLS-DA regression.
 #'
+#' @param
+#' formula an object of class "formula" (or one that can be coerced to that class): a symbolic description of the model
+#' to be fitted. See specification of the formula in the 'Details' section.
+#' @param
+#' data is the dataframe containing the the variables in the model.
+#' @param
+#' ncomp is the number of components for X.
 #' @return
-#' @export
+#' An object of class 'PLSDA' is a list containing at least the following components :
+#' @return
+#' \code{X} the original dataframe of the predictors
+#' \cr
+#' \code{Y} the original variable to predict
+#' \cr
+#' \code{Yloadings} the matrix of loadings for Y.
+#' \cr
+#' \code{Yscores} the matrix of components for Y.
+#' \cr
+#' \code{Xloadings} the matrix of loadings for X.
+#' \cr
+#' \code{Xloading.weights} the matrix of weights of the loadings of X.
+#' \cr
+#' \code{Xscores}the matrix of components of X.
+#' \cr
+#' \code{TrainPlsData}the PLS-DA training data set.
+#' \cr
+#' \code{R2} the coefficient of determination of the PLS-DA.
 #'
 #' @examples
+#'pls.t1<-plsda.pls(Species~.,data = iris, ncomp = 2)
+#'pls.t1<-plsda.pls(Species~.,data = iris, ncomp = 2, center = TRUE)
 
 
-plsda.fit <-function(formula, data, ncomp){
+
+plsda.fit <- function(formula, data, ncomp){
   
-  #AJOUTER LES MESSAGES D'ERREURS
+  if (!inherits(formula,"formula")){ #check if formula is given
+    stop("You didn't enter a formula")
+  }
+  
+  if (!is.data.frame(data)){ #check if data is a dataframe
+    stop("data is not a dataframe")
+  }
+  
+  if (!is.numeric(ncomp)){ #check if ncomp is an integer
+    stop("ncomp is not an integer")
+  }else if (ncomp != round(ncomp)){
+    stop("ncomp is not an integer")
+  }
+  
   X = model.matrix(formula,data=data)[,-1]
   Y = model.response(model.frame(formula, data = data))
   
-  plsda = plsda.nipals(formula,data,ncomp)
-  return(plsda)
+  #One hot encoding y
+  ## Vérification que la variables cible soit bien un "factor" ou un "character"
+  if (is.factor(Y)==FALSE & is.character(Y)==FALSE){
+    stop("y is neither a factor or character") 
+    #
+  }else if (is.factor(Y)==FALSE){
+    Y=as.factor(Y)
+  }
+  # recovery of modalities
+  levy=levels(Y)
+  ## Matrice binarisée
+  Ycod<-sapply(levy,function(x){ifelse(Y==x,1,0)})
+  
+  #X and Y colnames
+  xnames=colnames(X)
+  ynames=colnames(Ycod)
+  
+  #standardise x
+  #AJOUTER MSG ERRUR ?
+  Xs=scale(X)
+  Ycodsc=scale(Ycod)
+  #number of lines/columns
+  nrx=nrow(Xs)
+  ncx=ncol(Xs)
+  ncy=ncol(Ycod)
+  
+  #initialize outputs
+  Tx = matrix(nrow = nrx, ncol=ncomp) #x-scores
+  Uy = matrix(nrow = nrx, ncol=ncomp) #y-scores
+  W = matrix(nrow = ncx, ncol=ncomp)  #weights
+  Px = matrix(nrow = ncx, ncol=ncomp) #x-loadings (composantes)
+  Qy = matrix(nrow = ncy, ncol=ncomp) #y-loading
+  Ycodsc=scale(Ycod)
+  #Algorithme NIPALS
+  for(n in 1:ncomp){
+    u=matrix(Ycodsc[,1])
+    
+    w=t(Xs)%*%u/(t(u)%*%u)[1,1] #weight
+    w=w/sqrt((t(w)%*%w)[1,1]) #normalisation
+    
+    repeat #while w didnt converge
+    {
+      w_new=w
+      t=Xs%*%w_new #scores x
+      
+      q=t(Ycodsc)%*%t/(t(t)%*%t)[1,1] #loadings de y
+      q=q/(t(q)%*%q)[1,1] #normalisation
+      u=Ycodsc%*%q #score y
+      
+      w=t(Xs)%*%u/(t(u)%*%u)[1,1] #weight
+      w=w/sqrt((t(w)%*%w)[1,1]) #normalisation
+      
+      if(abs(mean(w)-mean(w_new))<1e-6){break} #test of convergence
+    }
+    
+    p=t(Xs)%*%t/(t(t)%*%t)[1,1] #x loadings
+    c=t(t)%*%u/(t(t)%*%t)[1,1] 
+    
+    #nouvelles valeurs matrices
+    Xs=Xs-t%*%t(p)
+    
+    q=t(t(t)%*%Ycodsc/(t(t)%*%t)[1,1]) #y loadings
+    Ycodsc=Ycodsc-c[1,1]*t%*%t(q)
+    
+    #stockage des valeurs
+    Tx[,n] = t
+    Uy[,n] = u
+    W[,n] = w
+    Px[,n] = p
+    Qy[,n] = q
+  }
+  
+  X_rot = W %*% solve(t(Px)%*%W) #matrix rotation
+  coef = X_rot %*% t(Qy)
+  coef = coef * sapply(data.frame(Ycod),sd) #coef for prediction
+  intercept = sapply(data.frame(Ycod),mean) #means calculation for intercept
+  
+  rownames(Px)=xnames
+  rownames(Qy)=ynames
+  rownames(W)=xnames
+  rownames(coef)=xnames
+  colnames(coef)=ynames
+  
+  #RENOMMER LES ROWNAMES ?
+  instance <- list()
+  instance$X <- X
+  instance$Y <- Y
+  instance$Y_dummies <- Ycod
+  instance$weights <- W
+  instance$X_loadings <- Px
+  instance$Y_loadings <- Qy
+  instance$X_scores <- Tx
+  instance$Y_scores <- Uy
+  instance$coef <- coef
+  instance$intercept <- intercept
+  class(instance) <- "PLSDA"
+  return(instance)
 }
 
-
-iris
-res=plsda.fit(seed~.,data$train,3)
-res
 res=plsda.fit(Species~.,iris,2) 
-res
-resvip=plsda.vip(res)
-resvip
-res$intercept
-ypred=plsda.predict(res,iris[1:4],type="posterior")
+ypred=plsda.predict(res,iris[1:4])
 ypred
-y=res$Y_dummies
-colMeans(y)
-res$X
-
-iris2=iris[1:4]
-colnames(iris2)=c("a","b","c","d")
-
-df[, sapply(df, is.numeric)]
-
-iris[,sapply(iris,is.numeric)]
-ncol(iris[,sapply(iris,is.numeric)])
-ncol(iris)
-
-df=data.frame(iris,rep(c("a","b"),150))
-df
-ncol(df[,sapply(df,is.numeric)])
-
-q=res$Y_loadings
-t=res$X_scores
-w=res$weights
-
-p=nrow(w)
-h=ncol(w)
-###
-b <- c(q)[1:h]
-T <- t[,1:h, drop = FALSE]
-SS <- b^2 * colSums(T^2)
-W <- w[,1:h, drop = FALSE]
-Wnorm2 <- colSums(W^2)
-sqrt(nrow(W) * sum(SS * W[1,]^2 / Wnorm2) / sum(SS))
-
-###
-#le potentiellement bon
-s=diag(t(t)%*%t%*%t(q)%*%q)
-tot_s=sum(s)
-
-weigth=(w/sqrt(colSums(w^2)))^2
-vip = sqrt(p*(s*weigth)/tot_s)
-vip
-
-weigth[,1]*s[1]
-
-###
-
-SS <- c(q)^2 * colSums(t^2)
-Wnorm2 <- colSums(w^2)
-SSW <- sweep(w^2, 2, SS / Wnorm2, "*")
-sqrt(nrow(SSW) * apply(SSW, 1, cumsum) / cumsum(SS))
-
-SS
-Wnorm2
-SSW
-c(q)^2 * colSums(t^2)
-
-SSY = q^2%*%t(t)%*%t
-Wnorm2 <- colSums(w^2)
-(p*SSY%*%Wnorm2)/SSY
-
-SSY[,1]
-
-SSY%*%w^2
-
-
-
-
-
-
-
-
 
 
