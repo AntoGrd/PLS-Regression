@@ -155,6 +155,9 @@ plsda.fit <- function(formula, data, ncomp){
 }
 
 res=plsda.fit(Species~.,iris,2) 
+res
+resvip=plsda.vip(res)
+resvip
 ypred=plsda.predict(res,iris[1:4])
 ypred
 

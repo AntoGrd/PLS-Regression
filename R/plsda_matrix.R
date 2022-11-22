@@ -1,11 +1,11 @@
-plsda_confmat <- function(observed,predict){
+plsda_Classification_report <- function(observed,predict){
   
-  #data frame with observed and predict values
+  
   df=data.frame(observed,predict)
 
   table=table(df[,1],df[,2]) 
   n=nrow(table)
-  w = rowSums(table)/length(df[,1]) #weight for each values
+  w = rowSums(table)/length(df[,1]) #weight for each values 
   MC = matrix(nrow=n, ncol=3)
   colnames(MC)=c("precision","recall","f1-score")
   rownames(MC)=rownames(table)
@@ -16,8 +16,9 @@ plsda_confmat <- function(observed,predict){
   }
   f1_score = sum(MC[,3]*w) #global f1 score
 
-  return(list(Confusion_matrix = MC,
+  return(list(Confusion_matrix = table,
+              report = MC,
               f1_score=f1_score))
 }
 
-plsda_confmat(iris$Species,ypred)
+plsda_Classification_report (iris$Species,ypred)
