@@ -15,7 +15,7 @@ plsda.predict <- function(obj_pls,newdata,type="class"){
   if(l != ncol(newdata) || l != ncol(obj_pls$X)){ #check if colnames are the same 
     stop("colnames are not the same")
   }
-  print(type)
+
   if(type != "class" && type != "posterior"){
     stop("you didn't enter a valid type")
   }

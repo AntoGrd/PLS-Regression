@@ -1,40 +1,45 @@
-pls.cv = function(formula,data,nfold=10){
+cross_validation <- function(formula, data, ncomp, cv = 5){
   
-  # V?rification que l'utilsaiteur ait bien saisi une formule de type Y~X
-  
-  if(plyr::is.formula(formula)==F){
-    stop("formula must be R formula !")
+  n <- nrow(data)
+  data <- data[sample(1:n),]
+  fold <- list()
+
+
+  foldSize <- n / cv
+  for(i in 1:cv){
+    ind <- rep(TRUE, n)
+    hb <- i * foldSize
+    bb <- hb - foldSize + 1
+    ind[bb:hb] <- FALSE
+    fold[[i]] <- ind
   }
   
-  # R?cup?ration du X et du Y
-  
-  X <- model.matrix(formula, data = data)
-  X <- X[,-1] #suppression de l'intercept
-  Y <- model.response(model.frame(formula, data = data))
-  
-  ncomposantes=qr(X)$rank
-  PRESS <- NULL
-  for(j in 1:ncomp){
+  globalFscoreVector <- c()
+  models <- list()
+  for(k in 1:cv){
+    #Get the cols of X
+    Xnames <- colnames(model.matrix(Species~.,data=iris)[,-1])
+    yname <- toString(formula[[2]])
+
+    #Get fold
+    ind <- fold[[k]]
+    train <- data[ind,]
+    test <- data[!ind,]
     
-    press <- NULL
+    #Keep only X cols on test
+    Xtest <- data.frame(test[, Xnames])
+    Ytest <- test[, yname]
     
-    samp<-sample(1:nrow(X),nrow(X))
-    nsample<-trunc(nrow(X)/nfold)
-    nX <- X[samp,]
-    nY <- Y[samp]
+    #Fit the model on train and predict on test
+    plsTrain <- plsda.fit(formula,train,ncomp)
+    predTest <- plsda.predict(plsTrain, Xtest)
     
-    for(i in 1:nfold){
-      #index du ième échantillon
-      idx<-c((1+(i-1)*nsample):(nsample*(i)))
-      
-      #on divise les données test et entraînement
-      
-      X.train <- nX[-idx,]
-      X.test <- nX[idx,]
-      Y.train <- nY[-idx]
-      Y.test <- plsda.dummies(nY)
-      Y.test <- Y.test[idx,]
-      train <- data.frame("Y"=Y.train, X.train)
-    }
+    globalFscore <- plsda_Classification_report(Ytest, predTest)$f1_score
+    globalFscoreVector <- append(globalFscoreVector, globalFscore)
+    models[[k]] <- plsTrain
   }
+  model <- models[[which.max(globalFscoreVector)]]
+  fscore <- globalFscoreVector[which.max(globalFscoreVector)]
+  res <- list("model" = model,"fscore" = fscore)
+  return(res)
 }

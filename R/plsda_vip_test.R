@@ -16,6 +16,4 @@ plsda.vip<-function(PLS,threshold=0.8){
   PLS$vip=vip
   PLS$tresholds=threshold
   return(PLS)
-  
 }
-

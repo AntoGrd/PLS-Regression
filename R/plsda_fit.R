@@ -150,15 +150,16 @@ plsda.fit <- function(formula, data, ncomp){
   instance$Y_scores <- Uy
   instance$coef <- coef
   instance$intercept <- intercept
+  instance$ncomp=ncomp
   class(instance) <- "PLSDA"
   return(instance)
 }
 
-res=plsda.fit(Species~.,iris,2) 
+res=plsda.fit(Species~.,iris,3) 
 res
 resvip=plsda.vip(res)
 resvip
 ypred=plsda.predict(res,iris[1:4])
+
 ypred
-
-
+cross_validation(Species~.,data=iris,2)
