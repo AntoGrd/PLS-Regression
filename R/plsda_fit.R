@@ -29,7 +29,7 @@
 #' \code{TrainPlsData}the PLS-DA training data set.
 #' \cr
 #' \code{R2} the coefficient of determination of the PLS-DA.
-#'
+#' @export
 #' @examples
 #'pls.t1<-plsda.pls(Species~.,data = iris, ncomp = 2)
 #'pls.t1<-plsda.pls(Species~.,data = iris, ncomp = 2, center = TRUE)
@@ -166,6 +166,6 @@ ypred
 library(devtools)
 install_github("AntoGrd/PLS-Regression")
 library(PLSDA)
-
+PLSDA::plsda.fit(Species~.,iris,2) 
 
 

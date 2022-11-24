@@ -1,3 +1,12 @@
+#' Title
+#'
+#' @param PLS 
+#' @param threshold 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 plsda.vip<-function(PLS,threshold=0.8){
   
   # Récupération des valeurs nécéssaires à l'algorithme 
