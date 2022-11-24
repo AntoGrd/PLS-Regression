@@ -1,6 +1,6 @@
-Package: PLSISE
+Package: PLSDA
 Type: Package
-Title: PLS Regression SISE
+Title: PLS Regression
 Version: 0.1.0
 Author: GIROUD Antoine, BOUTONNET Laura, PONSON Robin
 Maintainer: None <none@none.none>
