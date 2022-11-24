@@ -43,3 +43,4 @@ cross_validation <- function(formula, data, ncomp, cv = 5){
   res <- list("model" = model,"fscore" = fscore)
   return(res)
 }
+

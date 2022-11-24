@@ -6,7 +6,8 @@ plsda.vip<-function(PLS,threshold=0.8){
   t=PLS$X_scores
   w=PLS$weights
   X=PLS$X
-  y=PLS$y
+  y=PLS$Y
+
   ncomp=PLS$ncomp
   
   p=nrow(w)
@@ -29,11 +30,9 @@ plsda.vip<-function(PLS,threshold=0.8){
   }
   # Création d'un nouveau dataset avec uniquement les variables importantes
   newX = X[,variable_importante]
-  
-  PLS$vip=vip
-  PLS$tresholds=threshold
+
+  newX=data.frame(newX,y)
   return(newX)
   
 }
 
-plsda.vip(res)
