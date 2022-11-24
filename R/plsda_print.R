@@ -16,6 +16,3 @@ plsda.print=function(objet){
  return(res)
   
 }
-
-plsda.print(modele)
-  

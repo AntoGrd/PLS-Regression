@@ -17,8 +17,3 @@ plsda_plot_circle<-function(acp,axe1=1,axe2=2){
   return(plt)
 
 }
-
-plsda_plot_circle(res)
-res$X_loadings[,1]
-res$X_loadings[,2]
-eigen(cor(scale(res$X)))$values[1]

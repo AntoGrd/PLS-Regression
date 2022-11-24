@@ -21,4 +21,3 @@ plsda_Classification_report <- function(observed,predict){
               f1_score=f1_score))
 }
 
-plsda_Classification_report (iris$Species,ypred)

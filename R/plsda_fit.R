@@ -1,41 +1,13 @@
-#' NIPALS Algorithm for Partial Least Square Discriminant Analysis
+#' Title
 #'
-#' This function performs NIPALS algorithm for PLS-DA regression.
+#' @param formula 
+#' @param data 
+#' @param ncomp 
 #'
-#' @param
-#' formula an object of class "formula" (or one that can be coerced to that class): a symbolic description of the model
-#' to be fitted. See specification of the formula in the 'Details' section.
-#' @param
-#' data is the dataframe containing the the variables in the model.
-#' @param
-#' ncomp is the number of components for X.
 #' @return
-#' An object of class 'PLSDA' is a list containing at least the following components :
-#' @return
-#' \code{X} the original dataframe of the predictors
-#' \cr
-#' \code{Y} the original variable to predict
-#' \cr
-#' \code{Yloadings} the matrix of loadings for Y.
-#' \cr
-#' \code{Yscores} the matrix of components for Y.
-#' \cr
-#' \code{Xloadings} the matrix of loadings for X.
-#' \cr
-#' \code{Xloading.weights} the matrix of weights of the loadings of X.
-#' \cr
-#' \code{Xscores}the matrix of components of X.
-#' \cr
-#' \code{TrainPlsData}the PLS-DA training data set.
-#' \cr
-#' \code{R2} the coefficient of determination of the PLS-DA.
 #' @export
+#'
 #' @examples
-#'pls.t1<-plsda.pls(Species~.,data = iris, ncomp = 2)
-#'pls.t1<-plsda.pls(Species~.,data = iris, ncomp = 2, center = TRUE)
-
-
-
 plsda.fit <- function(formula, data, ncomp){
   
   if (!inherits(formula,"formula")){ #check if formula is given
@@ -156,16 +128,16 @@ plsda.fit <- function(formula, data, ncomp){
   
 }
 
-res=plsda.fit(Species~.,iris,2) 
-res
-resvip=plsda.vip(res)
-resvip
-ypred=plsda.predict(res,iris[1:4])
-ypred
+#res=plsda.fit(Species~.,iris,2) 
+#res
+#resvip=plsda.vip(res)
+#resvip
+#ypred=plsda.predict(res,iris[1:4])
+#ypred
 
-library(devtools)
-install_github("AntoGrd/PLS-Regression")
-library(PLSDA)
-PLSDA::plsda.fit(Species~.,iris,2) 
+#library(devtools)
+#install_github("AntoGrd/PLS-Regression")
+#library(PLSDA)
+#PLSDA::plsda.fit(Species~.,iris,2) 
 
 

@@ -10,8 +10,6 @@ plot.vip<-function(objet){
   abline(objet$threshold,0,col = "red")
 }
 
-plot.vip(resvip)
-
 
 
 

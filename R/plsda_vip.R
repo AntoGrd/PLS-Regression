@@ -46,8 +46,3 @@ plsda.vip<-function(PLS,threshold=0.8){
                     vip))
 }
 
-res=plsda.fit(Species~.,iris,2) 
-res
-resvip=plsda.vip(res)
-resvip[[1]]
-

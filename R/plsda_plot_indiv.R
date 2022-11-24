@@ -1,4 +1,4 @@
-library(plotly)
+#library(plotly)
 
 plsda_plot_indiv<-function(acp,axe1=1,axe2=2){
   
@@ -15,6 +15,5 @@ plsda_plot_indiv<-function(acp,axe1=1,axe2=2){
   fig
 }
 
-plsda_plot_indiv(res,1,2)
 
 
