@@ -1,39 +1,39 @@
 plsda.vip<-function(PLS,threshold=0.8){
-
-  #Récupération des variables prédictives du modèle
-  x = as.matrix(instance$X)
-  #Récupération des poids des variables prédictives du modèle
-  W = as.matrix(instance$Xloading.weights)
-  #Récupération du coefficient de détermination de la PLS-DA
-  r2 = cor(instance.Ycod,instance$instance$X_scores)^2
-
-  #somme des corrélations au carré par colonne
-  Somme_corr_col = colSums(r2)
-  #somme des corrélations au carrée par colonne
-  Somme_corr_carre = sum(Somme_corr_col)
-
-  #calcul des vip pour chaque variable
-  vip = sapply(1:ncol(x),function(x){sum(Somme_corr_carre*((W^2)[x,]))})
-  VIP = sqrt((ncol(x)/Somme_corr_col)*vip)
-
-  #Ajout des noms des colonnes dans le vip
-  noms(VIP) = list(colnames(X))
-
-  #Choix des variables importantes
-  var_imp = noms(VIP)[VIP>threshold]
-
-  #Data frame contenant uniquement les variables importantes
-  X = as.data.frame(instance$X)
-  newX = X[,colnames(x) %in% var_imp]
-
-
-  instance <- list("newX" = newX,
-                 "Variable" = var_imp,
-                 "VIP" = VIP,
-                 "r2" = r2,
-                 "threshold" = threshold
-  )
-
-  class(instance) <- "VIP"
-  return(instance)
+  
+  # Récupération des valeurs nécéssaires à l'algorithme 
+  
+  q=PLS$Y_loadings
+  t=PLS$X_scores
+  w=PLS$weights
+  X=PLS$X
+  y=PLS$y
+  ncomp=PLS$ncomp
+  
+  p=nrow(w)
+  h=ncol(w)
+  
+  ssy=diag(t(t)%*%t%*%t(q)%*%q)
+  tot_ssy=sum(ssy)
+  
+  weigth=(w/sqrt(colSums(w^2)))^2
+  vip = sqrt(p*(ssy*weigth)/tot_ssy)
+  
+  #détermination des variables importantes
+  variable_importante=rownames(vip)[which(vip[,ncomp]>threshold)]
+  
+  
+  # Si une seule variable importante, on sélectionne les 2 variables avec le plus haut VIP
+  if (length(variable_importante)<2){
+    vip_sorted = vip[order(-vip[,ncomp]),]
+    variable_importante=rownames(vip_sorted)[1:2]
+  }
+  # Création d'un nouveau dataset avec uniquement les variables importantes
+  newX = X[,variable_importante]
+  
+  PLS$vip=vip
+  PLS$tresholds=threshold
+  return(newX)
+  
 }
+
+plsda.vip(res)
