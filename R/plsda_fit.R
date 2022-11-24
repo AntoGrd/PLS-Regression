@@ -8,6 +8,7 @@
 #' @export
 #'
 #' @examples
+#' 
 plsda.fit <- function(formula, data, ncomp){
   
   if (!inherits(formula,"formula")){ #check if formula is given

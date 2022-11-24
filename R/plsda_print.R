@@ -1,18 +1,32 @@
 plsda.print=function(objet){
 
- # Création d'une matrice avec les coefficients 
+ # Creation of a matrix with the coefficients 
   
  res=objet$coef
  
- # Modification des lignes et des colonnes 
+ # Modification of colnames and rownames
  rownames(res)=c(colnames(objet$X))
  colnames(res)=c(colnames(objet$Y_dummies))
  
- # Rajout de l'intercept dans l'objet res
+ # add intercept in res
  intercept=objet$intercept
  res=rbind(res,intercept)
- 
- # Retour du résultat
+
  return(res)
   
 }
+
+plsda.summary=function(objet){
+  
+  coef=objet$coef
+  intercept=objet$intercept
+  coefficients=rbind(coef,intercept)
+  
+  Classif_report=plsda_Classification_report()
+  
+  res <- list()
+  res$coefficients <- coefficients
+  res$Y <- Y
+  return(res)
+}
+plsda.summary(res)
