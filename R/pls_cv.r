@@ -1,3 +1,15 @@
+#' Title
+#'
+#' @param formula 
+#' @param data 
+#' @param ncomp 
+#' @param cv 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+
 cross_validation <- function(formula, data, ncomp, cv = 5){
   
   n <- nrow(data)

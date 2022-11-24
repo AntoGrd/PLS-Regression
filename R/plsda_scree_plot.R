@@ -14,7 +14,7 @@ plsda_scree_plot=function(obj){
   points(x = scree, y = eigenvalues, type = "o", pch = 16)
   
 }
-data(iris)
-mod=plsda.fit(Species~.,data=iris,ncomp=4)
-plsda_scree_plot(mod)
+#data(iris)
+#mod=plsda.fit(Species~.,data=iris,ncomp=4)
+#plsda_scree_plot(mod)
 
