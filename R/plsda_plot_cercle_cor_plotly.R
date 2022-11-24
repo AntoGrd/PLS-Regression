@@ -30,8 +30,8 @@ for (i in 1:ncol(res$X)){
 layout <- list(
   title = "Correlation circle", 
   width = 600, 
-  xaxis = list(title = "Component 1 (33.0%)"), 
-  yaxis = list(title = "Component 2 (17.0%)"), 
+  xaxis = list(title = "Component 1"), 
+  yaxis = list(title = "Component 2"), 
   height = 600 
   )
 
