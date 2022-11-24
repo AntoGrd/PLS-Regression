@@ -1,7 +1,10 @@
+install.packages("plotly")
+library(plotly)
+
 plsda_scree_plot=function(obj){
   
   # Calcul des corrélations 
-  
+  ncomp=obj$ncomp
   X=obj$X
   corX=cor(X)
   
@@ -10,11 +13,12 @@ plsda_scree_plot=function(obj){
   cols <- ifelse(eigenvalues > 1, "purple", "yellow")
   
   # Scree plot
-  scree <- barplot(eigenvalues, col = cols, ylab="Valeurs propres", xlab="Composantes", main="Scree plot")
-  points(x = scree, y = eigenvalues, type = "o", pch = 16)
+  plot_ly(x=1:ncomp, y = eigenvalues,type = "bar",color = cols)
+  # points(x = scree, y = eigenvalues, type = "o", pch = 16)
   
 }
-#data(iris)
-#mod=plsda.fit(Species~.,data=iris,ncomp=4)
-#plsda_scree_plot(mod)
+
+# data(iris)
+# mod=plsda.fit(Species~.,data=iris,ncomp=4)
+# plsda_scree_plot(mod)
 
