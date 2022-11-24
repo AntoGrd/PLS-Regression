@@ -1,13 +1,14 @@
 plsda.vip<-function(PLS,threshold=0.8){
   
   # Récupération des valeurs nécéssaires à l'algorithme 
-  
+
   q=PLS$Y_loadings
   t=PLS$X_scores
   w=PLS$weights
   X=PLS$X
-  y=PLS$Y
-
+  y=as.data.frame(PLS$Y)
+  print(y)
+  colnames(y)=PLS$yname
   ncomp=PLS$ncomp
   
   p=nrow(w)
@@ -30,9 +31,14 @@ plsda.vip<-function(PLS,threshold=0.8){
   }
   # Création d'un nouveau dataset avec uniquement les variables importantes
   newX = X[,variable_importante]
-
-  newX=data.frame(newX,y)
-  return(newX)
   
+  newX=data.frame(newX,y)
+  return(VIP = list(newX,
+                    vip))
 }
+
+res=plsda.fit(Species~.,iris,2) 
+res
+resvip=plsda.vip(res)
+resvip[[1]]
 

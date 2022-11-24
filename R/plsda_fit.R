@@ -138,10 +138,10 @@ plsda.fit <- function(formula, data, ncomp){
   rownames(coef)=xnames
   colnames(coef)=ynames
   
-  #RENOMMER LES ROWNAMES ?
   instance <- list()
   instance$X <- X
   instance$Y <- Y
+  instance$yname <- toString(formula[[2]])
   instance$Y_dummies <- Ycod
   instance$weights <- W
   instance$X_loadings <- Px
@@ -153,6 +153,7 @@ plsda.fit <- function(formula, data, ncomp){
   instance$ncomp <- ncomp
   class(instance) <- "PLSDA"
   return(instance)
+  
 }
 
 res=plsda.fit(Species~.,iris,2) 
@@ -161,5 +162,10 @@ resvip=plsda.vip(res)
 resvip
 ypred=plsda.predict(res,iris[1:4])
 ypred
+
+library(devtools)
+install_github("AntoGrd/PLS-Regression")
+library(PLSDA)
+
 
 
