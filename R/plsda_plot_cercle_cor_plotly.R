@@ -44,11 +44,11 @@ for (i in 1:ncol(res$X)){
 
 
 # Affichage du graphique
-p <- plot_ly()
+graph <- plot_ly()
 for (i in 1:ncol(res$X)){
   # Tracage des points
-  p <- add_trace(p, mode="markers", name=colnames(res$X)[i], x=c1[i], y=c2[i])
+  graph <- add_trace(p, mode="markers", name=colnames(res$X)[i], x=c1[i], y=c2[i])
   # Ajouts des infos et des lignes
-  p <- layout(p, title=layout$title, width=layout$width, xaxis=layout$xaxis, yaxis=layout$yaxis, height=layout$height, shapes=liste)
+  graph <- layout(p, title=layout$title, width=layout$width, xaxis=layout$xaxis, yaxis=layout$yaxis, height=layout$height, shapes=liste)
 }
-p
+graph
