@@ -29,4 +29,4 @@ plsda.summary=function(objet){
   res$Y <- Y
   return(res)
 }
-plsda.summary(res)
+
