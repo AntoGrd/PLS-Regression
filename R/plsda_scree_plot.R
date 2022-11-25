@@ -8,7 +8,7 @@ plsda_scree_plot=function(acp){
   library(plotly)
   
   # Calculation of correlations 
-  ncomp=acp$ncomp
+  ncomp=ncol(acp$X)
   X=acp$X
   corX=cor(X)
   
@@ -24,7 +24,4 @@ plsda_scree_plot=function(acp){
       yaxis=list(title="Eigenvalues"),
       title="Selection of components"
     )
-  # points(x = scree, y = eigenvalues, type = "o", pch = 16)
-  
 }
-
