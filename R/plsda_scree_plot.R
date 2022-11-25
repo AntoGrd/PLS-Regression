@@ -1,3 +1,4 @@
+
 install.packages("plotly")
 library(plotly)
 
@@ -10,10 +11,16 @@ plsda_scree_plot=function(obj){
   
   # Calcul des valeurs propres
   eigenvalues=eigen(corX)$values
-  cols <- ifelse(eigenvalues > 1, "purple", "yellow")
-  
+  test=eigenvalues > 1
+  cols <- ifelse(test, "rgba(255, 0, 0, 0.5)", "rgba(0, 0, 255, 0.5)")
+  lab=paste("Comp.",1:ncomp,sep = "")
   # Scree plot
-  plot_ly(x=1:ncomp, y = eigenvalues,type = "bar",color = cols)
+  plot_ly(x=lab, y = eigenvalues,type = "bar",color = I(cols))%>%
+    layout(
+      xaxis=list(title="Composantes"),
+      yaxis=list(title="Valeurs propres"),
+      title="Sélection des composantes"
+    )
   # points(x = scree, y = eigenvalues, type = "o", pch = 16)
   
 }
@@ -21,4 +28,3 @@ plsda_scree_plot=function(obj){
 # data(iris)
 # mod=plsda.fit(Species~.,data=iris,ncomp=4)
 # plsda_scree_plot(mod)
-
