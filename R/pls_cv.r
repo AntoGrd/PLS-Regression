@@ -1,24 +1,19 @@
-#' Title
-#'
-#' @param formula 
-#' @param data 
-#' @param ncomp 
-#' @param cv 
-#'
-#' @return
-#' @export
-#'
-#' @examples
 
-cross_validation <- function(formula, data, ncomp, cv = 5){
+plsda.cross_validation <- function(formula, data, ncomp, nfolds = 5){
   
   n <- nrow(data)
+  
+  # Random sample
   data <- data[sample(1:n),]
+  
+  # Index of each indiv in fold 
   fold <- list()
+  
+  # Size of the folds 
+  foldSize <- n / nfolds
 
-
-  foldSize <- n / cv
-  for(i in 1:cv){
+  # Loop which returns all indiv by fold
+  for(i in 1:nfolds){
     ind <- rep(TRUE, n)
     hb <- i * foldSize
     bb <- hb - foldSize + 1
@@ -26,15 +21,15 @@ cross_validation <- function(formula, data, ncomp, cv = 5){
     fold[[i]] <- ind
   }
   
-  globalFscoreVector <- c()
+  FscoreVectorglobal <- c()
   models <- list()
-  for(k in 1:cv){
+  for(j in 1:cv){
     #Get the cols of X
     Xnames <- colnames(model.matrix(Species~.,data=iris)[,-1])
     yname <- toString(formula[[2]])
-
+    
     #Get fold
-    ind <- fold[[k]]
+    ind <- fold[[j]]
     train <- data[ind,]
     test <- data[!ind,]
     
@@ -47,12 +42,12 @@ cross_validation <- function(formula, data, ncomp, cv = 5){
     predTest <- plsda.predict(plsTrain, Xtest)
     
     globalFscore <- plsda_Classification_report(Ytest, predTest)$f1_score
-    globalFscoreVector <- append(globalFscoreVector, globalFscore)
+    FscoreVectorglobal <- append(FscoreVectorglobal, globalFscore)
     models[[k]] <- plsTrain
   }
-  model <- models[[which.max(globalFscoreVector)]]
-  fscore <- globalFscoreVector[which.max(globalFscoreVector)]
-  res <- list("model" = model,"fscore" = fscore)
+  bestmodel <- models[[which.max(FscoreVectorglobal)]]
+  bestfscore <- FscoreVectorglobal[which.max(FscoreVectorglobal)]
+  res <- list("model" = bestmodel,"fscore" = bestfscore)
   return(res)
 }
 
