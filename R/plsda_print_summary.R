@@ -1,24 +1,23 @@
 #' print function for PLSDA
 #'
-#' @param PLS 
+#' @param PLSDA PLSDA object (returned with fit function)
 #'
-#' @return
+#' @return a print function to observe the coefficients and intercept
+#' obtained with the fit function
 #' @export
-#'
-#' @examples
-#' 
-plsda.print=function(PLS){
+
+plsda.print=function(PLSDA){
 
  # Creation of a matrix with the coefficients 
   
- res=PLS$coef
+ res=PLSDA$coef
  
  # Modification of colnames and rownames
- rownames(res)=c(colnames(PLS$X))
- colnames(res)=c(colnames(PLS$Y_dummies))
+ rownames(res)=c(colnames(PLSDA$X))
+ colnames(res)=c(colnames(PLSDA$Y_dummies))
  
  # add intercept in res
- intercept=PLS$intercept
+ intercept=PLSDA$intercept
  res=rbind(res,intercept)
 
  return(res)
@@ -27,29 +26,29 @@ plsda.print=function(PLS){
 
 #' Summary function for PLSDA
 #'
-#' @param PLS 
-#' @param Xtest 
-#' @param ytest 
+#' @param PLSDA PLSDA object (obtained with fit function)
+#' @param Xtest dataframe with the sames variables of PLSDA$X to predict the values
+#' @param ytest classes that correspond to the values of Xtest, to compare with the predicted values
 #'
-#' @return
+#' @return a print function to observe 
+#' - the coefficients and intercept obtained with the fit function
+#' - a classification report including Confusion matrix,
+#'   Report with precision, recall and f1-score for each class,
+#'   global f1 score 
 #' @export
-#'
-#' @examples
 
-plsda.summary=function(PLS,Xtest,ytest){
+
+plsda.summary=function(PLSDA,Xtest,ytest){
   
   #coef and intercept
-  coef=PLS$coef
-  intercept=PLS$intercept
+  coef=PLSDA$coef
+  intercept=PLSDA$intercept
   coefficients=rbind(coef,intercept)
   #prediction with Xtest and showing classification report with ytest
-  pred=plsda.predict(PLS,Xtest)
-  classification_report=plsda_Classification_report(ytest,pred)
+  pred=PLSDAda.predict(PLSDA,Xtest)
+  classification_report=PLSDAda_Classification_report(ytest,pred)
   list=list()
   list$coefficients = coefficients
   list$classification_report = classification_report
   return(list)
 }
-
-
-
