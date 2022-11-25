@@ -1,15 +1,16 @@
 #' predict function for PLSDA
 #'
-#' @param PLSDA 
-#' @param newdata 
-#' @param type 
+#' @description
+#' Classes prediction based on fit coefficients
+#' 
+#' @param PLSDA PLSDA object
+#' @param newdata Data Frame with the sames variables of PLSDA$X to predict the classes
+#' @param type "class" to return the classes predicted, 
+#' "posterior" to return the probabilities of belonging for each class
 #'
-#' @return
+#' @return Y predictions 
 #' @export
-#'
-#' @examples
-#' 
-#' 
+
 plsda.predict <- function(PLSDA,newdata,type="class"){
 
   
