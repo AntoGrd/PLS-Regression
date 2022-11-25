@@ -1,6 +1,5 @@
 plsda_Classification_report <- function(observed,predict){
   
-  
   df=data.frame(observed,predict)
 
   table=table(df[,1],df[,2]) 
@@ -15,9 +14,10 @@ plsda_Classification_report <- function(observed,predict){
     MC[i,3]=2*MC[i,1]*MC[i,2]/(MC[i,1]+MC[i,2]) #f1-score
   }
   f1_score = sum(MC[,3]*w) #global f1 score
-
+  
   return(list(Confusion_matrix = table,
               report = MC,
               f1_score=f1_score))
 }
+
 
