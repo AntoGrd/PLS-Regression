@@ -1,15 +1,18 @@
-
-install.packages("plotly")
-library(plotly)
-
-plsda_scree_plot=function(obj){
+plsda_scree_plot=function(acp){
   
-  # Calcul des corrélations 
-  ncomp=obj$ncomp
-  X=obj$X
+  verify=require("plotly")
+  if(verify!=TRUE){
+    install.packages("plotly")
+    verify=TRUE
+  }
+  library(plotly)
+  
+  # Calculation of correlations 
+  ncomp=acp$ncomp
+  X=acp$X
   corX=cor(X)
   
-  # Calcul des valeurs propres
+  # Calculation of the eigenvalues
   eigenvalues=eigen(corX)$values
   test=eigenvalues > 1
   cols <- ifelse(test, "rgba(255, 0, 0, 0.5)", "rgba(0, 0, 255, 0.5)")
@@ -17,10 +20,11 @@ plsda_scree_plot=function(obj){
   # Scree plot
   plot_ly(x=lab, y = eigenvalues,type = "bar",color = I(cols))%>%
     layout(
-      xaxis=list(title="Composantes"),
-      yaxis=list(title="Valeurs propres"),
-      title="Sélection des composantes"
+      xaxis=list(title="Components"),
+      yaxis=list(title="Eigenvalues"),
+      title="Selection of components"
     )
   # points(x = scree, y = eigenvalues, type = "o", pch = 16)
   
 }
+

@@ -1,9 +1,11 @@
-#library(plotly)
-
 plsda_plot_indiv<-function(acp,axe1=1,axe2=2){
   
-
-  #RAJOUTER CAS D'ERREUR : ex = axes doivent entre compris dans le nb de col
+  verify=require("plotly")
+  if(verify!=TRUE){
+    install.packages("plotly")
+    verify=TRUE
+  }
+  library(plotly)
   
   x1 = acp$X_scores[,axe1]
   x2 = acp$X_scores[,axe2]
@@ -14,6 +16,5 @@ plsda_plot_indiv<-function(acp,axe1=1,axe2=2){
                                                                                              yaxis = list(title=paste0("Comp ",axe2)))
   fig
 }
-
 
 

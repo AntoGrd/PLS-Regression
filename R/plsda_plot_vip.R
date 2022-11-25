@@ -12,5 +12,3 @@ plot.vip<-function(objet){
 
 
 
-
-

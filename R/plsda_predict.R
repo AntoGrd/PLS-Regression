@@ -1,6 +1,17 @@
-plsda.predict <- function(obj_pls,newdata,type="class"){
+#' Title
+#'
+#' @param PLSDA 
+#' @param newdata 
+#' @param type 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' 
+#' 
+plsda.predict <- function(PLSDA,newdata,type="class"){
 
-  #vérifier si var toutes numerique
   
   if (class(obj_pls) != "PLSDA"){ #check if object plsda is given
     stop("obj_pls is not a PLSDA object")
@@ -20,17 +31,18 @@ plsda.predict <- function(obj_pls,newdata,type="class"){
     stop("you didn't enter a valid type")
   }
   
-  X = (t(newdata) - colMeans(obj_pls$X))/apply(obj_pls$X,2,sd)
-  Ypred = t(X) %*% obj_pls$coef + obj_pls$intercept
+  
+  X = (t(newdata) - colMeans(obj_pls$X))/apply(obj_pls$X,2,sd) #normalize
+  Ypred = t(X) %*% obj_pls$coef + obj_pls$intercept 
   
   #softmax to have probabilities
   Ypred = apply(Ypred,1,exp)
   Ypred = t(Ypred/colSums(Ypred))
   
   if(type == "posterior"){
-    return(Ypred) #proba
+    return(Ypred) #probabilities
   }else{
-    #retourner les classes
+    #return classes
     colmax=apply(Ypred,1,which.max)
     pred=colnames(obj_pls$Y_dummies)[colmax]
     return(pred)

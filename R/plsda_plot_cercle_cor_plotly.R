@@ -1,11 +1,17 @@
-library(plotly)
-
-circle.plot <- function(res){
-  #Récupération des valeurs
+circle.plot <- function(acp){
+  
+  verify=require("plotly")
+  if(verify!=TRUE){
+    install.packages("plotly")
+    verify=TRUE
+  }
+  library(plotly)
+  
+  #get values
   c1=res$X_loadings[,1]*sqrt(eigen(cor(scale(res$X)))$values[1])
   c2=res$X_loadings[,2]*sqrt(eigen(cor(scale(res$X)))$values[2])
   
-  # Création du cercle
+  # creation of circle
   liste = list(list(
     x0 = -1, 
     x1 = 1, 
@@ -13,7 +19,7 @@ circle.plot <- function(res){
     y1 = 1, 
     type = "circle"
   ))
-  # Création du même nombre de lignes que de variable (qui sont nulles pour l'instant)
+  # Creation of the same number of rows as variables (which are zero for the moment)
   for (i in 1:ncol(res$X)){
     i = i + 1 
     liste[[i]] = list(
@@ -27,7 +33,7 @@ circle.plot <- function(res){
       ),
       type = "line")
   }
-  # Ajout des infos de base (que l'on pourrai mettre directement après)
+  # Addition of the basic information (that we could put directly after)
   layout <- list(
     title = "Correlation circle", 
     width = 600, 
@@ -36,7 +42,7 @@ circle.plot <- function(res){
     height = 600 
   )
   
-  # Ajout des valeurs des lignes pour chacunes de nos colonnes
+  # Add row values for each of our columns
   for (i in 1:ncol(res$X)){
     j = i + 1
     liste[j][[1]]$x1 <- c1[i]
@@ -44,14 +50,13 @@ circle.plot <- function(res){
   }
   
   
-  # Affichage du graphique
+  # Graph display
   graph <- plot_ly()
   for (i in 1:ncol(res$X)){
-    # Tracage des points
-    graph <- add_trace(p, mode="markers", name=colnames(res$X)[i], x=c1[i], y=c2[i])
-    # Ajouts des infos et des lignes
-    graph <- layout(p, title=layout$title, width=layout$width, xaxis=layout$xaxis, yaxis=layout$yaxis, height=layout$height, shapes=liste)
+    # Plotting of points
+    graph <- add_trace(graph, mode="markers", name=colnames(res$X)[i], x=c1[i], y=c2[i])
+    # Adding information and lines
+    graph <- layout(graph, title=layout$title, width=layout$width, xaxis=layout$xaxis, yaxis=layout$yaxis, height=layout$height, shapes=liste)
   }
   return(graph)
 }
-
