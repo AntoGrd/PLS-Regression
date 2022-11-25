@@ -136,6 +136,3 @@ plsda.fit <- function(formula, data, ncomp){
 #ypred=plsda.predict(res,iris[1:4])
 #ypred
 
-
-
-

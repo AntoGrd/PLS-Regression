@@ -16,18 +16,24 @@ plsda.print=function(PLS){
   
 }
 
-plsda.summary=function(PLS){
+plsda.summary=function(PLS,Xtest,ytest){
   
+  #coef and intercept
   coef=PLS$coef
   intercept=PLS$intercept
   coefficients=rbind(coef,intercept)
 
-  pred=plsda.predict(PLS,PLS$X)
-  return(pred)
+  pred=plsda.predict(PLS,Xtest)
+  classification_report=plsda_Classification_report(ytest,pred)
+  list=list()
+  list$coefficients = coefficients
+  list$classification_report = classification_report
+  return(list)
 }
 
-res=plsda.fit(Species~.,iris,2) 
-res$X
-plsda.predict(res,res$X)
-plsda.print(res)
-plsda.summary(res)
+#res=plsda.fit(Species~.,iris,2) 
+#res$X
+#plsda.predict(res,as.data.frame(res$X))
+#plsda.print(res)
+#plsda.summary(res,iris[1:4],iris$Species)
+
