@@ -1,4 +1,4 @@
-#' Title
+#' Variable Importance in the Projection function for PLSDA
 #'
 #' @param PLS 
 #' @param threshold 
@@ -9,7 +9,7 @@
 #' @examples
 plsda.vip<-function(PLS,threshold=0.8){
   
-  # Récupération des valeurs nécéssaires à l'algorithme 
+  # Recovery of the necessary values for the algorithm
 
   q=PLS$Y_loadings
   t=PLS$X_scores
@@ -29,16 +29,16 @@ plsda.vip<-function(PLS,threshold=0.8){
   weigth=(w/sqrt(colSums(w^2)))^2
   vip = sqrt(p*(ssy*weigth)/tot_ssy)
   
-  #détermination des variables importantes
+  #identification of important variables
   variable_importante=rownames(vip)[which(vip[,ncomp]>threshold)]
   
   
-  # Si une seule variable importante, on sélectionne les 2 variables avec le plus haut VIP
+  #  If only one variable is important, we select the 2 variables with the highest VIP
   if (length(variable_importante)<2){
     vip_sorted = vip[order(-vip[,ncomp]),]
     variable_importante=rownames(vip_sorted)[1:2]
   }
-  # Création d'un nouveau dataset avec uniquement les variables importantes
+  # Creation of a new dataset with only the important variables
   newX = X[,variable_importante]
   
   newX=data.frame(newX,y)
