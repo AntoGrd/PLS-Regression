@@ -1,3 +1,12 @@
+#' Title
+#'
+#' @param acp 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+
 plsda_scree_plot=function(acp){
   
   verify=require("plotly")
