@@ -1,5 +1,7 @@
 #' Variable Importance in the Projection function for PLSDA
 #'
+#' @description 
+#' 
 #' @param PLS 
 #' @param threshold 
 #'

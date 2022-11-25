@@ -1,5 +1,6 @@
 #' Correlation circle plot for PLSDA
 #'
+#' @description 
 #' @param acp 
 #'
 #' @return

@@ -1,5 +1,7 @@
 #' Explonatory variables plot for PLSDA
 #'
+#' @description 
+#'
 #' @param var1 
 #' @param var2 
 #' @param color 
