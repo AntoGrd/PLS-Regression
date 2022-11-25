@@ -1,12 +1,14 @@
 #' Classification report function for PLSDA
 #'
-#' @param observed 
-#' @param predict 
+#' @param observed observed values (ytest)
+#' @param predict predicted values (values returned with predict function)
 #'
-#' @return
+#' @return 
+#' Confusion matrix,
+#' Report with precision, recall and f1-score for each class
+#' global f1 score 
+#' 
 #' @export
-#'
-#' @examples
 
 plsda_Classification_report <- function(observed,predict){
   
