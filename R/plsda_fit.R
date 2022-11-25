@@ -136,9 +136,6 @@ plsda.fit <- function(formula, data, ncomp){
 #ypred=plsda.predict(res,iris[1:4])
 #ypred
 
-#library(devtools)
-#install_github("AntoGrd/PLS-Regression")
-#library(PLSDA)
-#PLSDA::plsda.fit(Species~.,iris,2) 
+
 
 
