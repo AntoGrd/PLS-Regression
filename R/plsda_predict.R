@@ -1,4 +1,4 @@
-#' Title
+#' predict function for PLSDA
 #'
 #' @param PLSDA 
 #' @param newdata 

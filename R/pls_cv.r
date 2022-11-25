@@ -1,3 +1,16 @@
+#' cross validation function for PLSDA
+#'
+#' @description
+#'
+#' @param formula 
+#' @param data 
+#' @param ncomp 
+#' @param nfolds 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 
 plsda.cross_validation <- function(formula, data, ncomp, nfolds = 5){
   

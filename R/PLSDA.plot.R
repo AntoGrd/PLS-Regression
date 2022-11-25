@@ -1,3 +1,13 @@
+#' Explonatory variables plot for PLSDA
+#'
+#' @param var1 
+#' @param var2 
+#' @param color 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 explanatory_variables=function(var1,var2, color){
   
   verify=require("plotly")

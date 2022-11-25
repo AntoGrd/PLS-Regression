@@ -1,3 +1,12 @@
+#' print function for PLSDA
+#'
+#' @param PLS 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' 
 plsda.print=function(PLS){
 
  # Creation of a matrix with the coefficients 
@@ -15,6 +24,17 @@ plsda.print=function(PLS){
  return(res)
   
 }
+
+#' Summary function for PLSDA
+#'
+#' @param PLS 
+#' @param Xtest 
+#' @param ytest 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 
 plsda.summary=function(PLS,Xtest,ytest){
   

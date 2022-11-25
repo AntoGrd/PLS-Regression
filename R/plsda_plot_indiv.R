@@ -1,3 +1,13 @@
+#' Individuals plots for PLSDA
+#'
+#' @param acp 
+#' @param axe1 
+#' @param axe2 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 plsda_plot_indiv<-function(acp,axe1=1,axe2=2){
   
   verify=require("plotly")

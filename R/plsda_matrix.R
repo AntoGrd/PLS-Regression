@@ -1,3 +1,13 @@
+#' Classification report function for PLSDA
+#'
+#' @param observed 
+#' @param predict 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+
 plsda_Classification_report <- function(observed,predict){
   
   df=data.frame(observed,predict)

@@ -1,13 +1,15 @@
-#' Title
+#' fit function for PLSDA
+#'
+#' @description Using NIPALS algorithm to fit the PLS classification to data, for binary or multinomial target
 #'
 #' @param formula 
-#' @param data 
-#' @param ncomp 
+#' @param data a data frame where you want the fit the datas
+#' @param ncomp an integer which corresponds to the number of components in the model
 #'
-#' @return
+#' @return a "PLSDA" object with the coefficients we are going to use in the prediction
 #' @export
 #'
-#' @examples
+#' @examples plsda.fit(Species~.,iris,2)
 #' 
 plsda.fit <- function(formula, data, ncomp){
   
@@ -29,7 +31,7 @@ plsda.fit <- function(formula, data, ncomp){
   Y = model.response(model.frame(formula, data = data))
   
   #One hot encoding y
-  ## Vérification que la variables cible soit bien un "factor" ou un "character"
+  ## Verification that the target variable is a factor or a character
   if (is.factor(Y)==FALSE & is.character(Y)==FALSE){
     stop("y is neither a factor or character") 
     #
@@ -38,7 +40,7 @@ plsda.fit <- function(formula, data, ncomp){
   }
   # recovery of modalities
   levy=levels(Y)
-  ## Matrice binarisée
+  ## binarized matrix
   Ycod<-sapply(levy,function(x){ifelse(Y==x,1,0)})
   
   #X and Y colnames
@@ -46,7 +48,6 @@ plsda.fit <- function(formula, data, ncomp){
   ynames=colnames(Ycod)
   
   #standardise x
-  #AJOUTER MSG ERRUR ?
   Xs=scale(X)
   Ycodsc=scale(Ycod)
   #number of lines/columns
@@ -58,7 +59,7 @@ plsda.fit <- function(formula, data, ncomp){
   Tx = matrix(nrow = nrx, ncol=ncomp) #x-scores
   Uy = matrix(nrow = nrx, ncol=ncomp) #y-scores
   W = matrix(nrow = ncx, ncol=ncomp)  #weights
-  Px = matrix(nrow = ncx, ncol=ncomp) #x-loadings (composantes)
+  Px = matrix(nrow = ncx, ncol=ncomp) #x-loadings (components)
   Qy = matrix(nrow = ncy, ncol=ncomp) #y-loading
   Ycodsc=scale(Ycod)
   #Algorithme NIPALS
@@ -86,13 +87,13 @@ plsda.fit <- function(formula, data, ncomp){
     p=t(Xs)%*%t/(t(t)%*%t)[1,1] #x loadings
     c=t(t)%*%u/(t(t)%*%t)[1,1] 
     
-    #nouvelles valeurs matrices
+    #new matrix values
     Xs=Xs-t%*%t(p)
     
     q=t(t(t)%*%Ycodsc/(t(t)%*%t)[1,1]) #y loadings
     Ycodsc=Ycodsc-c[1,1]*t%*%t(q)
     
-    #stockage des valeurs
+    #storage of values
     Tx[,n] = t
     Uy[,n] = u
     W[,n] = w
@@ -126,13 +127,6 @@ plsda.fit <- function(formula, data, ncomp){
   instance$ncomp <- ncomp
   class(instance) <- "PLSDA"
   return(instance)
-  
 }
 
-#res=plsda.fit(Species~.,iris,2) 
-#res
-#resvip=plsda.vip(res)
-#resvip
-#ypred=plsda.predict(res,iris[1:4])
-#ypred
-
+plsda.fit(Species~.,iris,3)

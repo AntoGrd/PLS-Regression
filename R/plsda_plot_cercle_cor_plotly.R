@@ -1,3 +1,11 @@
+#' Correlation circle plot for PLSDA
+#'
+#' @param acp 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 circle.plot <- function(acp){
   
   verify=require("plotly")
