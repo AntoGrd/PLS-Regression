@@ -79,7 +79,7 @@ plsda.fit <- function(formula, data, ncomp){
       u=Ycodsc%*%q #score y
       
       w=t(Xs)%*%u/(t(u)%*%u)[1,1] #weight
-      w=w/sqrt((t(w)%*%w)[1,1]) #normalisation
+      w=w/sqrt((t(w)%*%w)[1,1]) #normalization
       
       if(abs(mean(w)-mean(w_new))<1e-6){break} #test of convergence
     }
