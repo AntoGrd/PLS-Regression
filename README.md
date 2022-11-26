@@ -16,4 +16,8 @@ The PLS (Partial Least Square) Regression is a machine learning method which was
   - Individual plot 
   - Principal Components Analysis
  
-  
+#### Installation of our package 
+
+### The fit function 
+
+First of all, you can launch the fit fonction 
