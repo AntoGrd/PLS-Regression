@@ -5,19 +5,21 @@
 #' @return a print function to observe the coefficients and intercept
 #' obtained with the fit function
 #' @export
+#' @examples
+#' plsda.print(res)
 
-plsda.print=function(PLSDA){
+plsda.print=function(PLS){
 
  # Creation of a matrix with the coefficients 
   
- res=PLSDA$coef
+ res=PLS$coef
  
  # Modification of colnames and rownames
- rownames(res)=c(colnames(PLSDA$X))
- colnames(res)=c(colnames(PLSDA$Y_dummies))
+ rownames(res)=c(colnames(PLS$X))
+ colnames(res)=c(colnames(PLS$Y_dummies))
  
  # add intercept in res
- intercept=PLSDA$intercept
+ intercept=PLS$intercept
  res=rbind(res,intercept)
 
  return(res)
@@ -36,19 +38,23 @@ plsda.print=function(PLSDA){
 #'   Report with precision, recall and f1-score for each class,
 #'   global f1 score 
 #' @export
+#' @examples
+#' plsda.summary(res)
 
-
-plsda.summary=function(PLSDA,Xtest,ytest){
+plsda.summary=function(PLS,Xtest,ytest){
   
   #coef and intercept
-  coef=PLSDA$coef
-  intercept=PLSDA$intercept
+  coef=PLS$coef
+  intercept=PLS$intercept
   coefficients=rbind(coef,intercept)
   #prediction with Xtest and showing classification report with ytest
-  pred=PLSDAda.predict(PLSDA,Xtest)
-  classification_report=PLSDAda_Classification_report(ytest,pred)
+  pred=plsda.predict(PLS,Xtest)
+  classification_report=plsda_Classification_report(ytest,pred)
   list=list()
   list$coefficients = coefficients
   list$classification_report = classification_report
   return(list)
 }
+
+
+

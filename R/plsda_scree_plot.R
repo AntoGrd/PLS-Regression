@@ -1,13 +1,15 @@
-#' Title
+#' PLSDA Scree plot
 #' 
-#' @description 
+#' @description
+#' Make a scree plot for the component selection 
 #' 
 #' @param acp 
-#'
-#' @return
+#' A ACP model
+#' @return a scree plot which shows which component select
 #' @export
 #'
 #' @examples
+#' plsda_scree_plot(res)
 
 plsda_scree_plot=function(acp){
   
@@ -36,3 +38,6 @@ plsda_scree_plot=function(acp){
       title="Selection of components"
     )
 }
+
+data(iris)
+

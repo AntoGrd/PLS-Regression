@@ -1,16 +1,46 @@
-#' fit function for PLSDA
-#'
-#' @description Using NIPALS algorithm to fit the PLS classification to data, for binary or multinomial target
-#'
+#' Fit a PLS DA MODEL 
+#' 
+#' @description 
+#' Using NIPALS algorithm to fit the PLS classification to data, for binary or multinomial target
+#' 
 #' @param formula 
-#' @param data a data frame where you want the fit the datas
-#' @param ncomp an integer which corresponds to the number of components in the model
+#' formula an object of class formula" (or one that can be coerced to that class): a symbolic description of the model
+#' to be fitted.
+#' @param data 
+#' dataframe containing the variables in the model.
+#' @param ncomp
+#' Number of components extracted in NIPALS algorithm. 
 #'
-#' @return a "PLSDA" object with the coefficients we are going to use in the prediction
+#' @return
+#' \code{X} the original dataset containing the predictors.
+#' \cr
+#' \code{Y} the original vector of factors that is the variable to predict.
+#' \cr
+#' \code{yname} name of the target variable
+#' \cr
+#' \code{Y_dummies} binarized modalities of the target variable
+#' \cr
+#' \code{weights} weights of each variable on each component
+#' \cr
+#' \code{X_loadings} X_loadings of each variable on each component
+#' \cr
+#' \code{X_scores} Score of each indiv on each component
+#' \cr
+#' \code{Y_scores} Score of the target variable on each component
+#' \cr
+#' \code{coef} Classement coefficient of the PLS regression
+#' \cr
+#' \code{intercept} Intercept coefficient 
+#' \cr
+#' \code{ncomp} Number of component
+#' \cr
 #' @export
 #'
-#' @examples plsda.fit(Species~.,iris,2)
-#' 
+#' @examples
+#' fit.t1<-plsda.fit(Species~.,iris,3)
+#' fit.t2<-plsda.fit(Species~.,iris,2)
+
+
 plsda.fit <- function(formula, data, ncomp){
   
   if (!inherits(formula,"formula")){ #check if formula is given
@@ -27,11 +57,12 @@ plsda.fit <- function(formula, data, ncomp){
     stop("ncomp is not an integer")
   }
   
+  # Récupération du X et du Y 
   X = model.matrix(formula,data=data)[,-1]
   Y = model.response(model.frame(formula, data = data))
   
   #One hot encoding y
-  ## Verification that the target variable is a factor or a character
+  ## VÃ©rification que la variables cible soit bien un "factor" ou un "character"
   if (is.factor(Y)==FALSE & is.character(Y)==FALSE){
     stop("y is neither a factor or character") 
     #
@@ -40,7 +71,7 @@ plsda.fit <- function(formula, data, ncomp){
   }
   # recovery of modalities
   levy=levels(Y)
-  ## binarized matrix
+  ## Matrice binarisÃ©e
   Ycod<-sapply(levy,function(x){ifelse(Y==x,1,0)})
   
   #X and Y colnames
@@ -48,6 +79,7 @@ plsda.fit <- function(formula, data, ncomp){
   ynames=colnames(Ycod)
   
   #standardise x
+  #AJOUTER MSG ERRUR ?
   Xs=scale(X)
   Ycodsc=scale(Ycod)
   #number of lines/columns
@@ -59,7 +91,7 @@ plsda.fit <- function(formula, data, ncomp){
   Tx = matrix(nrow = nrx, ncol=ncomp) #x-scores
   Uy = matrix(nrow = nrx, ncol=ncomp) #y-scores
   W = matrix(nrow = ncx, ncol=ncomp)  #weights
-  Px = matrix(nrow = ncx, ncol=ncomp) #x-loadings (components)
+  Px = matrix(nrow = ncx, ncol=ncomp) #x-loadings (composantes)
   Qy = matrix(nrow = ncy, ncol=ncomp) #y-loading
   Ycodsc=scale(Ycod)
   #Algorithme NIPALS
@@ -79,7 +111,7 @@ plsda.fit <- function(formula, data, ncomp){
       u=Ycodsc%*%q #score y
       
       w=t(Xs)%*%u/(t(u)%*%u)[1,1] #weight
-      w=w/sqrt((t(w)%*%w)[1,1]) #normalization
+      w=w/sqrt((t(w)%*%w)[1,1]) #normalisation
       
       if(abs(mean(w)-mean(w_new))<1e-6){break} #test of convergence
     }
@@ -87,13 +119,13 @@ plsda.fit <- function(formula, data, ncomp){
     p=t(Xs)%*%t/(t(t)%*%t)[1,1] #x loadings
     c=t(t)%*%u/(t(t)%*%t)[1,1] 
     
-    #new matrix values
+    #nouvelles valeurs matrices
     Xs=Xs-t%*%t(p)
     
     q=t(t(t)%*%Ycodsc/(t(t)%*%t)[1,1]) #y loadings
     Ycodsc=Ycodsc-c[1,1]*t%*%t(q)
     
-    #storage of values
+    #stockage des valeurs
     Tx[,n] = t
     Uy[,n] = u
     W[,n] = w
@@ -127,6 +159,13 @@ plsda.fit <- function(formula, data, ncomp){
   instance$ncomp <- ncomp
   class(instance) <- "PLSDA"
   return(instance)
+  
 }
 
-plsda.fit(Species~.,iris,3)
+#res=plsda.fit(Species~.,iris,2) 
+#res
+#resvip=plsda.vip(res)
+#resvip
+#ypred=plsda.predict(res,iris[1:4])
+#ypred
+

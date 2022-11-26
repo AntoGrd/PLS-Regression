@@ -1,20 +1,29 @@
-#' predict function for PLSDA
+#' Predict y for a given x with a PLSDA model
 #'
-#' @description
-#' Classes prediction based on fit coefficients
-#' 
-#' @param PLSDA PLSDA object
-#' @param newdata Data Frame with the sames variables of PLSDA$X to predict the classes
-#' @param type "class" to return the classes predicted, 
-#' "posterior" to return the probabilities of belonging for each class
+#' @param PLSDA 
+#' PLSDA type model
+#' @param newdata 
+#' Dataset for which we want to make predictions
+#' @param type 
+#' class (by default) if we want to return the class variable 
+#' posterior if we want to know the probabily of belonging of each class for the new dataset
 #'
-#' @return Y predictions 
+#' @return
+#' \code{Ypred} if type = "posterior". Probabily of belonging of each class for the new dataset
+#' \cr
+#' \code{pred} if type = "class". Return the class variable 
+#' \cr
 #' @export
-
+#'
+#' @examples
+#' 
+#' pred=plsda.predict(mod,newdata)
+#' pred=plsda.predict(mod,newdata,type="posterior")
+#' 
 plsda.predict <- function(PLSDA,newdata,type="class"){
 
   
-  if (class(obj_pls) != "PLSDA"){ #check if object plsda is given
+  if (class(PLSDA) != "PLSDA"){ #check if object plsda is given
     stop("obj_pls is not a PLSDA object")
   }
   
@@ -22,9 +31,9 @@ plsda.predict <- function(PLSDA,newdata,type="class"){
     stop("newdata is not a dataframe")
   }
   
-  l = length(intersect(colnames(newdata),colnames(obj_pls$X)))
+  l = length(intersect(colnames(newdata),colnames(PLSDA$X)))
   
-  if(l != ncol(newdata) || l != ncol(obj_pls$X)){ #check if colnames are the same 
+  if(l != ncol(newdata) || l != ncol(PLSDA$X)){ #check if colnames are the same 
     stop("colnames are not the same")
   }
 
@@ -33,8 +42,8 @@ plsda.predict <- function(PLSDA,newdata,type="class"){
   }
   
   
-  X = (t(newdata) - colMeans(obj_pls$X))/apply(obj_pls$X,2,sd) #normalize
-  Ypred = t(X) %*% obj_pls$coef + obj_pls$intercept 
+  X = (t(newdata) - colMeans(PLSDA$X))/apply(PLSDA$X,2,sd) #normalize
+  Ypred = t(X) %*% PLSDA$coef + PLSDA$intercept 
   
   #softmax to have probabilities
   Ypred = apply(Ypred,1,exp)
@@ -45,7 +54,7 @@ plsda.predict <- function(PLSDA,newdata,type="class"){
   }else{
     #return classes
     colmax=apply(Ypred,1,which.max)
-    pred=colnames(obj_pls$Y_dummies)[colmax]
+    pred=colnames(PLSDA$Y_dummies)[colmax]
     return(pred)
   }
 }

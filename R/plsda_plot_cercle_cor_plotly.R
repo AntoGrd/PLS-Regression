@@ -1,12 +1,15 @@
 #' Correlation circle plot for PLSDA
 #'
 #' @description 
-#' @param acp 
-#'
-#' @return
+#' Correlation circle plot for PLSDA
+#' @param acp
+#' a ACP type variable
+#' @return a correlation circle
 #' @export
 #'
 #' @examples
+#' circle.plot(res)
+
 circle.plot <- function(acp){
   
   verify=require("plotly")
@@ -69,3 +72,4 @@ circle.plot <- function(acp){
   }
   return(graph)
 }
+

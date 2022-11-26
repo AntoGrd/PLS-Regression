@@ -1,16 +1,30 @@
-#' cross validation function for PLSDA
-#'
-#' @description
-#'
+#' Make a cross-validation on on dataset to select the best sample 
+#' 
+#' @description 
+#' Make a cross-validation on on dataset to select the best sample
+#' 
 #' @param formula 
+#' formula an object of class formula" (or one that can be coerced to that class): a symbolic description of the model
+#' to be fitted.
 #' @param data 
-#' @param ncomp 
-#' @param nfolds 
-#'
+#' dataframe containing the variables in the model.
+#' @param ncomp
+#' Number of components extracted in NIPALS algorithm.
+#' @param nfold
+#' Number of folds in the cross-validation (5 by default)
+#' 
 #' @return
+#' \code{bestmodel} the best model with the cross-validation
+#' \cr
+#' \code{bestfscore} the fscore of the best model
+#' \cr
 #' @export
 #'
 #' @examples
+#' 
+#' cv=plsda.cross_validation(Species~.,data=iris,2)
+#' pred=plsda.predict(Species~.,data=iris,2,nfolds=10)
+
 
 plsda.cross_validation <- function(formula, data, ncomp, nfolds = 5){
   
@@ -36,7 +50,7 @@ plsda.cross_validation <- function(formula, data, ncomp, nfolds = 5){
   models <- list()
   for(j in 1:nfolds){
     #Get the cols of X
-    Xnames <- colnames(model.matrix(Species~.,data=iris)[,-1])
+    Xnames <- colnames(model.matrix(formula,data=data)[,-1])
     yname <- toString(formula[[2]])
     
     #Get fold
@@ -62,4 +76,5 @@ plsda.cross_validation <- function(formula, data, ncomp, nfolds = 5){
   return(res)
 }
 
-plsda.cross_validation(Species~.,iris,2)
+plsda.cross_validation(Species~.,data=iris,2)
+

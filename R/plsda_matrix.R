@@ -4,11 +4,15 @@
 #' @param predict predicted values (values returned with predict function)
 #'
 #' @return 
-#' Confusion matrix,
-#' Report with precision, recall and f1-score for each class
-#' global f1 score 
-#' 
+#' \code{Confusion_matrix} Confusion matrix
+#' \cr
+#' \code{report} Report with precision, recall and f1-score for each class
+#' \cr
+#' \code{f1_score} global f1 score 
+#' \cr
 #' @export
+#' @examples
+#' res=plsda_Classification_report(ytrain,ypred)
 
 plsda_Classification_report <- function(observed,predict){
   
