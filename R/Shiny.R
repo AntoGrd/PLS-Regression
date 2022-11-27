@@ -1,3 +1,4 @@
+shiny <- function(res){
 library(shiny)
 library(plotly)
 
@@ -45,3 +46,5 @@ server <- function(input, output, session){
 }
 
 shinyApp(ui, server)
+}
+shiny(res)
