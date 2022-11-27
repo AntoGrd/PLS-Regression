@@ -15,6 +15,7 @@ ui <- fluidPage(
               plotOutput("plot1", click = "plot_click"),
               verbatimTextOutput("info")
               ),
+      paste("Variables à choisir pour le nuage de points"),
       selectInput("var1","Choix 1 ", choices = colnames(res$X)),
       selectInput("var2","Choix 2 ", choices = colnames(res$X)),
     ),
