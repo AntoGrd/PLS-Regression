@@ -13,12 +13,13 @@ The PLS (Partial Least Square) Regression is a machine learning method which was
 * Overcharge functions : 
   - Fit function 
   - Predict function
-* Variables choice
+* Variables selection
 * Plots
   - Components choice  
   - Individual plot 
   - Principal Components Analysis
- 
+* R Shiny Application 
+
 ### Installation of our package 
 
 ### The fit function 
@@ -95,7 +96,12 @@ If you print the function result (```print(report)```), you can see the followin
 ![image](https://user-images.githubusercontent.com/83652394/204151881-5e6973f6-e05d-4c66-b0d7-c87a16a2706e.png)
 
 You can access directly to the fscore metric by writing ```report$f1_score```
+
 ### Overcharge functions
+
+We created two functions to have a better readibily of results in our fit and predict function. 
+
+First of all, there is the print function.
 
 #### The print function
 
@@ -122,6 +128,40 @@ Here are the result :
 We create an other function to see the result : the summary function 
 
 #### The summary function
+
+We created this function in the following way : 
+
+```sh
+plsda.summary=function(PLS,Xtest,ytest)
+```
+PLS is a PLS type model we fitted with the fit function. 
+
+Xtest is a dataset test which contains explanatory variables. 
+
+ytest is a dataset test which contains the target variable. 
+
+Here's how you can test the function4
+
+```sh
+Xtest=iris[25:50,1:4]
+ytest=iris[25:50,5]
+summary=plsda.summary(model,Xtest,ytest)
+```
+
+And here's the result : 
+
+![image](https://user-images.githubusercontent.com/83652394/204152877-f3524c37-441f-4034-8a60-31f6be14047a.png)
+
+As you can see, we decided to put the coefficients of the model and the elements of the classification report. 
+
+You can access to classification raport by typing ```summary$classification_report```.
+
+Now, let's give a look at the variables selection. 
+
+### Variables selection 
+
+We created a fuction which has a objective to implement a variables selection. 
+
 
 
 
