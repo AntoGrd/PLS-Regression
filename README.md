@@ -162,9 +162,84 @@ Now, let's give a look at the variables selection.
 
 We created a fuction which has a objective to implement a variables selection. 
 
+You can see below the name of the function (VIP for Variable Importance in Projection) ans its parameters
+```sh
+plsda.vip<-function(PLS,threshold=0.8)
+```
+The parameter PLS is our model that we fitted with the fit function. 
 
+Threshehold is the criterion which is going to serve to select variables with the most importance in our model. By defalut, this parameter is fixed at 0.8.
 
+You can see below how to use this function. 
 
+```sh
+vip=plsda.vip(model)
+```
+If you execute this function you will have the following result : 
+
+![image](https://user-images.githubusercontent.com/83652394/204156102-7d230637-a828-4218-899d-d001259e5107.png)
+
+If you want to retreive the new dataset with kept varibles, type ```newdf=vip$newX```
+
+You will have the dataset with the most importants variables. 
+
+### Plots 
+
+Then, we decided to make some plots to have a visual application. All of those graphs were made with the library plotly. 
+
+First of all, here is the plot for the component choice. 
+
+#### Component choice
+
+Our application proposes a choice of component functionnality. 
+
+In the fit function, we can choose the number of components for which we can fit the model. 
+
+This is our function ```plsda_scree_plot```
+
+This is how it is built 
+
+```sh
+plsda_scree_plot=function(acp)
+```
+
+The parameter acp is, as usual, a result of the function fit (model in the case of our tutorial). 
+
+Let's execute this function. 
+
+```sh
+plsda_scree_plot(model)
+```
+
+The following graph appears : 
+
+![image](https://user-images.githubusercontent.com/83652394/204156960-9effecba-a42e-4a22-bfe7-a60af6cbe447.png)
+
+The component in red is the component we must keep. For exemple, in our case, only the first component is useful. 
+
+#### Individual plot 
+
+We created a plot which has as main objective to show the repartition of the target variable depending of two explanaotory variables (which are quantitative). 
+
+```sh
+explanatory_variables=function(var1,var2, color)
+```
+Var1 is an explanatory variable.
+
+Var2 is an other explanatory variable.
+
+Color is the color of the points of our scatter plot. 
+
+For example, you can see below how to use this function. 
+
+```sh
+explanatory_variables(var1 = iris$Sepal.Length,var2=iris$Sepal.Width,color=iris$Species)
+```
+The code ```color=iris$Species``` means that the color depends of the modality of Species, in our case the target variable. 
+
+We can see this graph appearing. 
+
+![image](https://user-images.githubusercontent.com/83652394/204157743-50b8ad9c-7d06-4021-b928-f5dd4b4e9eb0.png)
 
 
 
