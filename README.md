@@ -215,7 +215,7 @@ The following graph appears :
 
 ![image](https://user-images.githubusercontent.com/83652394/204156960-9effecba-a42e-4a22-bfe7-a60af6cbe447.png)
 
-The component in red is the component we must keep. For exemple, in our case, only the first component is useful. 
+The component in red is the component we must keep. For exemple, in our case, only the first component is useful. This parameter can be used a posteriori in the function fit.
 
 #### Individual plot 
 
@@ -241,6 +241,26 @@ We can see this graph appearing.
 
 ![image](https://user-images.githubusercontent.com/83652394/204157743-50b8ad9c-7d06-4021-b928-f5dd4b4e9eb0.png)
 
+#### The Principal Composent Analysis 
 
+As the dataset of explanatory variables is made of quantitatives variables, we can make a Principal Composent Analysis (PCA) to see the correlation between them. 
 
+```sh
+circle.plot <- function(acp)
+```
 
+Our parameter ACP is a model fitted. 
+
+To launch our function, you have to type the following code
+
+```sh
+circle.plot(model)
+```
+
+This graph appears. 
+
+![image](https://user-images.githubusercontent.com/83652394/204158373-405f3d86-c1d9-488a-81b0-f4809529ca86.png)
+
+PS : You must follow the order of execution presented in this tutorial to have a functionnal application. First of all, execute the function fit, then the predict one. You can then execute the classification report, later the cross validation and finally you can appreciate all the graphs. 
+
+### R Shiny Application 
