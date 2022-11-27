@@ -13,6 +13,7 @@ The PLS (Partial Least Square) Regression is a machine learning method which was
 * Overcharge functions : 
   - Fit function 
   - Predict function
+* Variables choice
 * Plots
   - Components choice  
   - Individual plot 
@@ -42,6 +43,19 @@ Then, if you print you result, you can see the differents results of our fonctio
 
 ![image](https://user-images.githubusercontent.com/83652394/204126978-fdab5a96-8504-4e48-a3e4-498c5bc1eba7.png)
 
+### The predict function
+
+With our package you can predict the class of new indivudals. 
+
+Here is the signature of our predict function.
+
+```sh
+plsda.predict=function(PLSDA,newdata,type="class")
+```
+PLSDA is a model we fitted with the function plsda.fit, that's why you must laucnh the fit function before test the predict. 
+newdata is a new dataset for which we want to predict class.
+type is what we want to return. If you want to return the class, you must write type="class" (this is the parameter by default). 
+If you want to have the probability of belonging of each class, write type="posterior".
 ### Overcharge functions
 
 #### The print function
