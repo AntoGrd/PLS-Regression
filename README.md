@@ -8,16 +8,71 @@ The PLS (Partial Least Square) Regression is a machine learning method which was
 
 * Installation of our package 
 * The fit function 
-  - Print overcharge 
-  - Summary overcharge
 * The predict function
+* The Classification Report function
+* Overcharge functions : 
+  - Fit function 
+  - Predict function
 * Plots
   - Components choice  
   - Individual plot 
   - Principal Components Analysis
  
-#### Installation of our package 
+### Installation of our package 
 
 ### The fit function 
 
-First of all, you can launch the fit fonction 
+Our fit fonction is made as you can see below
+
+```sh
+plsda.fit=function(formula,data,ncomp)
+```
+This function have differents parameters :
+  - formula : Formula an object of class formula" (or one that can be coerced to that class): a symbolic description of the model to be fitted.
+  - data : Dataframe containing the variables in the model
+  - ncomp : Number of components extracted in NIPALS algorithm. 
+
+You can launch the fit fonction and affect it to a variable 
+
+```sh
+model=plsda.fit(fomula = Species~.,data=iris,ncomp=2)
+```
+
+Then, if you print you result, you can see the differents results of our fonction as you can see below
+
+![image](https://user-images.githubusercontent.com/83652394/204126978-fdab5a96-8504-4e48-a3e4-498c5bc1eba7.png)
+
+### Overcharge functions
+
+#### The print function
+
+This function aims to show to the user the classement coefficient and the intercept of the PLS model
+
+Here is the signature of our print function 
+
+```sh
+plsda.print=function(PLS)
+```
+There is one argument for this function : the model we fit in the 'plsda.fit' function
+
+You can lauch this fonction as you can see below : 
+
+```sh
+plsda.print(model)
+```
+where model is the result of the 'plsda.fit' function
+
+Here are the result : 
+
+![image](https://user-images.githubusercontent.com/83652394/204127883-e2df6fac-4e86-46dc-aaf6-f57493c0695b.png)
+
+We create an other function to see the result : the summary function 
+
+#### The summary function
+
+
+
+
+
+
+
