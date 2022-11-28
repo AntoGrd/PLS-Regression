@@ -1,34 +1,62 @@
 shiny <- function(res){
-library(shiny)
-library(plotly)
 
 ui <- fluidPage(
-  sidebarLayout(
-    sidebarPanel(
-      tabPanel("Importation fichier",
-              fileInput("file",
-                         label="fichier à importer",
-                        accept = c("text/csv",
-                                    "text/comma-separated-values,text/plain",
-                                    ".csv")
-               ),
-              plotOutput("plot1", click = "plot_click"),
-              verbatimTextOutput("info")
-              ),
-      paste("Variables à choisir pour le nuage de points"),
-      selectInput("var1","Choix 1 ", choices = colnames(res$X)),
-      selectInput("var2","Choix 2 ", choices = colnames(res$X)),
-    ),
-    mainPanel(
-     tabsetPanel(
-       tabPanel('Selection des variables',plotlyOutput("scree_plot")),
-        tabPanel('Corrélation',plotlyOutput("corr_plot")),
-        tabPanel('Individus',plotlyOutput("indiv_plot")),
-        tabPanel('Nuage de points ',plotlyOutput("scartter_plot"))
+  useShinyjs(),
+  navbarPage(
+    "Partial Least Square Regression : ",
+      sidebarLayout(
+        sidebarPanel(
+          tabPanel("Importation fichier",
+                   fileInput("file",
+                             label="Choix du data set",
+                             accept = c("text/csv",
+                                        "text/comma-separated-values,text/plain",
+                                        ".csv")
+                             ),
+                   checkboxInput("header", "Header", TRUE),
+                   radioButtons("inSep", "Separator",
+                                choices = c(Comma = ",",
+                                            Semicolon = ";",
+                                            Tab = "\t"),
+                                selected = ","),
+                   radioButtons("disp", "Display",
+                                choices = c(Head = "head",
+                                            "100" = "100",
+                                            All = "all"),
+                                selected = "head"),
+                   fluidRow(
+                     column(3,
+                            actionButton(
+                              inputId = "submitFile",
+                              label = "Show file",
+                              ),
+                            ),
+                     plotOutput("plot1", click = "plot_click"),
+                     verbatimTextOutput("info"),
+                     ),
+                   ),
+          ),
+        mainPanel(
+          tabsetPanel(
+            tabPanel('Selection des variables',plotlyOutput("scree_plot")),
+            tabPanel('Corrélation',plotlyOutput("corr_plot")),
+            tabPanel('Individus',plotlyOutput("indiv_plot")),
+            tabPanel('Nuage de points ',
+                     selectInput("X_Variables", 
+                                 label = "Variable X", 
+                                 choices = c(),
+                                 selected = 1),
+                     selectInput("Y_Variables",
+                                 label = "Variable Y",
+                                 choices = c(), 
+                                 selected = 2),
+                     plotlyOutput("scartter_plot"))
+          )
+        )
       )
-    )
   )
 )
+
 
 server <- function(input, output, session){
   output$scree_plot <- renderPlotly({
@@ -41,9 +69,8 @@ server <- function(input, output, session){
     plsda_plot_indiv(res)
   })
   output$scartter_plot <- renderPlotly({
-    explanatory_variables(var=res$X[,input$var1],var2=res$X[,input$var2],color=res$Y)
+    explanatory_variables(var=res$X[,input$Xvar],var2=res$X[,input$Yvar],color=res$Y)
   })
-  
 }
 
 shinyApp(ui, server)
