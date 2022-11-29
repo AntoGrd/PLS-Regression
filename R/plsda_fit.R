@@ -58,11 +58,8 @@ plsda.fit <- function(formula, data, ncomp){
   }
   
   # Recuperation of X and Y 
-  
-  yname <- toString(formula[[2]])
-  Y=data[,yname]
-  idy=which(colnames(data)==yname)
-  X=data[,-idy]
+  X = model.matrix(formula,data=data)[,-1]
+  Y = model.response(model.frame(formula,data=data))
   
   #One hot encoding y
   ## Vérification que la variables cible soit bien un "factor" ou un "character"
@@ -164,11 +161,4 @@ plsda.fit <- function(formula, data, ncomp){
   return(instance)
   
 }
-
-#res=plsda.fit(Species~.,iris,2) 
-#res
-#resvip=plsda.vip(res)
-#resvip
-#ypred=plsda.predict(res,iris[1:4])
-#ypred
 
