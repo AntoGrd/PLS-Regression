@@ -49,9 +49,10 @@ plsda.cross_validation <- function(formula, data, ncomp, nfolds = 5){
   FscoreVectorglobal <- c()
   models <- list()
   for(j in 1:nfolds){
-    #Get the cols of X
-    Xnames <- colnames(model.matrix(formula,data=data)[,-1])
+    #Get the cols of X and Y
     yname <- toString(formula[[2]])
+    idy=which(colnames(data)==yname)
+    Xnames=colnames(data[,-idy])
     
     #Get fold
     ind <- fold[[j]]
@@ -76,5 +77,12 @@ plsda.cross_validation <- function(formula, data, ncomp, nfolds = 5){
   return(res)
 }
 
-plsda.cross_validation(Species~.,data=iris,2)
+plsda.cross_validation(formula=Species~.,data=iris,ncomp=2)
 
+install.packages("dplyr")
+library(dplyr)
+data(iris)
+yname="Species"
+print(iris[,colnames(data)=="Species")
+temp=which(colnames(iris)==yname)
+colnames(iris[,-temp])      

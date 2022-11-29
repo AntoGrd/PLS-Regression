@@ -57,9 +57,12 @@ plsda.fit <- function(formula, data, ncomp){
     stop("ncomp is not an integer")
   }
   
-  # Récupération du X et du Y 
-  X = model.matrix(formula,data=data)[,-1]
-  Y = model.response(model.frame(formula, data = data))
+  # Recuperation of X and Y 
+  
+  yname <- toString(formula[[2]])
+  Y=data[,yname]
+  idy=which(colnames(data)==yname)
+  X=data[,-idy]
   
   #One hot encoding y
   ## VÃ©rification que la variables cible soit bien un "factor" ou un "character"
