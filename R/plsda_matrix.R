@@ -16,6 +16,18 @@
 
 plsda_Classification_report <- function(observed,predict){
   
+  # Transform observed in vector is this is not the case
+  
+  if (is.vector(observed==F)){
+    observed=as.vector(observed)
+  }
+  
+  # Transform predict in vector is this is not the case
+  
+  if (is.vector(predict()==F)){
+    observed=as.vector(predict)
+  }
+  
   df=data.frame(observed,predict)
 
   table=table(df[,1],df[,2]) 
@@ -35,5 +47,6 @@ plsda_Classification_report <- function(observed,predict){
               report = MC,
               f1_score=f1_score))
 }
+
 
 
