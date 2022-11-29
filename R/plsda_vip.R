@@ -3,7 +3,7 @@
 #' @param 
 #' A PLSDA type model
 #' @param threshold 
-#' criterion of variable selection 0.8 by default)
+#' criterion of variable selection 0.8 by default
 #' @return
 #' \code{newX} New dataset with variable selection
 #' \cr
@@ -16,7 +16,7 @@
 #' res=plsda.vip=(objPLDS,threshold=1)
 plsda.vip<-function(PLS,threshold=0.8){
   
-  # R√©cup√©ration des valeurs nÈcÈssaires ‡ l'algorithme 
+  # Get variables
 
   q=PLS$Y_loadings
   t=PLS$X_scores
@@ -36,20 +36,22 @@ plsda.vip<-function(PLS,threshold=0.8){
   weigth=(w/sqrt(colSums(w^2)))^2
   vip = sqrt(p*(ssy*weigth)/tot_ssy)
   
-  #d√©termination des variables importantes
+  # Determination of importants variables
   variable_importante=rownames(vip)[which(vip[,ncomp]>threshold)]
   
   
-  # Si une seule variable importante, on s√©lectionne les 2 variables avec le plus haut VIP
+  # If only 1 variable is simportant, we select the 2 most importants variables
   if (length(variable_importante)<2){
     vip_sorted = vip[order(-vip[,ncomp]),]
-    variable_importante=rownames(vip_sorted)[1:2]
+    variable_important=rownames(vip_sorted)[1:2]
   }
-  # Cr√©ation d'un nouveau dataset avec uniquement les variables importantes
-  newX = X[,variable_importante]
+  # New dataset with important variables only
+  newX = X[,variable_important]
   
   newX=data.frame(newX,y)
-  return(VIP = list(newX,
-                    vip))
+  return(VIP = list("newX"=newX,
+                    "vip"=vip))
 }
 
+vip=plsda.vip(res)
+vip$newX
