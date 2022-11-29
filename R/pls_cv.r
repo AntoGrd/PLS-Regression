@@ -50,9 +50,8 @@ plsda.cross_validation <- function(formula, data, ncomp, nfolds = 5){
   models <- list()
   for(j in 1:nfolds){
     #Get the cols of X and Y
-    yname <- toString(formula[[2]])
-    idy=which(colnames(data)==yname)
-    Xnames=colnames(data[,-idy])
+       Xnames <- colnames(model.matrix(Species~.,data=iris)[,-1])
+       yname <- toString(formula[[2]])
     
     #Get fold
     ind <- fold[[j]]
