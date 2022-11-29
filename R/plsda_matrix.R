@@ -24,7 +24,7 @@ plsda_Classification_report <- function(observed,predict){
   
   # Transform predict in vector is this is not the case
   
-  if (is.vector(predict()==F)){
+  if (is.vector(predict==F)){
     observed=as.vector(predict)
   }
   
