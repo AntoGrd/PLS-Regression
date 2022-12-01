@@ -29,6 +29,7 @@ ui <- dashboardPage(
                 ),
                 menuItem("Fit", tabName = "fit"),
                 menuItem("Predict", tabName = "predict"),
+                menuItem("VIP", tabName = "vip"),
                 menuItem("Dashboard", tabName = "dashboard")
       )
     ),
@@ -37,6 +38,18 @@ ui <- dashboardPage(
       tabItem(
         "import",
         tableOutput("contents")
+      ),
+      tabItem(
+        "fit",
+        verbatimTextOutput("fitplsda")
+      ),
+      tabItem(
+        "predict",
+        verbatimTextOutput("predplsda")
+      ),
+      tabItem(
+        "vip",
+        verbatimTextOutput("vipplsda")
       ),
       tabItem(
         "dashboard",
@@ -89,6 +102,15 @@ server <- function(input, output, session) {
   })
   output$scartter_plot <- renderPlotly({
     explanatory_variables(var=res$X[,input$var1],var2=res$X[,input$var2],color=res$Y)
+  })
+  output$fitplsda <- renderPrint({
+    plsda.fit(Species~.,iris,2) 
+  })
+  output$predplsda <- renderPrint({
+    plsda.predict(Species~.,iris,2) 
+  })
+  output$vipplsda <- renderPrint({
+    plsda.vip(res)
   })
   
 }
