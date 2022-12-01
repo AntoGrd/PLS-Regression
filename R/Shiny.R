@@ -1,64 +1,83 @@
-shiny <- function(res){
+data(mtcars)
+library(shiny)
+library(shinydashboard)
+library(dplyr)
+library(shinyjs)
 
-ui <- fluidPage(
-  useShinyjs(),
-  navbarPage(
-    "Partial Least Square Regression : ",
-      sidebarLayout(
-        sidebarPanel(
-          tabPanel("Importation fichier",
-                   fileInput("file",
-                             label="Choix du data set",
-                             accept = c("text/csv",
-                                        "text/comma-separated-values,text/plain",
-                                        ".csv")
-                             ),
-                   checkboxInput("Entete", "Entête", TRUE),
-                   radioButtons("Sep", "Separateur",
-                                choices = c(Comma = ",",
-                                            Semicolon = ";",
-                                            Tab = "\t"),
-                                selected = ","),
-                   radioButtons("Aff", "Affichage",
-                                choices = c(Head = "Entête",
-                                            "100" = "100",
-                                            All = "Tout"),
-                                selected = "head"),
-                   fluidRow(
-                     column(1,
-                            actionButton(
-                              inputId = "voirdonnees",
-                              label = "Voir les données",
-                              ),
-                            ),
-                     plotOutput("plot1", click = "plot_click"),
-                     verbatimTextOutput("info"),
-                     ),
-                   ),
-          ),
-        mainPanel(
-          tabsetPanel(
-            tabPanel('Selection des variables',plotlyOutput("scree_plot")),
-            tabPanel('Corrélation',plotlyOutput("corr_plot")),
-            tabPanel('Individus',plotlyOutput("indiv_plot")),
-            tabPanel('Nuage de points ',
-                     selectInput("X_Variables", 
-                                 label = "Variable X", 
-                                 choices = c(),
-                                 selected = 1),
-                     selectInput("Y_Variables",
-                                 label = "Variable Y",
-                                 choices = c(), 
-                                 selected = 2),
-                     plotlyOutput("scartter_plot"))
-          )
+
+ui <- dashboardPage(
+  
+  dashboardHeader(title = "PLS Regression"),
+  
+  dashboardSidebar(
+    sidebarMenu(id = "menu",
+                menuItem("Import Menu", tabName = "import",
+                         fileInput("file1", "Choose CSV File",
+                                   multiple = FALSE,
+                                   accept = c(".csv")),
+                         checkboxInput("cbHeader", "Header", TRUE),
+                         radioButtons("rbSeparator", "Separator",
+                                      choices = c("Comma" = ",",
+                                                  "Semicolon" = ";",
+                                                  "Tab" = "\t"),
+                                      selected = ','),
+                         radioButtons("rbDisplay", "Display",
+                                      choices = c("head" = "head",
+                                                  "All" = "all"),
+                                      selected = "head"),
+                         actionButton("submitFile", "Submit file")
+                ),
+                menuItem("Fit", tabName = "fit"),
+                menuItem("Predict", tabName = "predict"),
+                menuItem("Dashboard", tabName = "dashboard")
+      )
+    ),
+  dashboardBody(
+    tabItems(
+      tabItem(
+        "import",
+        tableOutput("contents")
+      ),
+      tabItem(
+        "dashboard",
+        box(
+          plotlyOutput("scree_plot")
+        ),
+        box(
+          plotlyOutput("corr_plot")
+        ),
+        box(
+          plotlyOutput("indiv_plot")
+        ),
+        box(
+          width = 4,
+          selectInput("ville", "Var 1", 
+                      choices = c("Toutes les villes", unique(txhousing$city))),
+          selectInput("ville", "Var 2", 
+                      choices = c("Toutes les villes", unique(txhousing$city))),
+          plotlyOutput("scartter_plot")
         )
       )
-  )
+    )
+  ),
+  title = "Titre dans le navigateur",
+  skin = "red"
 )
 
 
-server <- function(input, output, session){
+
+server <- function(input, output, session) {
+  
+  observeEvent(input$submitFile, {
+    inFile <- input$file1
+    
+    if (is.null(inFile))
+      return(NULL)
+    tableout <- read.csv(inFile$datapath, header = input$cbHeader, sep = input$rbSeparator)
+  })
+  output$contents <- renderTable({
+    (tableout)
+  })
   output$scree_plot <- renderPlotly({
     plsda_scree_plot(res)
   })
@@ -69,10 +88,9 @@ server <- function(input, output, session){
     plsda_plot_indiv(res)
   })
   output$scartter_plot <- renderPlotly({
-    explanatory_variables(var=res$X[,input$Xvar],var2=res$X[,input$Yvar],color=res$Y)
+    explanatory_variables(var=res$X[,input$var1],var2=res$X[,input$var2],color=res$Y)
   })
+  
 }
 
 shinyApp(ui, server)
-}
-shiny(res)
