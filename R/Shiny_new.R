@@ -54,8 +54,11 @@ ui <- fluidPage(
       tabPanel("Fit",
                sidebarLayout(
                  sidebarPanel(
-                   
+                   numericInput("ncTrain","Choose percentage of value in train Data Set",value="66",min="1",max="99"),
+                   actionButton("abSep","Do train test split"),
+                   tags$hr(),
                    numericInput("ncFit","Choose the numbers of composants",value="2",min="1"),
+
                    uiOutput("xvar"),
                    uiOutput("yvar"),
                    selectInput(inputId = "inpFit", "Results of fit",
@@ -126,23 +129,24 @@ output$yvar=renderUI({
               label = "Select your Y variable",
               choices = choiceY,
               multiple=FALSE)
+
 })
 
-ncomp=reactive({
-  input$ncFit
+newData=eventReactive(input$abSep,{
+  print(input$ncTrain)
+  df=pls.train_test_split(data(),input$ncTrain)
+  print(df$Train)
+  return(df)
 })
-
-
-
-
 
 resFit=eventReactive(input$abFit,{
-  print(input$varx)
+  print(input$xvar)
   if(input$varx==NULL){
     res=plsda.fit(input$vary~.,data(),input$ncFit)
   }else{
     res=plsda.fit(input$vary~input$varx,data(),input$ncFit)
   }
+  print(res)
   return(res$calc$coef)
   print(res$calc$coef)
 })

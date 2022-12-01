@@ -28,7 +28,7 @@ pls.train_test_split<-function(data,prop=0.66){
   # RÃ©sultat sous forme de liste 
   
   res<-list("Train"=data[i_sample,],
-            "Test"=data[-i_sample,],
+            "Test"=data[-i_sample,]
   )
   
   return(res)
