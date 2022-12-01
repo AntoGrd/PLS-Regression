@@ -6,27 +6,11 @@ library(shinyjs)
 
 
 ui <- dashboardPage(
-  
   dashboardHeader(title = "PLS Regression"),
-  
   dashboardSidebar(
     sidebarMenu(id = "menu",
-                menuItem("Import Menu", tabName = "import",
-                         fileInput("file1", "Choose CSV File",
-                                   multiple = FALSE,
-                                   accept = c(".csv")),
-                         checkboxInput("cbHeader", "Header", TRUE),
-                         radioButtons("rbSeparator", "Separator",
-                                      choices = c("Comma" = ",",
-                                                  "Semicolon" = ";",
-                                                  "Tab" = "\t"),
-                                      selected = ','),
-                         radioButtons("rbDisplay", "Display",
-                                      choices = c("head" = "head",
-                                                  "All" = "all"),
-                                      selected = "head"),
-                         actionButton("submitFile", "Submit file")
-                ),
+                menuItem("Import Menu", tabName = "import"),
+                         
                 menuItem("Fit", tabName = "fit"),
                 menuItem("Predict", tabName = "predict"),
                 menuItem("VIP", tabName = "vip"),
@@ -37,7 +21,26 @@ ui <- dashboardPage(
     tabItems(
       tabItem(
         "import",
-        tableOutput("contents")
+        box(
+        fileInput("file1", "Choose CSV File",
+                  multiple = FALSE,
+                  accept = c("text/csv",
+                             "text/comma-separated-values,text/plain",
+                             ".csv")),
+        tags$hr(),
+        checkboxInput("Header", "Header", TRUE),
+        radioButtons("Separator", "Separator",
+                     choices = c("Comma" = ",",
+                                 "Semicolon" = ";",
+                                 "Tab" = "\t"),
+                     selected = ','),
+        radioButtons("disp", "Display",
+                     choices = c(Head = "head",
+                                 All = "all"),
+                     selected = "head"),
+        actionButton("submitFile", "Submit file")
+        ),
+          tableOutput("contents")
       ),
       tabItem(
         "fit",
@@ -80,16 +83,17 @@ ui <- dashboardPage(
 
 
 server <- function(input, output, session) {
-  
-  observeEvent(input$submitFile, {
-    inFile <- input$file1
-    
-    if (is.null(inFile))
-      return(NULL)
-    tableout <- read.csv(inFile$datapath, header = input$cbHeader, sep = input$rbSeparator)
-  })
   output$contents <- renderTable({
-    (tableout)
+   req(input$file1)
+    df = read.csv(input$file1$datapath,
+                   header = input$Header,
+                   sep = input$Separator)
+    if(input$Header == "head") {
+      return(head(df))
+    }
+    else {
+      return(df)
+    }
   })
   output$scree_plot <- renderPlotly({
     plsda_scree_plot(res)
@@ -104,7 +108,7 @@ server <- function(input, output, session) {
     explanatory_variables(var=res$X[,input$var1],var2=res$X[,input$var2],color=res$Y)
   })
   output$fitplsda <- renderPrint({
-    plsda.fit(Species~.,iris,2) 
+    plsda.fit(Species~.,df,2) 
   })
   output$predplsda <- renderPrint({
     plsda.predict(Species~.,iris,2) 
