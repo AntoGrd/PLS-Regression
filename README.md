@@ -261,6 +261,13 @@ This graph appears.
 
 ![image](https://user-images.githubusercontent.com/83652394/204158373-405f3d86-c1d9-488a-81b0-f4809529ca86.png)
 
-PS : You must follow the order of execution presented in this tutorial to have a functionnal application. First of all, execute the function fit, then the predict one. You can then execute the classification report, later the cross validation and finally you can appreciate all the graphs. 
+PS : You must follow the order of execution presented in this tutorial to have a functionnal application. First of all, execute the function fit, then the predict one. You can then execute the classification report, later the cross validation and finally you can appreciate all the graphs.
+
+Then and finally, we will present you our R Shiny Application
 
 ### R Shiny Application 
+
+First of all, the first element of our page is a window on which we can import data we want. 
+
+#### Import the data 
+

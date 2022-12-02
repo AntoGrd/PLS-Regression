@@ -1,12 +1,23 @@
-### Cette fonction permet de sÃ©parer le jeu de donnÃ©es en 4 parties : 
-
-# - Train : Jeu de données d'entrainement
-# - Test : Jeu de données test
-
-## ParamÃ¨tres de la fonction : 
-
-# data = Jeu de donnÃ©es Ã  Ã©chantillonner
-# prop = proportion de l'Ã©chantillon d'apprentissage
+#' Make a train and a test sample. 
+#' 
+#' @description 
+#' 'This function makes a train and test samples based on a proportion chosen by the user
+#' 
+#' @param data
+#' dataset chosen by the user
+#' 
+#' @param prop 
+#' Proportion of the whole dataset which is going to be in the train split. 
+#' For exemple, if the user write prop=66, it means that an amount of 66% of the dataset will be for the train data. 
+#' prop=66 is the parameter by default
+#'
+#' @return Train and test data
+#' 
+#' @export
+#'
+#' @examples
+#' train_test=pls.train_test_split(iris)
+#' train_test=pls.train_test_split(iris,prop=70)
 
 pls.train_test_split<-function(data,prop=66){
   
