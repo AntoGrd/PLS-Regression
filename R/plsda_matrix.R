@@ -22,31 +22,38 @@ plsda_Classification_report <- function(observed,predict){
     observed=as.vector(observed)
   }
   
-  # Transform predict in vector is this is not the case
-  
-  if (is.vector(predict==F)){
-    observed=as.vector(predict)
-  }
-  
   df=data.frame(observed,predict)
-
-  table=table(df[,1],df[,2]) 
-  n=nrow(table)
-  w = rowSums(table)/length(df[,1]) #weight for each values 
+  restable=table(df[,1],df[,2]) 
+  n=nrow(restable)
+  w = rowSums(restable)/length(df[,1]) #weight for each values 
   MC = matrix(nrow=n, ncol=3)
   colnames(MC)=c("precision","recall","f1-score")
-  rownames(MC)=rownames(table)
+  rownames(MC)=rownames(restable)
   for(i in 1:n){
-    MC[i,1]=table[i,i]/sum(table[,i]) #precision
-    MC[i,2]=table[i,i]/sum(table[i,]) #recall
+    MC[i,1]=restable[i,i]/sum(restable[,i]) #precision
+    MC[i,2]=restable[i,i]/sum(restable[i,]) #recall
     MC[i,3]=2*MC[i,1]*MC[i,2]/(MC[i,1]+MC[i,2]) #f1-score
   }
   f1_score = sum(MC[,3]*w) #global f1 score
   
-  return(list(Confusion_matrix = table,
+  return(list(Confusion_matrix = restable,
               report = MC,
               f1_score=f1_score))
 }
+
+tt=pls.train_test_split(iris)
+tt$Train
+
+res=plsda.fit(Species~.,tt$Train,3)
+res
+pred=plsda.predict(res,tt$Test[,1:4])
+
+mat=plsda_Classification_report(tt$Test[5],pred)
+mat$Confusion_matrix
+mat$report
+
+df=data.frame(tt$Test[5],pred)
+table(df[,1],df[,2])
 
 
 

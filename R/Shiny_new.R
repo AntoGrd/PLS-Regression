@@ -2,6 +2,9 @@ library(shiny)
 library(reactable)
 library(readxl)
 library(stringr)
+library(shinyWidgets)
+library(DT)
+
 ui <- fluidPage(
   
   navbarPage("PLS Regression",id="nvPage",
@@ -61,26 +64,35 @@ ui <- fluidPage(
 
                    uiOutput("xvar"),
                    uiOutput("yvar"),
-                   selectInput(inputId = "inpFit", "Results of fit",
-                               choices = c(Coefficients = "coef",
-                                           weights = "weights",
-                                           Xscores ="X_scores",
-                                           Yscores ="Y_scores",
-                                           Xloadings = "X_loadings",
-                                           Yloadings ="Y_loadings"),
-                               selected="Coefficients"),
                    actionButton("abFit","Fit the Data")
                ),
-                 mainPanel(reactableOutput("showFit"))
+                 mainPanel(tabsetPanel(
+                   tabPanel(verbatimTextOutput("ptrain"),width=12),
+                   tabPanel(verbatimTextOutput("ptest"),width=12),
+                   tabPanel(dataTableOutput("showFit"))
+                 )
+                   )
                )
                ),
       
+      tabPanel("Predict",
+               sidebarLayout(
+                 sidebarPanel(actionButton("abPred","Do the prediction"),
+                              selectInput(inputId = "inpPred", "Results of fit",
+                                          choices = c(CorrelationMatrix = "table",
+                                                      ClassificationReports = "MC",
+                                                      f1_score ="f1_score"),
+                                          selected="Coefficients")),
+                 mainPanel(tabsetPanel(
+                   tabPanel(dataTableOutput("showPred")),
+                   )
+                 )
+                 )
+               ),
       
-      tabPanel("Predict"),
       tabPanel("Dashboard")
   )    
 )
-
 
 # Define server logic to read selected file ----
 server <- function(input, output) {
@@ -111,9 +123,9 @@ server <- function(input, output) {
     }
   })
 
-  output$contents=renderDataTable({
-    head(data(),50)},options=list(scrollX = TRUE, dom='t')
-    )
+output$contents=renderDataTable({
+  head(data(),50)},options=list(scrollX = TRUE, dom='t')
+  )
 ####FIT DATA#### 
 output$xvar=renderUI({
   choiceX=colnames(data())
@@ -133,29 +145,64 @@ output$yvar=renderUI({
 })
 
 newData=eventReactive(input$abSep,{
-  print(input$ncTrain)
   df=pls.train_test_split(data(),input$ncTrain)
-  print(df$Train)
-  return(df)
 })
+#creation train
+train=reactive({
+  train=newData()$Train
+  return(train)
+})
+
+test=reactive({
+  test=newData()$Test
+  return(test)
+})
+
+output$ptrain=renderText({
+  paste("Number of lines in Train set :",dim(train())[1])})
+output$ptest=renderText({
+  paste("Number of lines in Test set :",dim(test())[1])})
 
 resFit=eventReactive(input$abFit,{
-  print(input$xvar)
-  if(input$varx==NULL){
-    res=plsda.fit(input$vary~.,data(),input$ncFit)
+  formul=as.formula(paste(input$vary,"~",".",sep=""))
+  if(is.null(input$varx)){
+    newtrain=train()
   }else{
-    res=plsda.fit(input$vary~input$varx,data(),input$ncFit)
+    newtrain=train()[,c(input$varx,input$vary)]
   }
-  print(res)
-  return(res$calc$coef)
-  print(res$calc$coef)
+  res=plsda.fit(formula=formul,data=newtrain,ncomp=input$ncFit)
+  return(res)
 })
 
-output$showFit=renderReactable({
-  reactable(resFit())
+output$showFit=renderDataTable({
+  resFit()$coef
 }) 
 
+
+####TRAIN DATA####
+resPred=eventReactive(input$abPred,{
+  if(is.null(input$varx)){
+    n=which(colnames(test())==input$vary) #remove selected y from dataframe
+    newtest=test()[,-n]
+  }else{
+    newtest=test()[,input$varx] #keep col of selected x 
+  }
+  respred=plsda.predict(resFit(),newtest)
+  return(respred)
   
+})
+
+
+summary=reactive({
+  sum=plsda_Classification_report(test()[,input$vary],resPred())
+  print(sum$report)
+  return(sum$report)
+})
+
+output$showPred=renderDataTable({
+  #cbind(my_rows = rownames(summary()), summary())
+  summary()
+})
 }
 
 # Create Shiny app ----
