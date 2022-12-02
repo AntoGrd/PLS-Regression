@@ -3,7 +3,6 @@ library(reactable)
 library(readxl)
 library(stringr)
 library(shinyWidgets)
-library(DT)
 
 ui <- fluidPage(
   
@@ -40,11 +39,7 @@ ui <- fluidPage(
                                             "Single Quote" = "'"),
                                 selected = '"',inline=T),
                    tags$hr(),
-                   # display head or all file
-                   radioButtons("rbDisplay", "Display",
-                                choices = c("head" = "head",
-                                            "All" = "all"),
-                                selected = "head",inline=T)
+
                  ),
                  
                  mainPanel(
@@ -69,7 +64,8 @@ ui <- fluidPage(
                  mainPanel(tabsetPanel(
                    tabPanel(verbatimTextOutput("ptrain"),width=12),
                    tabPanel(verbatimTextOutput("ptest"),width=12),
-                   tabPanel(dataTableOutput("showFit"))
+                   tabPanel(verbatimTextOutput("txtcoef"),width=12),
+                   tabPanel(tableOutput("showFit"))
                  )
                    )
                )
@@ -77,22 +73,34 @@ ui <- fluidPage(
       
       tabPanel("Predict",
                sidebarLayout(
-                 sidebarPanel(actionButton("abPred","Do the prediction"),
-                              selectInput(inputId = "inpPred", "Results of fit",
-                                          choices = c(CorrelationMatrix = "table",
-                                                      ClassificationReports = "MC",
-                                                      f1_score ="f1_score"),
-                                          selected="Coefficients")),
+                 sidebarPanel(actionButton("abPred","Do the prediction")),
                  mainPanel(tabsetPanel(
-                   tabPanel(dataTableOutput("showPred")),
+                   tabPanel(tableOutput("showPred")),
+                   tabPanel(verbatimTextOutput("showf"),width=12)
                    )
                  )
                  )
                ),
       
-      tabPanel("Dashboard")
+      tabPanel("Dashboard",
+               sidebarLayout(
+                 sidebarPanel(
+                   uiOutput("var1"),
+                   uiOutput("var2"),
+                   tags$hr()
+                   
+                 ),
+                 mainPanel(tabsetPanel(
+                   tabPanel(plotlyOutput("scatter_plot"))
+                 ))
+               )
+               )
+      
+      
+      
   )    
 )
+
 
 # Define server logic to read selected file ----
 server <- function(input, output) {
@@ -163,6 +171,7 @@ output$ptrain=renderText({
 output$ptest=renderText({
   paste("Number of lines in Test set :",dim(test())[1])})
 
+
 resFit=eventReactive(input$abFit,{
   formul=as.formula(paste(input$vary,"~",".",sep=""))
   if(is.null(input$varx)){
@@ -174,10 +183,9 @@ resFit=eventReactive(input$abFit,{
   return(res)
 })
 
-output$showFit=renderDataTable({
+output$showFit=renderTable({
   resFit()$coef
-}) 
-
+},rownames=TRUE) 
 
 ####TRAIN DATA####
 resPred=eventReactive(input$abPred,{
@@ -195,15 +203,41 @@ resPred=eventReactive(input$abPred,{
 
 summary=reactive({
   sum=plsda_Classification_report(test()[,input$vary],resPred())
-  print(sum$report)
-  return(sum$report)
+  return(sum)
 })
 
-output$showPred=renderDataTable({
-  #cbind(my_rows = rownames(summary()), summary())
-  summary()
+output$showPred=renderTable({
+  summary()$report
+},rownames=TRUE)
+
+output$showf=renderText({
+  paste("Global f1-score :",summary()$f1_score)})
+
+####PLOTS DATA####
+output$var1=renderUI({
+  choiceX=colnames(data())
+  selectInput(inputId = "var1",
+              label = "first variable for scatterplot",
+              choices = choiceX,
+              multiple=FALSE)
 })
+
+output$var2=renderUI({
+  choiceX=colnames(data())
+  selectInput(inputId = "var2",
+              label = "2nd variable for scatterplot",
+              choices = choiceX,
+              multiple=FALSE)
+})
+
+output$scatter_plot <- renderPlotly({
+  #explanatory_variables(var=data()$input$var1,var2=data()$input$var2,color=data()$input$vary)
+  explanatory_variables(var=data()[,input$var1],var2=data()[,input$var2],color=data()[,input$vary])
+})
+
 }
+
+
 
 # Create Shiny app ----
 shinyApp(ui, server)
