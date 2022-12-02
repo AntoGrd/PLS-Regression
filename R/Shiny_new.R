@@ -85,19 +85,20 @@ ui <- fluidPage(
       tabPanel("Dashboard",
                sidebarLayout(
                  sidebarPanel(
+                   h2("Scatter plot"),
                    uiOutput("var1"),
                    uiOutput("var2"),
                    tags$hr()
                    
                  ),
                  mainPanel(tabsetPanel(
-                   tabPanel(plotlyOutput("scatter_plot"))
-                 ))
+                   tabPanel(plotlyOutput("scatter_plot")),
+                   tabPanel(plotlyOutput("scree_plot")),
+                   tabPanel(plotlyOutput("indiv_plot")),
+                   tabPanel(plotlyOutput("circle_plot"))
+                    ))
                )
                )
-      
-      
-      
   )    
 )
 
@@ -233,6 +234,16 @@ output$var2=renderUI({
 output$scatter_plot <- renderPlotly({
   #explanatory_variables(var=data()$input$var1,var2=data()$input$var2,color=data()$input$vary)
   explanatory_variables(var=data()[,input$var1],var2=data()[,input$var2],color=data()[,input$vary])
+})
+
+output$scree_plot <- renderPlotly({
+  plsda_scree_plot(resFit())
+})
+output$indiv_plot <- renderPlotly({
+  plsda_plot_indiv(resFit())
+})
+output$circle_plot <- renderPlotly({
+  circle.plot(resFit())
 })
 
 }

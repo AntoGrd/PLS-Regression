@@ -10,9 +10,10 @@
 #' \cr
 #' \code{f1_score} global f1 score 
 #' \cr
-#' @export
 #' @examples
 #' res=plsda_Classification_report(ytrain,ypred)
+#' @export
+
 
 plsda_Classification_report <- function(observed,predict){
   

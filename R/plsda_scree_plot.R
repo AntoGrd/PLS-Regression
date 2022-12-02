@@ -38,6 +38,3 @@ plsda_scree_plot=function(acp){
       title="Selection of components"
     )
 }
-
-data(iris)
-
