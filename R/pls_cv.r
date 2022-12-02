@@ -75,13 +75,3 @@ plsda.cross_validation <- function(formula, data, ncomp, nfolds = 5){
   res <- list("model" = bestmodel,"fscore" = bestfscore)
   return(res)
 }
-
-plsda.cross_validation(formula=Species~.,data=iris,ncomp=2)
-
-install.packages("dplyr")
-library(dplyr)
-data(iris)
-yname="Species"
-print(iris[,colnames(data)=="Species")
-temp=which(colnames(iris)==yname)
-colnames(iris[,-temp])      

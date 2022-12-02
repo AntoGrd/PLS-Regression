@@ -42,19 +42,4 @@ plsda_Classification_report <- function(observed,predict){
               f1_score=f1_score))
 }
 
-tt=pls.train_test_split(iris)
-tt$Train
-
-res=plsda.fit(Species~.,tt$Train,3)
-res
-pred=plsda.predict(res,tt$Test[,1:4])
-
-mat=plsda_Classification_report(tt$Test[5],pred)
-mat$Confusion_matrix
-mat$report
-
-df=data.frame(tt$Test[5],pred)
-table(df[,1],df[,2])
-
-
 

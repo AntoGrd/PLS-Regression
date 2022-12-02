@@ -52,6 +52,3 @@ plsda.vip<-function(PLS,threshold=0.8){
   return(VIP = list("newX"=newX,
                     "vip"=vip))
 }
-
-vip=plsda.vip(res)
-vip$newX

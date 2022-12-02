@@ -2,17 +2,46 @@
 % Please edit documentation in R/plsda_fit.R
 \name{plsda.fit}
 \alias{plsda.fit}
-\title{Title}
+\title{Fit a PLS DA MODEL}
 \usage{
 plsda.fit(formula, data, ncomp)
 }
 \arguments{
-\item{formula}{}
+\item{formula}{formula an object of class formula" (or one that can be coerced to that class): a symbolic description of the model
+to be fitted.}
 
-\item{data}{}
+\item{data}{dataframe containing the variables in the model.}
 
-\item{ncomp}{}
+\item{ncomp}{Number of components extracted in NIPALS algorithm.}
+}
+\value{
+\code{X} the original dataset containing the predictors.
+\cr
+\code{Y} the original vector of factors that is the variable to predict.
+\cr
+\code{yname} name of the target variable
+\cr
+\code{Y_dummies} binarized modalities of the target variable
+\cr
+\code{weights} weights of each variable on each component
+\cr
+\code{X_loadings} X_loadings of each variable on each component
+\cr
+\code{X_scores} Score of each indiv on each component
+\cr
+\code{Y_scores} Score of the target variable on each component
+\cr
+\code{coef} Classement coefficient of the PLS regression
+\cr
+\code{intercept} Intercept coefficient 
+\cr
+\code{ncomp} Number of component
+\cr
 }
 \description{
-Title
+Using NIPALS algorithm to fit the PLS classification to data, for binary or multinomial target
+}
+\examples{
+fit.t1<-plsda.fit(Species~.,iris,3)
+fit.t2<-plsda.fit(Species~.,iris,2)
 }

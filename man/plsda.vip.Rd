@@ -7,10 +7,20 @@
 plsda.vip(PLS, threshold = 0.8)
 }
 \arguments{
-\item{PLS}{}
+\item{threshold}{criterion of variable selection 0.8 by default}
 
-\item{threshold}{}
+\item{A}{PLSDA type model}
+}
+\value{
+\code{newX} New dataset with variable selection
+\cr
+\code{vip} Selected variable in the model
+\cr
 }
 \description{
 Title
+}
+\examples{
+res=plsda.vip=(objPLDS)
+res=plsda.vip=(objPLDS,threshold=1)
 }

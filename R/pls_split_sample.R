@@ -21,22 +21,22 @@
 
 pls.train_test_split<-function(data,prop=66){
   
-  # VÃ©rification de la valeur de prop saisie par l'utilsiateur 
+  # Checking the eigen value entered by the user
   
   if(prop>100 | prop<0){
-    stop("Proportion non comprise entre 0 et 100")
+    stop("Proportion not between 0 and 100")
   }
   
-  # RÃ©cupÃ©ration de la colonne contenant y 
+  # get y col
   prop=prop/100
   
   n <- nrow(data)
   
-  # Selection des indices des individus de l'Ã©chantillon d'apprentisage
+  # Selection of the indices of the individuals in the apprenticeship sample
   
   i_sample<-sample(1:n,trunc(n*prop))
   
-  # RÃ©sultat sous forme de liste 
+  # retourn res
   
   res<-list("Train"=data[i_sample,],
             "Test"=data[-i_sample,]

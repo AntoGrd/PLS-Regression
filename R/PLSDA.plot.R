@@ -28,5 +28,3 @@ explanatory_variables=function(var1,var2, color){
   
   plot_ly(x=var1,y=var2, color=color)
 }
-
-explanatory_variables(var1 = iris$Sepal.Length,var2=iris$Sepal.Width,color=iris$Species)
