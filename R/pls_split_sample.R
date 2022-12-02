@@ -8,16 +8,16 @@
 # data = Jeu de donnÃ©es Ã  Ã©chantillonner
 # prop = proportion de l'Ã©chantillon d'apprentissage
 
-pls.train_test_split<-function(data,prop=0.66){
+pls.train_test_split<-function(data,prop=66){
   
   # VÃ©rification de la valeur de prop saisie par l'utilsiateur 
   
-  if(prop>1 | prop<0){
-    stop("Proportion non comprise entre 0 et 1")
+  if(prop>100 | prop<0){
+    stop("Proportion non comprise entre 0 et 100")
   }
   
   # RÃ©cupÃ©ration de la colonne contenant y 
-  
+  prop=prop/100
   
   n <- nrow(data)
   
