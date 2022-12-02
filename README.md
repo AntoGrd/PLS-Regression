@@ -18,7 +18,11 @@ The PLS (Partial Least Square) Regression is a machine learning method which was
   - Components choice  
   - Individual plot 
   - Principal Components Analysis
-* R Shiny Application 
+* R Shiny Application
+  - Import data  
+  - Fit the model
+  - Predict the target variable of test data 
+  - Plots
 
 ### Installation of our package 
 
@@ -307,16 +311,16 @@ You can see the coefficient of the model.
 
 Then, let's test our model with the tab "Predict". 
 
-#### Predict the target variable of data 
+#### Predict the target variable of test data 
 
 Our R Shiny application allows you to perdict the class or the probabily of belonging of the data in the test dataset (which you built in the tab "fit"). 
 
+By clicking on "Do the predicion", you will see a confusion matrix appearing on the right part of the window. 
 
+![image](https://user-images.githubusercontent.com/83652394/205403121-02ac3149-ac68-42bb-a11d-9fc898d7f21d.png)
 
+Finally, our last tab concerns the differents plots we made during our project. 
 
-
-
-
-
+#### Plots
 
 
