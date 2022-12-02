@@ -271,5 +271,52 @@ First of all, the first element of our page is a window on which we can import d
 
 #### Import the data 
 
-On the window below, you can choose the file you want to study. 
+On the window below, you can choose the file you want to study by clicking on "browse..."
+
+![image](https://user-images.githubusercontent.com/83652394/205399442-01b1dcb0-0118-4220-994a-fe79978e05a7.png)
+
+Let's take the well-known iris dataset
+
+Then, you can choose different options like the presence or the absence of header, the separator between each column and the quotes. 
+
+![image](https://user-images.githubusercontent.com/83652394/205400514-d7ce1f9c-7f8e-4d97-829e-9934ba7832bf.png)
+
+Choose the elements which allow a good readibilty of your dataset. You can see the overview next to the window of options. 
+
+Your dataset is now loaded. 
+
+Now, you can fit a model with our tab "fit". 
+
+#### Fit a model 
+
+On this tab, you can choose the percentage of the whole dataset which is going to be in the train split. 
+
+You can also choose which variables are going to be explanatory variables and which one is going to be the target variable in your PLS model (see below). 
+
+![image](https://user-images.githubusercontent.com/83652394/205402049-2d08ac6c-9585-4dd8-bc00-0434d063151d.png)
+
+If you want to have all the dataset, select nothing in the "Select your X variables" list. 
+
+Now, click on "Fit the Data" with the parameters you choose (be careful that you do the train test split before fit the model). 
+
+The following window is appearing. 
+
+![image](https://user-images.githubusercontent.com/83652394/205402419-4f53a526-9e05-4c09-93b9-6cb73609d1c8.png)
+
+You can see the coefficient of the model. 
+
+Then, let's test our model with the tab "Predict". 
+
+#### Predict the target variable of data 
+
+Our R Shiny application allows you to perdict the class or the probabily of belonging of the data in the test dataset (which you built in the tab "fit"). 
+
+
+
+
+
+
+
+
+
 
