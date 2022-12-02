@@ -271,3 +271,5 @@ First of all, the first element of our page is a window on which we can import d
 
 #### Import the data 
 
+On the window below, you can choose the file you want to study. 
+
