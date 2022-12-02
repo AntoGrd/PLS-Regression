@@ -13,7 +13,7 @@ ui <- fluidPage(
                  # sidebar for file inputs
                  sidebarPanel(
                    # select file
-                   textInput("txtSheet","Enter sheet name if csv file",value="sheet1"),
+                   textInput("txtSheet","Enter sheet name if excel file",value="sheet1"),
                    fileInput("file1", "Choose CSV File",
                              multiple = FALSE,
                              accept = c("text/csv",
