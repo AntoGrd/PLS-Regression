@@ -243,7 +243,7 @@ output$var2=renderUI({
 
 choicegraph <- eventReactive(input$abPlot,{
   if(input$inpGraph=="scatterplot"){
-    graph=explanatory_variables_plot(var=data()[,input$var1],var2=data()[,input$var2],color=data()[,input$vary])
+    graph=PLSDA::explanatory_variables_plot(var=data()[,input$var1],var2=data()[,input$var2],color=data()[,input$vary])
   }else if(input$inpGraph=="screeplot"){
     graph=PLSDA::scree_plot(resFit())
   }else if(input$inpGraph=="indivplot"){
