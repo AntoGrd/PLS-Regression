@@ -4,10 +4,14 @@
 \alias{circle_plot}
 \title{Correlation circle plot for PLSDA}
 \usage{
-circle_plot(PLSDA)
+circle_plot(PLSDA, axe1 = 1, axe2 = 2)
 }
 \arguments{
 \item{PLSDA}{a PLSDA object}
+
+\item{axe1}{1st component to observe the individuals}
+
+\item{axe2}{2nd component to observe the individuals}
 }
 \value{
 a correlation circle
