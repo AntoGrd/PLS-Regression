@@ -82,20 +82,32 @@ ui <- fluidPage(
                  )
                ),
       
-      tabPanel("Dashboard",
+      tabPanel("Graphics",
                sidebarLayout(
                  sidebarPanel(
+                   selectInput(
+                     inputId = "inpGraph",
+                     label = "Choose graphic to plot",
+                     choices = c(ScatterPlot="scatterplot",
+                                 CirclePlot="circleplot",
+                                 IndividualsPlot="indivplot",
+                                 ScreePlot="screeplot")),
+                   tags$hr(),
                    h2("Scatter plot"),
                    uiOutput("var1"),
                    uiOutput("var2"),
-                   tags$hr()
+                   tags$hr(),
+                   h2("Composants to analyse"),
+                   numericInput("ncComp1","First composant",value="1",min="1"),
+                   numericInput("ncComp2","Second composant",value="2",min="1"),
+                   actionButton("abPlot","View graphic")
                    
                  ),
                  mainPanel(tabsetPanel(
-                   tabPanel(plotlyOutput("scatter_plot")),
-                   tabPanel(plotlyOutput("scree_plot")),
-                   tabPanel(plotlyOutput("indiv_plot")),
-                   tabPanel(plotlyOutput("circle_plot"))
+                   tabPanel(plotlyOutput("graph")),
+                   #tabPanel(plotlyOutput("scree_plot")),
+                   #tabPanel(plotlyOutput("indiv_plot")),
+                   #tabPanel(plotlyOutput("circle_plot"))
                     ))
                )
                )
@@ -231,18 +243,37 @@ output$var2=renderUI({
               multiple=FALSE)
 })
 
+
+choicegraph <- eventReactive(input$abPlot,{
+  if(input$inpGraph=="scatterplot"){
+    graph=explanatory_variables_plot(var=data()[,input$var1],var2=data()[,input$var2],color=data()[,input$vary])
+  }else if(input$inpGraph=="screeplot"){
+    graph=PLSDA::scree_plot(resFit())
+  }else if(input$inpGraph=="indivplot"){
+    graph=PLSDA::indiv_plot(resFit(),axe1=input$ncComp1,axe2=input$ncComp2)
+  }else if(input$inpGraph=="circleplot"){
+    graph=PLSDA::circle_plot(resFit(),axe1=input$ncComp1,axe2=input$ncComp2)
+  }
+  return(graph)
+})
+
+
+output$graph <- renderPlotly({
+  choicegraph()
+})
+
 output$scatter_plot <- renderPlotly({
-  explanatory_variables(var=data()[,input$var1],var2=data()[,input$var2],color=data()[,input$vary])
+  explanatory_variables_plot(var=data()[,input$var1],var2=data()[,input$var2],color=data()[,input$vary])
 })
 
 output$scree_plot <- renderPlotly({
   PLSDA::scree_plot(resFit())
 })
 output$indiv_plot <- renderPlotly({
-  PLSDA::indiv_plot(resFit())
+  PLSDA::indiv_plot(resFit(),axe1=input$ncComp1,axe2=input$ncComp2)
 })
 output$circle_plot <- renderPlotly({
-  PLSDA::circle.plot(resFit())
+  PLSDA::circle_plot(resFit(),axe1=input$ncComp1,axe2=input$ncComp2)
 })
 
 }
