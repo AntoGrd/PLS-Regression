@@ -27,7 +27,10 @@ The PLS (Partial Least Square) Regression is a machine learning method which was
 ### Installation of our package and utilisation
 
 First of all, you need to install the package to be able to use it.
+
 To do it, you need to be sure that the library "devtools" is installed and loaded.
+
+![image](https://user-images.githubusercontent.com/83652394/205456378-cc424856-ad85-404e-a611-87a15b0b3db5.png)
 
 Then, run this command : ```install_github("AntoGrd/PLS-Regression")```.
 The package should be installed and ready to use.
