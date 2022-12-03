@@ -29,7 +29,7 @@ scree_plot=function(PLSDA){
   eigenvalues=eigen(corX)$values
   test=eigenvalues > 1
   cols <- ifelse(test, "rgba(255, 0, 0, 0.5)", "rgba(0, 0, 255, 0.5)")
-  lab=paste("Comp.",1:ncomp,sep = "")
+  lab=1:ncomp
   # Scree plot
   plot_ly(x=lab, y = eigenvalues,type = "bar",color = I(cols))%>%
     layout(
