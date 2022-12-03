@@ -339,5 +339,5 @@ Finally, our last tab concerns the differents plots we made during our project.
 
 The last tab of our RShiny Application concerns plots we did for our project. 
 
-You can see below a example of our plots
+You can see below an example of our plots
 
