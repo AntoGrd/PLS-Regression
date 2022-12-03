@@ -55,7 +55,7 @@ This function have differents parameters :
 You can launch the fit fonction and affect it to a variable as you can see below
 
 ```sh
-model=plsda.fit(fomula = Species~.,data=iris,ncomp=2)
+model=PLSDA::fit(fomula = Species~.,data=iris,ncomp=2)
 ```
 Then, if you print you result, you can see the differents results of our fonction as you can see below
 
@@ -68,7 +68,7 @@ With our package you can predict the class of new indivudals or test the model o
 Here is the signature of our predict function.
 
 ```sh
-plsda.predict=function(PLSDA,newdata,type="class")
+predict=function(PLSDA,newdata,type="class")
 ```
 PLSDA is a model we fitted with the function plsda.fit, that's why you must laucnh the fit function before test the predict. 
 
@@ -81,7 +81,7 @@ Here's how you can use the predict function.
 
 ```sh
 Xtest=iris[60:120,1:4]
-pred=plsda.predict(model,Xtest)
+pred=PLSDA::predict(model,Xtest)
 ```
 Then, if you print the result, you can see something like this. 
 
@@ -97,7 +97,7 @@ After the predict function and if you want to watch the performance of your mode
 
 You can see below how we created this function 
 ```sh
-plsda_Classification_report <- function(observed,predict)
+classification_report <- function(observed,predict)
 ```
 Observed is the vector which contains the class of the individuals we select in our dataset. 
 
@@ -107,7 +107,7 @@ Here how you can use this function :
 
 ```sh
 Yobs = iris[25:50,5]
-report=plsda_Classification_report(Yobs,pred)
+report=PLSDA::classification_report(Yobs,pred)
 ```
 If you print the function result (```print(report)```), you can see the following result : 
 
@@ -128,14 +128,14 @@ This function aims to show to the user the classement coefficient and the interc
 Here is the signature of our print function 
 
 ```sh
-plsda.print=function(PLS)
+print.plsda=function(PLS)
 ```
 There is one argument for this function : the model we fit in the 'plsda.fit' function
 
 You can lauch this fonction as you can see below : 
 
 ```sh
-plsda.print(model)
+PLSDA::print.plsda(model)
 ```
 where model is the result of the 'plsda.fit' function
 
@@ -150,7 +150,7 @@ We create an other function to see the result : the summary function
 We created this function in the following way : 
 
 ```sh
-plsda.summary=function(PLS,Xtest,ytest)
+summary.plsda=function(PLS,Xtest,ytest)
 ```
 PLS is a PLS type model we fitted with the fit function. 
 
@@ -163,7 +163,7 @@ Here's how you can test the function4
 ```sh
 Xtest=iris[25:50,1:4]
 ytest=iris[25:50,5]
-summary=plsda.summary(model,Xtest,ytest)
+summary=summary.plsda(model,Xtest,ytest)
 ```
 
 And here's the result : 
@@ -191,7 +191,7 @@ Threshehold is the criterion which is going to serve to select variables with th
 You can see below how to use this function. 
 
 ```sh
-vip=plsda.vip(model)
+vip=vip(model)
 ```
 If you execute this function you will have the following result : 
 
@@ -218,7 +218,7 @@ This is our function ```plsda_scree_plot```
 This is how it is built 
 
 ```sh
-plsda_scree_plot=function(acp)
+scree_plot=function(PLSDA)
 ```
 
 The parameter acp is, as usual, a result of the function fit (model in the case of our tutorial). 
@@ -226,7 +226,7 @@ The parameter acp is, as usual, a result of the function fit (model in the case 
 Let's execute this function. 
 
 ```sh
-plsda_scree_plot(model)
+PLSDA::scree_plot(model)
 ```
 
 The following graph appears : 
@@ -240,7 +240,7 @@ The component in red is the component we must keep. For exemple, in our case, on
 We created a plot which has as main objective to show the repartition of the target variable depending of two explanaotory variables (which are quantitative). 
 
 ```sh
-explanatory_variables=function(var1,var2, color)
+explanatory_variables_plot=function(var1,var2, color)
 ```
 Var1 is an explanatory variable.
 
@@ -251,7 +251,7 @@ Color is the color of the points of our scatter plot.
 For example, you can see below how to use this function. 
 
 ```sh
-explanatory_variables(var1 = iris$Sepal.Length,var2=iris$Sepal.Width,color=iris$Species)
+PLSDA::explanatory_variables_plot(var1 = iris$Sepal.Length,var2=iris$Sepal.Width,color=iris$Species)
 ```
 The code ```color=iris$Species``` means that the color depends of the modality of Species, in our case the target variable. 
 
@@ -272,7 +272,7 @@ Our parameter ACP is a model fitted.
 To launch our function, you have to type the following code
 
 ```sh
-circle.plot(model)
+PLSDA::circle.plot(model)
 ```
 
 This graph appears. 
