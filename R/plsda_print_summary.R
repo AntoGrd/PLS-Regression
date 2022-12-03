@@ -4,9 +4,10 @@
 #'
 #' @return a print function to observe the coefficients and intercept
 #' obtained with the fit function
-#' @export
 #' @examples
 #' PLSDA::print(res)
+#' @export
+
 
 print.plsda=function(PLS){
 
@@ -37,9 +38,10 @@ print.plsda=function(PLS){
 #' - a classification report including Confusion matrix,
 #'   Report with precision, recall and f1-score for each class,
 #'   global f1 score 
-#' @export
 #' @examples
 #' PLSDA::summary(res)
+#' @export
+
 
 summary.plsda=function(PLSDA,Xtest,ytest){
   
