@@ -328,7 +328,7 @@ Now, click on "Fit the Data" with the parameters you choose (be careful that you
 
 The following window is appearing. 
 
-![image](https://user-images.githubusercontent.com/83652394/205456882-d61b6af6-a149-4f90-a359-ec55b7b546a9.png)
+![image](https://user-images.githubusercontent.com/83652394/205456944-eb7bce22-bd9f-436b-bd44-3718634ea282.png)
 
 You can see the coefficient of the model. 
 
