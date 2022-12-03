@@ -339,5 +339,21 @@ Finally, our last tab concerns the differents plots we made during our project.
 
 The last tab of our RShiny Application concerns plots we did for our project. 
 
-You can see below an example of our plots
+For example, you want to see the scatter plot of our target variable depending on two explanatory variables of our dataset. 
+
+Let's see below how to process. 
+
+![image](https://user-images.githubusercontent.com/83652394/205455649-5eec9e81-1e2b-4330-87e3-335f7327cb05.png)
+
+Choose in the dropdown list of the scatter plot the two variables you want to see on the plot. Click on 'View / Update graphic". 
+
+![image](https://user-images.githubusercontent.com/83652394/205455730-97fa758a-0d69-44ee-af6d-47ab7a01faae.png)
+
+You can see this graph appearing. 
+
+If you want to know the ideal number of compenents, in the dropdown list of the graphs to choose, there is the ScreePlot. 
+
+![image](https://user-images.githubusercontent.com/83652394/205455878-4c7a8fcf-a31f-4fc3-89f5-8619322952cc.png)
+
+The two other graphs that are possible to appreciate are the correlation between variable plot and the indivdual plot. 
 
