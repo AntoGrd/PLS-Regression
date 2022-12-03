@@ -28,15 +28,18 @@ The PLS (Partial Least Square) Regression is a machine learning method which was
 
 First of all, you need to install the package to be able to use it.
 To do it, you need to be sure that the library "devtools" is installed and loaded.
-Then, run this command : install_github("AntoGrd/PLS-Regression")
+Then, run this command : install_github("AntoGrd/PLS-Regression").
 The package should be installed and ready to use.
 To see the documentation of our package, you can go in the tab "Packages", and search for "PLSDA". 
 Click on it and you will see all the Help Pages available for each functions in the package.
 You can also run the command : help("function") to see the help of a specific function.
+```sh
 Example : help(train_test_split)
+```
 To run the differents function, you need to use the command PLSDA::"function".
+```sh
 Example : PLSDA::train_test_split(iris)
-
+```
 ### The fit function 
 
 Our fit fonction is made as you can see below
