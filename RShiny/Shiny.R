@@ -129,7 +129,7 @@ server <- function(input, output) {
         }else if(stringr::str_ends(input$file1$datapath, "(xlsx|xls)")) {
           readxl::read_excel(input$file1$datapath,
                    col_names = as.logical(input$cbHeader),
-                   sheet=input$sheet1)
+                   sheet=input$txtSheet)
         }
 
       },
