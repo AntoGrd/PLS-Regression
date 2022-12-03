@@ -4,13 +4,15 @@
 #' Correlation circle plot for PLSDA
 #' @param PLSDA
 #' a PLSDA object
+#' @param axe1 1st component to observe the individuals
+#' @param axe2 2nd component to observe the individuals
 #' @return a correlation circle
 #' @export
 #'
 #' @examples
 #' PLSDA::circle_plot(res)
 
-circle_plot <- function(PLSDA){
+circle_plot <- function(PLSDA,axe1=1,axe2=2){
   
   verify=require("plotly")
   if(verify!=TRUE){
@@ -20,8 +22,8 @@ circle_plot <- function(PLSDA){
   library(plotly)
   
   #get values
-  c1=PLSDA$X_loadings[,1]*sqrt(eigen(cor(scale(PLSDA$X)))$values[1])
-  c2=PLSDA$X_loadings[,2]*sqrt(eigen(cor(scale(PLSDA$X)))$values[2])
+  c1=PLSDA$X_loadings[,axe1]*sqrt(eigen(cor(scale(PLSDA$X)))$values[axe1])
+  c2=PLSDA$X_loadings[,axe2]*sqrt(eigen(cor(scale(PLSDA$X)))$values[axe2])
   
   # creation of circle
   liste = list(list(
@@ -49,8 +51,8 @@ circle_plot <- function(PLSDA){
   layout <- list(
     title = "Correlation circle", 
     width = 600, 
-    xaxis = list(title = "Component 1"), 
-    yaxis = list(title = "Component 2"), 
+    xaxis = list(title=paste0("Component ",axe1)),
+    yaxis = list(title=paste0("Component ",axe2)), 
     height = 600 
   )
   
