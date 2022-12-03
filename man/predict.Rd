@@ -25,7 +25,7 @@ Predict y for a given x with a PLSDA model
 }
 \examples{
 
-pred=plsda.predict(mod,newdata)
-pred=plsda.predict(mod,newdata,type="posterior")
+pred=PLSDA::predict(mod,newdata)
+pred=PLSDA::predict(mod,newdata,type="posterior")
 
 }

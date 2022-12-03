@@ -3,15 +3,15 @@
 #' @description
 #' Make a scree plot for the component selection 
 #' 
-#' @param acp 
-#' A ACP model
+#' @param PLSDA
+#' A PLSDA object
 #' @return a scree plot which shows which component select
 #' @export
 #'
 #' @examples
-#' plsda_scree_plot(res)
+#' PLSDA::scree_plot(res)
 
-scree_plot=function(acp){
+scree_plot=function(PLSDA){
   
   verify=require("plotly")
   if(verify!=TRUE){
@@ -21,8 +21,8 @@ scree_plot=function(acp){
   library(plotly)
   
   # Calculation of correlations 
-  ncomp=ncol(acp$X)
-  X=acp$X
+  ncomp=ncol(PLSDA$X)
+  X=PLSDA$X
   corX=cor(X)
   
   # Calculation of the eigenvalues

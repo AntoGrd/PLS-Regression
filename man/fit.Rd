@@ -42,6 +42,6 @@ to be fitted.}
 Using NIPALS algorithm to fit the PLS classification to data, for binary or multinomial target
 }
 \examples{
-fit.t1<-plsda.fit(Species~.,iris,3)
-fit.t2<-plsda.fit(Species~.,iris,2)
+fit.t1<-PLSDA::fit(Species~.,iris,3)
+fit.t2<-PLSDA::fit(Species~.,iris,2)
 }

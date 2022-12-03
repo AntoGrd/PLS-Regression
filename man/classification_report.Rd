@@ -23,5 +23,5 @@ classification_report(observed, predict)
 Classification report function for PLSDA
 }
 \examples{
-res=plsda_Classification_report(ytrain,ypred)
+res=PLSDA::classification_report(ytrain,ypred)
 }

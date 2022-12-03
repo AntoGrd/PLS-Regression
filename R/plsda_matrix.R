@@ -11,7 +11,7 @@
 #' \code{f1_score} global f1 score 
 #' \cr
 #' @examples
-#' res=plsda_Classification_report(ytrain,ypred)
+#' res=PLSDA::classification_report(ytrain,ypred)
 #' @export
 
 

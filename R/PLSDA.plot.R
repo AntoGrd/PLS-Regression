@@ -16,7 +16,7 @@
 #' @export
 #'
 #' @examples
-#' explanatory_variables(var1 = iris$Sepal.Length,var2=iris$Sepal.Width,color=iris$Species)
+#' PLSDA::explanatory_variables(var1 = iris$Sepal.Length,var2=iris$Sepal.Width,color=iris$Species)
 
 explanatory_variables=function(var1,var2, color){
   

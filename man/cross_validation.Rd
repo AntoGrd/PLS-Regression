@@ -27,6 +27,6 @@ Make a cross-validation on on dataset to select the best sample
 }
 \examples{
 
-cv=plsda.cross_validation(Species~.,data=iris,2)
-pred=plsda.predict(Species~.,data=iris,2,nfolds=10)
+cv=PLSDA::cross_validation(Species~.,data=iris,2)
+pred=PLSDA::predict(Species~.,data=iris,2,nfolds=10)
 }

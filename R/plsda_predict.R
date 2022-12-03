@@ -17,8 +17,8 @@
 #'
 #' @examples
 #' 
-#' pred=plsda.predict(mod,newdata)
-#' pred=plsda.predict(mod,newdata,type="posterior")
+#' pred=PLSDA::predict(mod,newdata)
+#' pred=PLSDA::predict(mod,newdata,type="posterior")
 #' 
 predict <- function(PLSDA,newdata,type="class"){
 

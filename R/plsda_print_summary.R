@@ -6,7 +6,7 @@
 #' obtained with the fit function
 #' @export
 #' @examples
-#' plsda.print(res)
+#' PLSDA::print(res)
 
 print.plsda=function(PLS){
 
@@ -39,17 +39,17 @@ print.plsda=function(PLS){
 #'   global f1 score 
 #' @export
 #' @examples
-#' plsda.summary(res)
+#' PLSDA::summary(res)
 
-summary.plsda=function(PLS,Xtest,ytest){
+summary.plsda=function(PLSDA,Xtest,ytest){
   
   #coef and intercept
-  coef=PLS$coef
-  intercept=PLS$intercept
+  coef=PLSDA$coef
+  intercept=PLSDA$intercept
   coefficients=rbind(coef,intercept)
   #prediction with Xtest and showing classification report with ytest
   pred=plsda.predict(PLS,Xtest)
-  classification_report=plsda_Classification_report(ytest,pred)
+  classification_report=PLSDA::classification_report(ytest,pred)
   list=list()
   list$coefficients = coefficients
   list$classification_report = classification_report

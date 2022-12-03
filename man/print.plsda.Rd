@@ -17,5 +17,5 @@ obtained with the fit function
 print function for PLSDA
 }
 \examples{
-plsda.print(res)
+PLSDA::print(res)
 }

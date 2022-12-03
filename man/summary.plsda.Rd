@@ -4,14 +4,14 @@
 \alias{summary.plsda}
 \title{Summary function for PLSDA}
 \usage{
-\method{summary}{plsda}(PLS, Xtest, ytest)
+\method{summary}{plsda}(PLSDA, Xtest, ytest)
 }
 \arguments{
+\item{PLSDA}{PLSDA object (obtained with fit function)}
+
 \item{Xtest}{dataframe with the sames variables of PLSDA$X to predict the values}
 
 \item{ytest}{classes that correspond to the values of Xtest, to compare with the predicted values}
-
-\item{PLSDA}{PLSDA object (obtained with fit function)}
 }
 \value{
 a print function to observe 
@@ -24,5 +24,5 @@ a print function to observe
 Summary function for PLSDA
 }
 \examples{
-plsda.summary(res)
+PLSDA::summary(res)
 }

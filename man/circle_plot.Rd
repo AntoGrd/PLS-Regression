@@ -4,10 +4,10 @@
 \alias{circle_plot}
 \title{Correlation circle plot for PLSDA}
 \usage{
-circle_plot(acp)
+circle_plot(PLSDA)
 }
 \arguments{
-\item{acp}{a ACP type variable}
+\item{PLSDA}{a PLSDA object}
 }
 \value{
 a correlation circle
@@ -16,5 +16,5 @@ a correlation circle
 Correlation circle plot for PLSDA
 }
 \examples{
-circle.plot(res)
+PLSDA::circle_plot(res)
 }

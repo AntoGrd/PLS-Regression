@@ -12,19 +12,19 @@
 #' @export
 #'
 #' @examples
-#' res=plsda.vip=(objPLDS)
-#' res=plsda.vip=(objPLDS,threshold=1)
-vip<-function(PLS,threshold=0.8){
+#' res=PLSDA::vip=(PLSDA)
+#' res=PLSDA::vip=(PLSDA,threshold=1)
+vip<-function(PLSDA,threshold=0.8){
   
   # Get variables
 
-  q=PLS$Y_loadings
-  t=PLS$X_scores
-  w=PLS$weights
-  X=PLS$X
-  y=as.data.frame(PLS$Y)
+  q=PLSDA$Y_loadings
+  t=PLSDA$X_scores
+  w=PLSDA$weights
+  X=PLSDA$X
+  y=as.data.frame(PLSDA$Y)
   print(y)
-  colnames(y)=PLS$yname
+  colnames(y)=PLSDA$yname
   ncomp=PLS$ncomp
   
   p=nrow(w)

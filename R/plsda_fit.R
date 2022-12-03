@@ -37,8 +37,8 @@
 #' @export
 #'
 #' @examples
-#' fit.t1<-plsda.fit(Species~.,iris,3)
-#' fit.t2<-plsda.fit(Species~.,iris,2)
+#' fit.t1<-PLSDA::fit(Species~.,iris,3)
+#' fit.t2<-PLSDA::fit(Species~.,iris,2)
 
 
 fit <- function(formula, data, ncomp){

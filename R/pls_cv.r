@@ -22,8 +22,8 @@
 #'
 #' @examples
 #' 
-#' cv=plsda.cross_validation(Species~.,data=iris,2)
-#' pred=plsda.predict(Species~.,data=iris,2,nfolds=10)
+#' cv=PLSDA::cross_validation(Species~.,data=iris,2)
+#' pred=PLSDA::predict(Species~.,data=iris,2,nfolds=10)
 
 
 cross_validation <- function(formula, data, ncomp, nfolds = 5){
@@ -63,10 +63,10 @@ cross_validation <- function(formula, data, ncomp, nfolds = 5){
     Ytest <- test[, yname]
     
     #Fit the model on train and predict on test
-    plsTrain <- plsda.fit(formula,train,ncomp)
-    predTest <- plsda.predict(plsTrain, Xtest)
+    plsTrain <- PLSDA::fit(formula,train,ncomp)
+    predTest <- PLSDA::predict(plsTrain, Xtest)
     
-    globalFscore <- plsda_Classification_report(Ytest, predTest)$f1_score
+    globalFscore <- PLSDA::classification_report(Ytest, predTest)$f1_score
     FscoreVectorglobal <- append(FscoreVectorglobal, globalFscore)
     models[[j]] <- plsTrain
   }

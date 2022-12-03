@@ -2,15 +2,15 @@
 #'
 #' @description 
 #' Correlation circle plot for PLSDA
-#' @param acp
-#' a ACP type variable
+#' @param PLSDA
+#' a PLSDA object
 #' @return a correlation circle
 #' @export
 #'
 #' @examples
-#' circle.plot(res)
+#' PLSDA::circle_plot(res)
 
-circle_plot <- function(acp){
+circle_plot <- function(PLSDA){
   
   verify=require("plotly")
   if(verify!=TRUE){
@@ -20,8 +20,8 @@ circle_plot <- function(acp){
   library(plotly)
   
   #get values
-  c1=res$X_loadings[,1]*sqrt(eigen(cor(scale(res$X)))$values[1])
-  c2=res$X_loadings[,2]*sqrt(eigen(cor(scale(res$X)))$values[2])
+  c1=PLSDA$X_loadings[,1]*sqrt(eigen(cor(scale(PLSDA$X)))$values[1])
+  c2=PLSDA$X_loadings[,2]*sqrt(eigen(cor(scale(PLSDA$X)))$values[2])
   
   # creation of circle
   liste = list(list(
@@ -32,7 +32,7 @@ circle_plot <- function(acp){
     type = "circle"
   ))
   # Creation of the same number of rows as variables (which are zero for the moment)
-  for (i in 1:ncol(res$X)){
+  for (i in 1:ncol(PLSDA$X)){
     i = i + 1 
     liste[[i]] = list(
       x0 = 0,
@@ -55,7 +55,7 @@ circle_plot <- function(acp){
   )
   
   # Add row values for each of our columns
-  for (i in 1:ncol(res$X)){
+  for (i in 1:ncol(PLSDA$X)){
     j = i + 1
     liste[j][[1]]$x1 <- c1[i]
     liste[j][[1]]$y1 <- c2[i]
@@ -64,9 +64,9 @@ circle_plot <- function(acp){
   
   # Graph display
   graph <- plot_ly()
-  for (i in 1:ncol(res$X)){
+  for (i in 1:ncol(PLSDA$X)){
     # Plotting of points
-    graph <- add_trace(graph, mode="markers", name=colnames(res$X)[i], x=c1[i], y=c2[i])
+    graph <- add_trace(graph, mode="markers", name=colnames(PLSDA$X)[i], x=c1[i], y=c2[i])
     # Adding information and lines
     graph <- layout(graph, title=layout$title, width=layout$width, xaxis=layout$xaxis, yaxis=layout$yaxis, height=layout$height, shapes=liste)
   }

@@ -4,10 +4,10 @@
 \alias{scree_plot}
 \title{PLSDA Scree plot}
 \usage{
-scree_plot(acp)
+scree_plot(PLSDA)
 }
 \arguments{
-\item{acp}{A ACP model}
+\item{PLSDA}{A PLSDA object}
 }
 \value{
 a scree plot which shows which component select
@@ -16,5 +16,5 @@ a scree plot which shows which component select
 Make a scree plot for the component selection
 }
 \examples{
-plsda_scree_plot(res)
+PLSDA::scree_plot(res)
 }

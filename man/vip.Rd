@@ -4,7 +4,7 @@
 \alias{vip}
 \title{Title}
 \usage{
-vip(PLS, threshold = 0.8)
+vip(PLSDA, threshold = 0.8)
 }
 \arguments{
 \item{threshold}{criterion of variable selection 0.8 by default}
@@ -21,6 +21,6 @@ vip(PLS, threshold = 0.8)
 Title
 }
 \examples{
-res=plsda.vip=(objPLDS)
-res=plsda.vip=(objPLDS,threshold=1)
+res=PLSDA::vip=(PLSDA)
+res=PLSDA::vip=(PLSDA,threshold=1)
 }

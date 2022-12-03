@@ -4,14 +4,14 @@
 \alias{indiv_plot}
 \title{Individuals plots for PLSDA}
 \usage{
-indiv_plot(acp, axe1 = 1, axe2 = 2)
+indiv_plot(PLSDA, axe1 = 1, axe2 = 2)
 }
 \arguments{
+\item{PLSDA}{PLSDA object (returned with the fit function)}
+
 \item{axe1}{1st component to observe the individuals}
 
 \item{axe2}{2nd component to observe the individuals}
-
-\item{PLSDA}{PLSDA object (returned with the fit function)}
 }
 \value{
 a plot with the 2 choosen components and the individuals on it
