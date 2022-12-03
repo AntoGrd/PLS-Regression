@@ -320,7 +320,7 @@ On this tab, you can choose the percentage of the whole dataset which is going t
 
 You can also choose which variables are going to be explanatory variables and which one is going to be the target variable in your PLS model (see below). 
 
-![image](https://user-images.githubusercontent.com/83652394/205402049-2d08ac6c-9585-4dd8-bc00-0434d063151d.png)
+![image](https://user-images.githubusercontent.com/83652394/205456869-2e7bf368-0759-4820-9b4b-9cb114fa560a.png)
 
 If you want to have all the dataset, select nothing in the "Select your X variables" list. 
 
@@ -328,7 +328,7 @@ Now, click on "Fit the Data" with the parameters you choose (be careful that you
 
 The following window is appearing. 
 
-![image](https://user-images.githubusercontent.com/83652394/205402419-4f53a526-9e05-4c09-93b9-6cb73609d1c8.png)
+![image](https://user-images.githubusercontent.com/83652394/205456882-d61b6af6-a149-4f90-a359-ec55b7b546a9.png)
 
 You can see the coefficient of the model. 
 
