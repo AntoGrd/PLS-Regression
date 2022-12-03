@@ -68,7 +68,7 @@ model=PLSDA::fit(fomula = Species~.,data=iris,ncomp=2)
 ```
 Then, if you print you result, you can see the differents results of our fonction as you can see below
 
-![image](https://user-images.githubusercontent.com/83652394/204126978-fdab5a96-8504-4e48-a3e4-498c5bc1eba7.png)
+![image](https://user-images.githubusercontent.com/83652394/205456538-d8ef14a8-fe42-4803-adfa-cda05bb2dc7e.png)
 
 ### The predict function
 
