@@ -18,7 +18,7 @@
 #' @examples
 #' PLSDA::explanatory_variables(var1 = iris$Sepal.Length,var2=iris$Sepal.Width,color=iris$Species)
 
-explanatory_variables=function(var1,var2, color){
+explanatory_variables_plot=function(var1,var2, color){
   
   verify=require("plotly")
   if(verify!=TRUE){

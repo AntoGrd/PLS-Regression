@@ -1,13 +1,13 @@
-#' Title
+#' Variable Importance in the Projection
 #'
-#' @param 
+#' @param PLSDA
 #' A PLSDA type model
 #' @param threshold 
 #' criterion of variable selection 0.8 by default
 #' @return
 #' \code{newX} New dataset with variable selection
 #' \cr
-#' \code{vip} Selected variable in the model
+#' \code{vip} Importance of each variable for each composants
 #' \cr
 #' @export
 #'
@@ -25,7 +25,7 @@ vip<-function(PLSDA,threshold=0.8){
   y=as.data.frame(PLSDA$Y)
   print(y)
   colnames(y)=PLSDA$yname
-  ncomp=PLS$ncomp
+  ncomp=PLSDA$ncomp
   
   p=nrow(w)
   h=ncol(w)

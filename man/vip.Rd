@@ -2,23 +2,23 @@
 % Please edit documentation in R/plsda_vip.R
 \name{vip}
 \alias{vip}
-\title{Title}
+\title{Variable Importance in the Projection}
 \usage{
 vip(PLSDA, threshold = 0.8)
 }
 \arguments{
-\item{threshold}{criterion of variable selection 0.8 by default}
+\item{PLSDA}{A PLSDA type model}
 
-\item{A}{PLSDA type model}
+\item{threshold}{criterion of variable selection 0.8 by default}
 }
 \value{
 \code{newX} New dataset with variable selection
 \cr
-\code{vip} Selected variable in the model
+\code{vip} Importance of each variable for each composants
 \cr
 }
 \description{
-Title
+Variable Importance in the Projection
 }
 \examples{
 res=PLSDA::vip=(PLSDA)
