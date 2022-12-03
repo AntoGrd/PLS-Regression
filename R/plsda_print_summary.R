@@ -8,7 +8,7 @@
 #' @examples
 #' plsda.print(res)
 
-plsda.print=function(PLS){
+print.plsda=function(PLS){
 
  # Creation of a matrix with the coefficients 
   
@@ -41,7 +41,7 @@ plsda.print=function(PLS){
 #' @examples
 #' plsda.summary(res)
 
-plsda.summary=function(PLS,Xtest,ytest){
+summary.plsda=function(PLS,Xtest,ytest){
   
   #coef and intercept
   coef=PLS$coef

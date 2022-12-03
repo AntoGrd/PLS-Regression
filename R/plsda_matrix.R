@@ -15,7 +15,7 @@
 #' @export
 
 
-plsda_Classification_report <- function(observed,predict){
+classification_report <- function(observed,predict){
   
   # Transform observed in vector is this is not the case
   

@@ -7,7 +7,7 @@
 #' @return a plot with the 2 choosen components and the individuals on it
 #' @export
 
-plsda_plot_indiv<-function(acp,axe1=1,axe2=2){
+indiv_plot<-function(acp,axe1=1,axe2=2){
   
   verify=require("plotly")
   if(verify!=TRUE){

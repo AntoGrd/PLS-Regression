@@ -11,7 +11,7 @@
 #' @examples
 #' plsda_scree_plot(res)
 
-plsda_scree_plot=function(acp){
+scree_plot=function(acp){
   
   verify=require("plotly")
   if(verify!=TRUE){

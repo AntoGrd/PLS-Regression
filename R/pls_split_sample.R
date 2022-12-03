@@ -16,10 +16,10 @@
 #' @export
 #'
 #' @examples
-#' train_test=pls.train_test_split(iris)
-#' train_test=pls.train_test_split(iris,prop=70)
+#' train_test=PLSDA::train_test_split(iris)
+#' train_test=PLSDA::train_test_split(iris,prop=70)
 
-pls.train_test_split<-function(data,prop=66){
+train_test_split<-function(data,prop=66){
   
   # Checking the eigen value entered by the user
   

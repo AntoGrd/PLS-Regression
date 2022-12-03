@@ -3,7 +3,7 @@ library(reactable)
 library(readxl)
 library(stringr)
 library(shinyWidgets)
-
+library(plotly)
 ui <- fluidPage(
   
   navbarPage("PLS Regression",id="nvPage",
@@ -154,7 +154,7 @@ output$yvar=renderUI({
 })
 
 newData=eventReactive(input$abSep,{
-  df=pls.train_test_split(data(),input$ncTrain)
+  df=PLSDA::train_test_split(data(),input$ncTrain)
 })
 #creation train
 train=reactive({
@@ -180,7 +180,7 @@ resFit=eventReactive(input$abFit,{
   }else{
     newtrain=train()[,c(input$varx,input$vary)]
   }
-  res=plsda.fit(formula=formul,data=newtrain,ncomp=input$ncFit)
+  res=PLSDA::fit(formula=formul,data=newtrain,ncomp=input$ncFit)
   return(res)
 })
 
@@ -196,14 +196,14 @@ resPred=eventReactive(input$abPred,{
   }else{
     newtest=test()[,input$varx] #keep col of selected x 
   }
-  respred=plsda.predict(resFit(),newtest)
+  respred=PLSDA::predict(resFit(),newtest)
   return(respred)
   
 })
 
 
 summary=reactive({
-  sum=plsda_Classification_report(test()[,input$vary],resPred())
+  sum=PLSDA::classification_report(test()[,input$vary],resPred())
   return(sum)
 })
 
@@ -232,18 +232,17 @@ output$var2=renderUI({
 })
 
 output$scatter_plot <- renderPlotly({
-  #explanatory_variables(var=data()$input$var1,var2=data()$input$var2,color=data()$input$vary)
   explanatory_variables(var=data()[,input$var1],var2=data()[,input$var2],color=data()[,input$vary])
 })
 
 output$scree_plot <- renderPlotly({
-  plsda_scree_plot(resFit())
+  PLSDA::scree_plot(resFit())
 })
 output$indiv_plot <- renderPlotly({
-  plsda_plot_indiv(resFit())
+  PLSDA::indiv_plot(resFit())
 })
 output$circle_plot <- renderPlotly({
-  circle.plot(resFit())
+  PLSDA::circle.plot(resFit())
 })
 
 }

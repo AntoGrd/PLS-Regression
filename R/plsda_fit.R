@@ -41,7 +41,7 @@
 #' fit.t2<-plsda.fit(Species~.,iris,2)
 
 
-plsda.fit <- function(formula, data, ncomp){
+fit <- function(formula, data, ncomp){
   
   if (!inherits(formula,"formula")){ #check if formula is given
     stop("You didn't enter a formula")

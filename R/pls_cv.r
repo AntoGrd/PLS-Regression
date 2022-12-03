@@ -26,7 +26,7 @@
 #' pred=plsda.predict(Species~.,data=iris,2,nfolds=10)
 
 
-plsda.cross_validation <- function(formula, data, ncomp, nfolds = 5){
+cross_validation <- function(formula, data, ncomp, nfolds = 5){
   
   # Random sample
   data <- data[sample(1:nrow(data)),]

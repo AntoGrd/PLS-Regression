@@ -10,7 +10,7 @@
 #' @examples
 #' circle.plot(res)
 
-circle.plot <- function(acp){
+circle_plot <- function(acp){
   
   verify=require("plotly")
   if(verify!=TRUE){

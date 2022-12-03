@@ -20,7 +20,7 @@
 #' pred=plsda.predict(mod,newdata)
 #' pred=plsda.predict(mod,newdata,type="posterior")
 #' 
-plsda.predict <- function(PLSDA,newdata,type="class"){
+predict <- function(PLSDA,newdata,type="class"){
 
   
   if (class(PLSDA) != "PLSDA"){ #check if object plsda is given

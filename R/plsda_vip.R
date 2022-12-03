@@ -14,7 +14,7 @@
 #' @examples
 #' res=plsda.vip=(objPLDS)
 #' res=plsda.vip=(objPLDS,threshold=1)
-plsda.vip<-function(PLS,threshold=0.8){
+vip<-function(PLS,threshold=0.8){
   
   # Get variables
 
