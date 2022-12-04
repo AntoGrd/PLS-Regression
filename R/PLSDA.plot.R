@@ -19,11 +19,7 @@
 #' PLSDA::explanatory_variables(var1 = iris$Sepal.Length,var2=iris$Sepal.Width,color=iris$Species)
 
 explanatory_variables_plot=function(var1,var2, color){
-  verify=require("plotly")
-  if(verify!=TRUE){
-    install.packages("plotly")
-    verify=TRUE
-  }
+  library(plotly)
   plot_ly(x=var1,y=var2, color=color,type="scatter",mode="markers")%>% layout(title="Scatter plot",
                                                 hovermode='closest',dragmode= 'select',
                                                 legend=list(title=list(text='Color')),

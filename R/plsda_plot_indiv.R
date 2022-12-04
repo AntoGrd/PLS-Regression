@@ -9,11 +9,6 @@
 
 indiv_plot<-function(PLSDA,axe1=1,axe2=2){
   
-  verify=require("plotly")
-  if(verify!=TRUE){
-    install.packages("plotly")
-    verify=TRUE
-  }
   library(plotly)
   
   x1 = PLSDA$X_scores[,axe1]

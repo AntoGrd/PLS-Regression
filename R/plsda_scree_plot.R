@@ -13,11 +13,6 @@
 
 scree_plot=function(PLSDA){
   
-  verify=require("plotly")
-  if(verify!=TRUE){
-    install.packages("plotly")
-    verify=TRUE
-  }
   library(plotly)
   
   # Calculation of correlations 

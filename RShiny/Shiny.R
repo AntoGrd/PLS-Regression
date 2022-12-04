@@ -3,7 +3,6 @@ library(stringr)
 library(shinyWidgets)
 library(plotly)
 library(PLSDA)
-library(plotly)
 
 ui <- fluidPage(
   
