@@ -1,9 +1,10 @@
 library(shiny)
-library(reactable)
-library(readxl)
 library(stringr)
 library(shinyWidgets)
 library(plotly)
+library(PLSDA)
+library(plotly)
+
 ui <- fluidPage(
   
   navbarPage("PLS Regression",id="nvPage",
@@ -163,7 +164,7 @@ output$yvar=renderUI({
 })
 
 newData=eventReactive(input$abSep,{
-  df=PLSDA::train_test_split(data(),input$ncTrain)
+  df=train_test_split(data(),input$ncTrain)
 })
 #creation train
 train=reactive({
@@ -189,7 +190,7 @@ resFit=eventReactive(input$abFit,{
   }else{
     newtrain=train()[,c(input$varx,input$vary)]
   }
-  res=PLSDA::fit(formula=formul,data=newtrain,ncomp=input$ncFit)
+  res=fit(formula=formul,data=newtrain,ncomp=input$ncFit)
   return(res)
 })
 
@@ -205,14 +206,14 @@ resPred=eventReactive(input$abPred,{
   }else{
     newtest=test()[,input$varx] #keep col of selected x 
   }
-  respred=PLSDA::predict(resFit(),newtest)
+  respred=predict(resFit(),newtest)
   return(respred)
   
 })
 
 
 summary=reactive({
-  sum=PLSDA::classification_report(test()[,input$vary],resPred())
+  sum=classification_report(test()[,input$vary],resPred())
   return(sum)
 })
 
@@ -245,11 +246,11 @@ choicegraph <- eventReactive(input$abPlot,{
   if(input$inpGraph=="scatterplot"){
     graph=explanatory_variables_plot(var=data()[,input$var1],var2=data()[,input$var2],color=data()[,input$vary])
   }else if(input$inpGraph=="screeplot"){
-    graph=PLSDA::scree_plot(resFit())
+    graph=scree_plot(resFit())
   }else if(input$inpGraph=="indivplot"){
-    graph=PLSDA::indiv_plot(resFit(),axe1=input$ncComp1,axe2=input$ncComp2)
+    graph=indiv_plot(resFit(),axe1=input$ncComp1,axe2=input$ncComp2)
   }else if(input$inpGraph=="circleplot"){
-    graph=PLSDA::circle_plot(resFit(),axe1=input$ncComp1,axe2=input$ncComp2)
+    graph=circle_plot(resFit(),axe1=input$ncComp1,axe2=input$ncComp2)
   }
   return(graph)
 })

@@ -68,10 +68,9 @@ circle_plot <- function(PLSDA,axe1=1,axe2=2){
   graph <- plot_ly()
   for (i in 1:ncol(PLSDA$X)){
     # Plotting of points
-    graph <- add_trace(graph, mode="markers", name=colnames(PLSDA$X)[i], x=c1[i], y=c2[i])
+    graph <- add_trace(graph, mode="markers",type="scatter", name=colnames(PLSDA$X)[i], x=c1[i], y=c2[i])
     # Adding information and lines
     graph <- layout(graph, title=layout$title, width=layout$width, xaxis=layout$xaxis, yaxis=layout$yaxis, height=layout$height, shapes=liste)
   }
   return(graph)
 }
-
