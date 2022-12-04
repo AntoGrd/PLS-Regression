@@ -27,11 +27,20 @@ The PLS (Partial Least Square) Regression is a machine learning method which was
 ### Installation of our package and utilisation
 
 First of all, you need to install the package to be able to use it.
+
 To do it, you need to be sure that the library "devtools" is installed and loaded.
-Then, run this command : install_github("AntoGrd/PLS-Regression").
+
+![image](https://user-images.githubusercontent.com/83652394/205456378-cc424856-ad85-404e-a611-87a15b0b3db5.png)
+
+Then, run this command : ```install_github("AntoGrd/PLS-Regression")```.
 The package should be installed and ready to use.
-To see the documentation of our package, you can go in the tab "Packages", and search for "PLSDA". 
+
+To see the documentation of our package, you can go in the tab "Packages" in RStudio, and search for "PLSDA". 
+
 Click on it and you will see all the Help Pages available for each functions in the package.
+
+![image](https://user-images.githubusercontent.com/83652394/205456315-756b44c9-51bf-48f1-9394-f57993b5957a.png)
+
 You can also run the command : help("function") to see the help of a specific function.
 ```sh
 Example : help(train_test_split)
@@ -59,7 +68,7 @@ model=PLSDA::fit(fomula = Species~.,data=iris,ncomp=2)
 ```
 Then, if you print you result, you can see the differents results of our fonction as you can see below
 
-![image](https://user-images.githubusercontent.com/83652394/204126978-fdab5a96-8504-4e48-a3e4-498c5bc1eba7.png)
+![image](https://user-images.githubusercontent.com/83652394/205456703-a3c80f76-4f30-49a9-9e89-350fdbf50244.png)
 
 ### The predict function
 
@@ -311,7 +320,7 @@ On this tab, you can choose the percentage of the whole dataset which is going t
 
 You can also choose which variables are going to be explanatory variables and which one is going to be the target variable in your PLS model (see below). 
 
-![image](https://user-images.githubusercontent.com/83652394/205402049-2d08ac6c-9585-4dd8-bc00-0434d063151d.png)
+![image](https://user-images.githubusercontent.com/83652394/205456869-2e7bf368-0759-4820-9b4b-9cb114fa560a.png)
 
 If you want to have all the dataset, select nothing in the "Select your X variables" list. 
 
@@ -319,7 +328,7 @@ Now, click on "Fit the Data" with the parameters you choose (be careful that you
 
 The following window is appearing. 
 
-![image](https://user-images.githubusercontent.com/83652394/205402419-4f53a526-9e05-4c09-93b9-6cb73609d1c8.png)
+![image](https://user-images.githubusercontent.com/83652394/205456944-eb7bce22-bd9f-436b-bd44-3718634ea282.png)
 
 You can see the coefficient of the model. 
 
@@ -337,4 +346,23 @@ Finally, our last tab concerns the differents plots we made during our project.
 
 #### Plots
 
+The last tab of our RShiny Application concerns plots we did for our project. 
+
+For example, you want to see the scatter plot of our target variable depending on two explanatory variables of our dataset. 
+
+Let's see below how to process. 
+
+![image](https://user-images.githubusercontent.com/83652394/205455649-5eec9e81-1e2b-4330-87e3-335f7327cb05.png)
+
+Choose in the dropdown list of the scatter plot the two variables you want to see on the plot. Click on 'View / Update graphic". 
+
+![image](https://user-images.githubusercontent.com/83652394/205455730-97fa758a-0d69-44ee-af6d-47ab7a01faae.png)
+
+You can see this graph appearing. 
+
+If you want to know the ideal number of compenents, in the dropdown list of the graphs to choose, there is the ScreePlot. 
+
+![image](https://user-images.githubusercontent.com/83652394/205455878-4c7a8fcf-a31f-4fc3-89f5-8619322952cc.png)
+
+The two other graphs that are possible to appreciate are the correlation between variable plot and the indivdual plot. 
 

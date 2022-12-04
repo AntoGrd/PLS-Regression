@@ -130,7 +130,7 @@ server <- function(input, output) {
         }else if(stringr::str_ends(input$file1$datapath, "(xlsx|xls)")) {
           readxl::read_excel(input$file1$datapath,
                    col_names = as.logical(input$cbHeader),
-                   sheet=input$sheet1)
+                   sheet=input$txtSheet)
         }
 
       },
@@ -244,7 +244,7 @@ output$var2=renderUI({
 
 choicegraph <- eventReactive(input$abPlot,{
   if(input$inpGraph=="scatterplot"){
-    graph=explanatory_variables_plot(var=data()[,input$var1],var2=data()[,input$var2],color=data()[,input$vary])
+    graph=PLSDA::explanatory_variables_plot(var=data()[,input$var1],var2=data()[,input$var2],color=data()[,input$vary])
   }else if(input$inpGraph=="screeplot"){
     graph=scree_plot(resFit())
   }else if(input$inpGraph=="indivplot"){
