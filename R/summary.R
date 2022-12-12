@@ -21,7 +21,7 @@ summary.PLSDA=function(PLSDA,Xtest,ytest){
   intercept=PLSDA$intercept
   coefficients=rbind(coef,intercept)
   #prediction with Xtest and showing classification report with ytest
-  pred=predict(PLS,Xtest)
+  pred=predict(PLSDA,Xtest)
   classification_report=PLSDA::classification_report(ytest,pred)
   list=list()
   list$coefficients = coefficients
