@@ -43,10 +43,10 @@ vip<-function(PLSDA,threshold=0.8){
   # If only 1 variable is simportant, we select the 2 most importants variables
   if (length(variable_importante)<2){
     vip_sorted = vip[order(-vip[,ncomp]),]
-    variable_important=rownames(vip_sorted)[1:2]
+    variable_importante=rownames(vip_sorted)[1:2]
   }
   # New dataset with important variables only
-  newX = X[,variable_important]
+  newX = X[,variable_importante]
   
   newX=data.frame(newX,y)
   return(VIP = list("newX"=newX,
