@@ -10,7 +10,7 @@
 #'   Report with precision, recall and f1-score for each class,
 #'   global f1 score 
 #' @examples
-#' PLSDA::summary(res)
+#' PLSDA::summary.plsda(res)
 #' @export
 
 
@@ -26,5 +26,5 @@ summary.plsda=function(PLSDA,Xtest,ytest){
   list=list()
   list$coefficients = coefficients
   list$classification_report = classification_report
-  return(list)
+  print(list)
 }

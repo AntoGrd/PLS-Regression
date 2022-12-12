@@ -23,7 +23,7 @@ print.plsda=function(PLS){
  intercept=PLS$intercept
  res=rbind(res,intercept)
 
- return(res)
+ print(res)
   
 }
 
