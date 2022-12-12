@@ -14,7 +14,7 @@
 #' @export
 
 
-summary.plsda=function(PLSDA,Xtest,ytest){
+summary.PLSDA=function(PLSDA,Xtest,ytest){
   
   #coef and intercept
   coef=PLSDA$coef

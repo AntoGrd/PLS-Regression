@@ -24,5 +24,5 @@ a print function to observe
 Summary function for PLSDA
 }
 \examples{
-PLSDA::summary(res)
+PLSDA::summary.plsda(res)
 }

@@ -9,7 +9,7 @@
 #' @export
 
 
-print.plsda=function(PLS){
+print.PLSDA=function(PLS){
 
  # Creation of a matrix with the coefficients 
   
